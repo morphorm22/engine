@@ -1,5 +1,6 @@
 begin service 1
   code platomain
+  path /home/ralberd/Plato_helmholtz/platoengine/build/apps/services/PlatoMain
   number_processors 1
   number_ranks 1
 end service
@@ -90,7 +91,3 @@ begin mesh
    name bolted_bracket.exo
 end mesh
 
-begin paths
-code PlatoMain PlatoMain
-code plato_analyze analyze_MPMD
-end paths
