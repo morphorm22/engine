@@ -97,15 +97,3 @@ begin mesh
    name bolted_bracket.exo
 end mesh
 
-begin paths
-code PlatoMain PlatoMain
-code plato_analyze analyze_MPMD
-end paths
-begin paths
-code PlatoMain /ascldap/users/bwclark/spack2/platoengine/RELEASE/apps/services/PlatoMain
-code plato_analyze analyze_MPMD
-end paths
-begin paths
-code PlatoMain /home/maguilo/platoengine/build_release/apps/services/PlatoMain
-code plato_analyze analyze_MPMD
-end paths

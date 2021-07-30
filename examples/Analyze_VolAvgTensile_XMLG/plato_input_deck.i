@@ -128,11 +128,3 @@ begin mesh
    name bolted_bracket_coarse.exo
 end mesh
 
-begin paths
-code PlatoMain PlatoMain
-code plato_analyze analyze_MPMD
-end paths
-begin paths
-code PlatoMain /home/jbruss/platoengine/build/apps/services/PlatoMain
-code plato_analyze analyze_MPMD
-end paths

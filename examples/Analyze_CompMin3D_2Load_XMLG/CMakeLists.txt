@@ -9,10 +9,7 @@ set( testFiles "plato_input_deck.i;beam.exo")
 Plato_add_test_files("${testFiles}")
 
 # write out the path info in the plato input deck
-Plato_add_text_to_file("plato_input_deck.i" "begin paths\n")
-Plato_add_text_to_file("plato_input_deck.i" "code PlatoMain ${PLATOMAIN_BINARY}\n")
-Plato_add_text_to_file("plato_input_deck.i" "code plato_analyze ${ANALYZE_BINARY}\n")
-Plato_add_text_to_file("plato_input_deck.i" "end paths\n")
+Plato_add_text_to_file_after_keyword("plato_input_deck.i" "platomain" "path ${PLATOMAIN_BINARY}\n")
 
 # Specify which comm will provide the output for comparison
 set( IO_COMM_INDEX 0 )
