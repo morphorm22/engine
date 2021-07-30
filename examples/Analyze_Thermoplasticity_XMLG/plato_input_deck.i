@@ -142,7 +142,3 @@ begin mesh
    name pin.exo
 end mesh
 
-begin paths
-   code PlatoMain PlatoMain
-   code plato_analyze analyze_MPMD
-end paths

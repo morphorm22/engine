@@ -104,11 +104,3 @@ begin mesh
    name beam.exo
 end mesh
 
-begin code
-   code PlatoMain
-   code analyze_MPMD
-end code
-begin paths
-code PlatoMain /ascldap/users/bwclark/spack2/platoengine/RELEASE/apps/services/PlatoMain
-code plato_analyze analyze_MPMD
-end paths
