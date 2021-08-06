@@ -1,0 +1,5 @@
+P0: !!! Problem opening exodus file rocker.exo
+!!! 	for reading.
+
+P0: Input error 
+P0: Fatal Error: Couldn't open mesh file rocker.exo

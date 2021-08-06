@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+
+<include filename="defines.xml"/>
+
+<Operation>
+  <Name>Compute Constraint Sensitivity</Name>
+  <Function>MapCriterionGradientX</Function>
+  <Criterion>Volume</Criterion>
+  <For var="I" in="Parameters">
+  <Input>
+    <ArgumentName>Parameter Sensitivity {I}</ArgumentName>
+  </Input>
+  </For>
+  <Output>
+    <ArgumentName>Criterion Sensitivity</ArgumentName>
+  </Output>
+</Operation>
+
+<Operation>
+  <Name>Compute Objective Sensitivity</Name>
+  <Function>MapCriterionGradientX</Function>
+  <Criterion>Internal Energy</Criterion>
+  <For var="I" in="Parameters">
+  <Input>
+    <ArgumentName>Parameter Sensitivity {I}</ArgumentName>
+  </Input>
+  </For>
+  <Output>
+    <ArgumentName>Criterion Sensitivity</ArgumentName>
+  </Output>
+</Operation>
+
+<Operation>
+  <Name>Compute Objective Value</Name>
+  <Function>ComputeCriterionValue</Function>
+  <Criterion>Internal Energy</Criterion>
+  <Output>
+    <Argument>Value</Argument>
+    <ArgumentName>Objective Value</ArgumentName>
+  </Output>
+</Operation>
+
+<Operation>
+  <Name>Compute Constraint Gradient</Name>
+  <Function>ComputeCriterionX</Function>
+  <Criterion>Volume</Criterion>
+  <!-- no output needed -->
+</Operation>
+
+<Operation>
+  <Name>Compute Objective Gradient</Name>
+  <Function>ComputeCriterionX</Function>
+  <Criterion>Internal Energy</Criterion>
+  <!-- no output needed -->
+</Operation>
+
+<Operation>
+  <Name>Compute Constraint Value</Name>
+  <Function>ComputeCriterionValue</Function>
+  <Criterion>Volume</Criterion>
+  <Output>
+    <Argument>Value</Argument>
+    <ArgumentName>Constraint Value</ArgumentName>
+  </Output>
+</Operation>
+
+<Operation>
+  <Name>Reinitialize</Name>
+  <Function>Reinitialize</Function>
+</Operation>
+
