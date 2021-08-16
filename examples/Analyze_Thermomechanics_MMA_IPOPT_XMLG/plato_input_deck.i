@@ -109,8 +109,7 @@ end material
 
 begin output
    service 2
-   output_data false
-   //data dispx dispy dispz
+   disable false
    native_service_output true
 end output
 
