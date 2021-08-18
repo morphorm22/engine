@@ -1,0 +1,4 @@
+set args  PlatoESP.xml
+catch throw
+run
+

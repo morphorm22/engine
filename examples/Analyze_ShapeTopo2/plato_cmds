@@ -1,0 +1,4 @@
+set args PlatoMain.xml
+catch throw
+break Plato_EngineObjective.hpp:230
+run
