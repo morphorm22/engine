@@ -521,7 +521,7 @@
     <Name>AggregateEnergyGradient</Name>
     <PerformerName>PlatoMain</PerformerName>
     <Input>
-      <ArgumentName>Field</ArgumentName>
+      <ArgumentName>Field 1</ArgumentName>
       <SharedDataName>Objective 1 Gradient wrt Topology</SharedDataName>
     </Input>
     <Output>
@@ -608,7 +608,6 @@
        shape parameters are updated, the topology is no longer optimal.
     2. PlatoMain needs a 'Reinitialize' Operation similar to PA's.
   -->
-  <!--
   <Input>
     <SharedDataName>Shape Parameters</SharedDataName>
   </Input>
@@ -648,13 +647,12 @@
     </Operation>
     </For>
   </Operation>
-  -->
 </Stage>
 
 <Optimizer>
   <Package>MMA</Package>
   <Options>
-    <MaxNumOuterIterations>12</MaxNumOuterIterations>
+    <MaxNumOuterIterations>1</MaxNumOuterIterations>
     <MoveLimit>0.1</MoveLimit>
     <AsymptoteExpansion>1.2</AsymptoteExpansion>
     <AsymptoteContraction>0.7</AsymptoteContraction>
@@ -704,7 +702,7 @@
     <Package>MMA</Package>
     <Options>
       <MaxNumOuterIterations>25</MaxNumOuterIterations>
-      <MoveLimit>0.5</MoveLimit>
+      <MoveLimit>0.1</MoveLimit>
       <AsymptoteExpansion>1.2</AsymptoteExpansion>
       <AsymptoteContraction>0.7</AsymptoteContraction>
       <MaxNumSubProblemIter>50</MaxNumSubProblemIter>
@@ -744,6 +742,7 @@
       <GradientName>Constraint Gradient wrt Topology</GradientName>
       <GradientStageName>Constraint Gradient wrt Topology</GradientStageName>
       <ReferenceValueName>Reference Volume</ReferenceValueName>
+      <NormalizedTargetValue>0.5</NormalizedTargetValue>
     </Constraint>
   </Optimizer>
 </Optimizer>

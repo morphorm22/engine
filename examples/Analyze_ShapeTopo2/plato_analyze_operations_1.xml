@@ -58,7 +58,13 @@
   <Name>Compute Objective Gradient wrt Topology</Name>
   <Function>ComputeCriterion</Function>
   <Criterion>Internal Energy</Criterion>
-  <!-- no output needed -->
+  <Input>
+    <ArgumentName>Topology</ArgumentName>
+  </Input>
+  <Output>
+    <Argument>Gradient</Argument>
+    <ArgumentName>Objective Gradient</ArgumentName>
+  </Output>
 </Operation>
 
 <Operation>

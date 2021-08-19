@@ -3,6 +3,11 @@
   <time>true</time>
 </Timers>
 <Operation>
+  <Name>Reinitialize</Name>
+  <Function>SystemCall</Function>
+  <Command>echo "THIS FUNCTION (Reinitialize on PlatoMain) IS A PLACEHOLDER.  IT NEEDS TO BE IMPLEMENTED"</Command>
+</Operation>
+<Operation>
   <Function>CSMMeshOutput</Function>
   <Name>CSMMeshOutput</Name>
   <BaseMeshName>DesignVolume.exo</BaseMeshName>
@@ -148,7 +153,7 @@
 </Operation>
 <Operation>
   <Function>SystemCall</Function>
-  <Name>Update Geometry on Change</Name>
+  <Name>Update Geometry</Name>
   <Command>plato-cli geometry esp</Command>
   <OnChange>true</OnChange>
   <Argument>--input DesignVolume.csm</Argument>

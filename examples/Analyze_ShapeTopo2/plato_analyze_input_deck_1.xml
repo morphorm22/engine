@@ -2,7 +2,7 @@
 <ParameterList name="Problem">
   <Parameter name="Physics" type="string" value="Plato Driver" />
   <Parameter name="Spatial Dimension" type="int" value="3" />
-  <Parameter name="Input Mesh" type="string" value="rocker.exo" />
+  <Parameter name="Input Mesh" type="string" value="DesignVolume.exo" />
   <ParameterList name="Plato Problem">
     <Parameter name="Physics" type="string" value="Mechanical" />
     <Parameter name="PDE Constraint" type="string" value="Elliptic" />
@@ -55,31 +55,26 @@
     </ParameterList>
 
     <ParameterList name="Natural Boundary Conditions">
-      <ParameterList name="Traction Vector Boundary Condition 1">
-        <Parameter name="Type" type="string" value="Uniform" />
-        <Parameter name="Values" type="Array(double)" value="{0.0,2.0e3,0.0}" />
-        <Parameter name="Sides" type="string" value="left_axis" />
-      </ParameterList>
       <ParameterList name="Traction Vector Boundary Condition 2">
         <Parameter name="Type" type="string" value="Uniform" />
-        <Parameter name="Values" type="Array(double)" value="{0.0,1.0e3,0.0}" />
-        <Parameter name="Sides" type="string" value="right_axis" />
+        <Parameter name="Values" type="Array(double)" value="{0.0,1.0e5,0.0}" />
+        <Parameter name="Sides" type="string" value="loaded" />
       </ParameterList>
     </ParameterList>
     <ParameterList name="Essential Boundary Conditions">
       <ParameterList name="X Fixed Displacement Boundary Condition 1">
         <Parameter name="Index" type="int" value="0" />
-        <Parameter name="Sides" type="string" value="center_axis" />
+        <Parameter name="Sides" type="string" value="fixed" />
         <Parameter name="Type" type="string" value="Zero Value" />
       </ParameterList>
       <ParameterList name="Y Fixed Displacement Boundary Condition 2">
         <Parameter name="Index" type="int" value="1" />
-        <Parameter name="Sides" type="string" value="center_axis" />
+        <Parameter name="Sides" type="string" value="fixed" />
         <Parameter name="Type" type="string" value="Zero Value" />
       </ParameterList>
       <ParameterList name="Z Fixed Displacement Boundary Condition 3">
         <Parameter name="Index" type="int" value="2" />
-        <Parameter name="Sides" type="string" value="center_axis" />
+        <Parameter name="Sides" type="string" value="fixed" />
         <Parameter name="Type" type="string" value="Zero Value" />
       </ParameterList>
     </ParameterList>
