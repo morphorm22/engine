@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<Operation>
+  <Name>Compute Displacement Solution</Name>
+  <Function>ComputeSolution</Function>
+  <Input>
+    <ArgumentName>Topology</ArgumentName>
+  </Input>
+</Operation>
+
+<Operation>
+  <Name>Compute Objective Value</Name>
+  <Function>ComputeCriterionValue</Function>
+  <Criterion>Internal Thermoelastic Energy</Criterion>
+  <Input>
+    <ArgumentName>Topology</ArgumentName>
+  </Input>
+  <Output>
+    <Argument>Value</Argument>
+    <ArgumentName>Objective Value</ArgumentName>
+  </Output>
+</Operation>
+
+<Operation>
+  <Name>Compute Objective Gradient</Name>
+  <Function>ComputeCriterionGradient</Function>
+  <Criterion>Internal Thermoelastic Energy</Criterion>
+  <Input>
+    <ArgumentName>Topology</ArgumentName>
+  </Input>
+  <Output>
+    <Argument>Gradient</Argument>
+    <ArgumentName>Objective Gradient</ArgumentName>
+  </Output>
+</Operation>
+
+<Operation>
+  <Name>Compute Objective</Name>
+  <Function>ComputeObjective</Function>
+  <Criterion>Internal Thermoelastic Energy</Criterion>
+  <Input>
+    <ArgumentName>Topology</ArgumentName>
+  </Input>
+  <Output>
+    <Argument>Value</Argument>
+    <ArgumentName>Objective Value</ArgumentName>
+  </Output>
+  <Output>
+    <Argument>Gradient</Argument>
+    <ArgumentName>Objective Gradient</ArgumentName>
+  </Output>
+</Operation>
+
+<Operation>
+  <Function>WriteOutput</Function>
+  <Name>Write Output</Name>
+  <Output>
+    <ArgumentName>Temperature</ArgumentName>
+    <ArgumentName>Displacement X</ArgumentName>
+    <ArgumentName>Displacement Y</ArgumentName>
+    <ArgumentName>Displacement Z</ArgumentName>
+    <ArgumentName>stress@0</ArgumentName>
+    <ArgumentName>stress@1</ArgumentName>
+    <ArgumentName>stress@2</ArgumentName>
+    <ArgumentName>stress@3</ArgumentName>
+    <ArgumentName>stress@4</ArgumentName>
+    <ArgumentName>stress@5</ArgumentName>
+  </Output>
+</Operation>
+
