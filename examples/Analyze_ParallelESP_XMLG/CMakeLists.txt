@@ -9,10 +9,7 @@ set( testFiles "aflr.py;rocker.csm;plato_input_deck.i")
 Plato_add_test_files("${testFiles}")
 
 # write out the path info in the plato input deck
-Plato_add_text_to_file("plato_input_deck.i" "begin paths\n")
-Plato_add_text_to_file("plato_input_deck.i" "code PlatoMain ${PLATOMAIN_BINARY}\n")
-Plato_add_text_to_file("plato_input_deck.i" "code plato_analyze ${ANALYZE_BINARY}\n")
-Plato_add_text_to_file("plato_input_deck.i" "end paths\n")
+Plato_add_text_to_file_after_keyword("plato_input_deck.i" "platomain" "path ${PLATOMAIN_BINARY}\n")
 
 # Set number of processors for PlatoMain comm
 set( PLATOMAIN_NP 1 )

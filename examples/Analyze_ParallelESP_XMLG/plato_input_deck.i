@@ -106,7 +106,3 @@ begin mesh
    name rocker.exo
 end mesh
 
-begin paths
-code PlatoMain PlatoMain
-code plato_analyze analyze_MPMD
-end paths
