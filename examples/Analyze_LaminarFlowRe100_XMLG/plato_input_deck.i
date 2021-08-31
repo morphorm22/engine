@@ -21,12 +21,12 @@ end criterion
 
 begin criterion 2
   type surface_pressure
-  location_name inlet
+  surfaces inlet
 end criterion
 
 begin criterion 3
   type surface_pressure
-  location_name outlet
+  surfaces outlet
 end criterion
 
 begin criterion 4
@@ -95,7 +95,7 @@ end boundary_condition
 
 begin block 1
   material 1
-  name water
+  name block_1
 end block
 
 begin material 1
@@ -115,8 +115,4 @@ begin mesh
   name pipe_flow.exo
 end mesh
 
-begin paths
-  code PlatoMain PlatoMain
-  code plato_analyze analyze_MPMD
-end paths
 

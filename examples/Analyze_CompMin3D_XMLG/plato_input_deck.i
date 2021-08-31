@@ -89,7 +89,3 @@ begin mesh
    name bolted_bracket.exo
 end mesh
 
-begin paths
-code PlatoMain PlatoMain
-code plato_analyze analyze_MPMD
-end paths

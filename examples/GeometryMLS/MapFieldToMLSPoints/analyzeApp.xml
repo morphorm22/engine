@@ -81,13 +81,13 @@
   <Function>WriteOutput</Function>
   <Name>Write Output</Name>
   <Output>
-    <ArgumentName>Solution X</ArgumentName>
+    <ArgumentName>Displacement X</ArgumentName>
   </Output>
   <Output>
-    <ArgumentName>Solution Y</ArgumentName>
+    <ArgumentName>Displacement Y</ArgumentName>
   </Output>
   <Output>
-    <ArgumentName>Solution Z</ArgumentName>
+    <ArgumentName>Displacement Z</ArgumentName>
   </Output>
 </Operation>
 
