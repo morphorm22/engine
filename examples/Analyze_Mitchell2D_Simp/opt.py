@@ -132,8 +132,8 @@ fauxgrad = array([])
 print "eval f() at min point: ", f(xopt,fauxgrad)
 print "eval g() at min point: ", g(xopt,fauxgrad)
 
-solx = analyze.exportData("Solution X", "SCALAR_FIELD")
-soly = analyze.exportData("Solution Y", "SCALAR_FIELD")
+solx = analyze.exportData("Displacement X", "SCALAR_FIELD")
+soly = analyze.exportData("Displacement Y", "SCALAR_FIELD")
 obj_grad = analyze.exportData("Objective Gradient", "SCALAR_FIELD")
 con_grad = analyze.exportData("Constraint Gradient", "SCALAR_FIELD")
 
