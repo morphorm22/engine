@@ -1,0 +1,5 @@
+set args --input-config=plato_analyze_input_deck_1.xml
+#break Plato_Interface.cpp:289
+catch throw
+run
+

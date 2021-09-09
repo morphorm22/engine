@@ -4,8 +4,12 @@
 </Timers>
 <Operation>
   <Name>Reinitialize</Name>
+  <Function>Reinitialize</Function>
+<!--
   <Function>SystemCall</Function>
-  <Command>echo "THIS FUNCTION (Reinitialize on PlatoMain) IS A PLACEHOLDER.  IT NEEDS TO BE IMPLEMENTED"</Command>
+  <Command>echo "THIS FUNCTION (Reinitialize on PlatoMain) IS A
+  PLACEHOLDER.  IT NEEDS TO BE IMPLEMENTED"</Command>
+-->
 </Operation>
 <Operation>
   <Function>CSMMeshOutput</Function>

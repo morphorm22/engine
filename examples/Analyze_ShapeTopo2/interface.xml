@@ -694,6 +694,7 @@
   </Constraint>
   <UpdateProblemStage>
     <Name>Update Shape</Name>
+    <Name>Update Shared Data</Name>
   </UpdateProblemStage>
   <!-- below is the optimizer for the inner loop.  If this input block
        exists, then the factory knows to create the nested objective. -->
@@ -701,7 +702,7 @@
     <!-- this could actually be any algorithm, right? -->
     <Package>MMA</Package>
     <Options>
-      <MaxNumOuterIterations>25</MaxNumOuterIterations>
+      <MaxNumOuterIterations>5</MaxNumOuterIterations>
       <MoveLimit>0.1</MoveLimit>
       <AsymptoteExpansion>1.2</AsymptoteExpansion>
       <AsymptoteContraction>0.7</AsymptoteContraction>
@@ -744,5 +745,8 @@
       <ReferenceValueName>Reference Volume</ReferenceValueName>
       <NormalizedTargetValue>0.5</NormalizedTargetValue>
     </Constraint>
+    <UpdateProblemStage>
+      <Name>Update Topology</Name>
+    </UpdateProblemStage>
   </Optimizer>
 </Optimizer>
