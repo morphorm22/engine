@@ -27,7 +27,7 @@ begin scenario 1
   boundary_conditions 1
   material 1
   minimum_ersatz_material_value 1e-3
-  tolerance 5e-8
+  tolerance 1e-12
 end scenario
 
 begin objective
