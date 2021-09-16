@@ -255,6 +255,13 @@
 </Stage>
 
 <Stage>
+  <Name>Update Topology</Name>
+  <Output>
+    <SharedDataName>Topology</SharedDataName>
+  </Output>
+</Stage>
+
+<Stage>
   <Name>Set Shape Lower Bounds</Name>
   <Output>
     <SharedDataName>Shape Lower Bound Vector</SharedDataName>
@@ -650,6 +657,7 @@
 </Stage>
 
 <Optimizer>
+  <Name>Outer Loop 1</Name>
   <Package>MMA</Package>
   <Options>
     <MaxNumOuterIterations>1</MaxNumOuterIterations>
@@ -700,6 +708,7 @@
        exists, then the factory knows to create the nested objective. -->
   <Optimizer>
     <!-- this could actually be any algorithm, right? -->
+    <Name>Inner Loop 1</Name>
     <Package>MMA</Package>
     <Options>
       <MaxNumOuterIterations>5</MaxNumOuterIterations>
