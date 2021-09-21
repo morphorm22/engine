@@ -186,7 +186,7 @@
 
 <!---SET OPTIMIZER'S OPTIONS-->
 <Optimizer>
-  <Package>ROL KSAL</Package>
+  <Package>ROL AugmentedLagrangian</Package>
   <Options>
     <InputFileName>rol_inputs.xml</InputFileName>
     <OutputDiagnosticsToFile>true</OutputDiagnosticsToFile>

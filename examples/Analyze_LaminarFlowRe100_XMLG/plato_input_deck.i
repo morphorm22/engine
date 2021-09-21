@@ -22,11 +22,13 @@ end criterion
 begin criterion 2
   type surface_pressure
   surfaces inlet
+  location_names dummy
 end criterion
 
 begin criterion 3
   type surface_pressure
   surfaces outlet
+  location_names dummy
 end criterion
 
 begin criterion 4
