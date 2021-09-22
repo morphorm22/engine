@@ -1,7 +1,5 @@
 begin service 1
   code platomain
-  path /projects/plato/dev/PlatoAnalyze/linux_rh7/V100/Fri_Sep__3_09_55_26_MDT_2021/platoengine/spack-build-4klwlwh/apps/services/PlatoMain
-  path /projects/plato/dev/PlatoAnalyze/linux_rh7/V100/Fri_Sep__3_09_55_26_MDT_2021/platoengine/spack-build-4klwlwh/apps/services/PlatoMain
   number_processors 1
   update_problem true
 end service

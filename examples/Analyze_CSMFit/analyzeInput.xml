@@ -25,7 +25,7 @@
         <Parameter name="Scalar Function Type" type="string" value="Geometry Misfit" />
         <Parameter name="Misfit Type" type="string" value="Normal Distance Magnitude" />
         <Parameter name="Point Cloud File Name" type="string" value="points.xyz" />
-        <Parameter name="Sides" type="string" value="surface" />
+        <Parameter name="Sides" type="string" value="remaining_surface" />
       </ParameterList>
     </ParameterList>
 
@@ -57,17 +57,17 @@
     <ParameterList name="Essential Boundary Conditions">
       <ParameterList name="X Fixed Displacement Boundary Condition 1">
         <Parameter name="Index" type="int" value="0" />
-        <Parameter name="Sides" type="string" value="surface" />
+        <Parameter name="Sides" type="string" value="remaining_surface" />
         <Parameter name="Type" type="string" value="Zero Value" />
       </ParameterList>
       <ParameterList name="Y Fixed Displacement Boundary Condition 2">
         <Parameter name="Index" type="int" value="1" />
-        <Parameter name="Sides" type="string" value="surface" />
+        <Parameter name="Sides" type="string" value="remaining_surface" />
         <Parameter name="Type" type="string" value="Zero Value" />
       </ParameterList>
       <ParameterList name="Z Fixed Displacement Boundary Condition 3">
         <Parameter name="Index" type="int" value="2" />
-        <Parameter name="Sides" type="string" value="surface" />
+        <Parameter name="Sides" type="string" value="remaining_surface" />
         <Parameter name="Type" type="string" value="Zero Value" />
       </ParameterList>
     </ParameterList>
