@@ -190,7 +190,10 @@
   <Options>
     <InputFileName>rol_inputs.xml</InputFileName>
     <OutputDiagnosticsToFile>true</OutputDiagnosticsToFile>
+<!--
     <HessianType>disabled</HessianType>
+-->
+    <HessianType>zero</HessianType>
     <OutputControlToFile>false</OutputControlToFile>
     <OutputDiagnosticsToFile>true</OutputDiagnosticsToFile>
     <KSOuterStagnationTolerance>1e-8</KSOuterStagnationTolerance>
