@@ -51,9 +51,9 @@ vals = services.exportData("MLS Field Values", "SCALAR_FIELD")
 # import nodal field into Analyze and solve
 analyze.importData("Topology", "SCALAR_FIELD", vals)
 analyze.compute("Compute Displacement Solution")
-solx = analyze.exportData("Solution X", "SCALAR_FIELD")
-soly = analyze.exportData("Solution Y", "SCALAR_FIELD")
-solz = analyze.exportData("Solution Z", "SCALAR_FIELD")
+solx = analyze.exportData("Displacement X", "SCALAR_FIELD")
+soly = analyze.exportData("Displacement Y", "SCALAR_FIELD")
+solz = analyze.exportData("Displacement Z", "SCALAR_FIELD")
 
 # open exodus file for output and configure
 outMesh = exodus.ExodusDB()
