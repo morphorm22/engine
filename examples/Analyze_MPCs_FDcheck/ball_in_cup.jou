@@ -1,0 +1,41 @@
+reset
+version
+
+# Make model
+bri x 5
+sphere radius 2
+webcut vol 1 with tool vol 2
+delete vol 2
+webcut vol 3 with xplane
+delete vol 5
+compress vol all # Renumber volumes
+
+# Mesh
+imprint vol all # creates surface for PBC nodesets
+vol 1 size 0.48   # Cup: 0.48 coarsest | 0.2 coarse | 0.1 fine
+vol 2 size 0.7    # Ball: 0.7 coarsest | 0.5 coarse | 0.2 fine
+vol all scheme tetmesh
+mesh vol all
+
+# Assign block
+block 1 vol 1
+block 1 name "cup"
+block 1 element type tetra
+
+block 2 vol 2
+block 2 name "ball"
+block 2 element type tetra
+
+# Assign side and node sets
+sideset 1 add tri with x_coord < -1.8
+sideset 1 name "ss_left_left"
+
+nodeset 1 surf 1
+nodeset 1 name "ns_right_right"
+
+nodeset 2 surf 9
+nodeset 2 name "Child"
+
+# Export
+export mesh "ball_in_cup.exo" overwrite
+
