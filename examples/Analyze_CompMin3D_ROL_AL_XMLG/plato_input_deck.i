@@ -1,6 +1,5 @@
 begin service 1
   code platomain
-  path /projects/plato/dev/PlatoAnalyze/linux_rh7/V100/test/platoengine/spack-build-oe57dnv/apps/services/PlatoMain
   number_processors 1
   number_ranks 1
 end service
