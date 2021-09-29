@@ -26,7 +26,7 @@ begin scenario 1
   boundary_conditions 1
   material 1
   minimum_ersatz_material_value 1e-3
-  tolerance 5e-8
+  tolerance 1e-10
 end scenario
 
 begin objective
@@ -88,6 +88,7 @@ begin optimization_parameters
    normalize_in_aggregator false
    oc_objective_stagnation_tolerance 1e-14
    oc_control_stagnation_tolerance 1e-14
+   rol_lin_more_cauchy_initial_step_size 3.1
 end optimization_parameters
 
 begin mesh
