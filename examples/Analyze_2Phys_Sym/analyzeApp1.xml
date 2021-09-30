@@ -8,6 +8,7 @@
   </Filter>
   <LinearMap>
     <Type>SymmetryPlane</Type>
+    <SearchTolerance>0.1</SearchTolerance>
     <Origin>
       <X>0.0</X>
       <Y>0.0</Y>
