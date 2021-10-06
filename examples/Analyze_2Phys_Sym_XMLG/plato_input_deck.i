@@ -73,11 +73,11 @@ begin output
    output_data true
    data dispx dispy dispz
 end output
-begin output
-   service 3
-   output_data true
-   data dispx dispy dispz
-end output
+//begin output
+//   service 3
+//   output_data true
+//   data dispx dispy dispz
+//end output
 
 // BCs
 begin boundary_condition 1
