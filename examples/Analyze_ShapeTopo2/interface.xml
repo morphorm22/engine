@@ -707,8 +707,8 @@
   <!-- below is the optimizer for the inner loop.  If this input block
        exists, then the factory knows to create the nested objective. -->
   <Optimizer>
-    <!-- this could actually be any algorithm, right? -->
     <Name>Inner Loop 1</Name>
+    <!-- this could actually be any algorithm, right? -->
     <Package>MMA</Package>
     <Options>
       <MaxNumOuterIterations>5</MaxNumOuterIterations>
