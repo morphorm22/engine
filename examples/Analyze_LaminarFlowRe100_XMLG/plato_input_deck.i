@@ -20,15 +20,15 @@ begin criterion 1
 end criterion
 
 begin criterion 2
-  type surface_pressure
+  type mean_surface_pressure
   surfaces inlet
-  location_names dummy
+  location_names inlet
 end criterion
 
 begin criterion 3
-  type surface_pressure
+  type mean_surface_pressure
   surfaces outlet
-  location_names dummy
+  location_names outlet
 end criterion
 
 begin criterion 4
