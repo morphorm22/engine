@@ -73,7 +73,7 @@ engineInputFile = "platomain.xml"
 engine = PlatoServices.Services(engineInputFile, engineAppFileName, "services")
 engine.initialize();
 
-#define objective
+#define physics solution
 def sol(x):
 
   with redirected():

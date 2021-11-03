@@ -73,11 +73,11 @@ begin output
    output_data true
    data dispx dispy dispz
 end output
-begin output
-   service 3
-   output_data true
-   data dispx dispy dispz
-end output
+//begin output
+//   service 3
+//   output_data true
+//   data dispx dispy dispz
+//end output
 
 // BCs
 begin boundary_condition 1
@@ -148,15 +148,3 @@ begin mesh
    name design_vol.exo
 end mesh
 
-begin paths
-code PlatoMain PlatoMain
-code plato_analyze analyze_MPMD
-end paths
-begin paths
-code PlatoMain /ascldap/users/bwclark/spack2/platoengine/RELEASE/apps/services/PlatoMain
-code plato_analyze analyze_MPMD
-end paths
-begin paths
-code PlatoMain /ascldap/users/bwclark/spack2/platoengine/RELEASE/apps/services/PlatoMain
-code plato_analyze analyze_MPMD
-end paths

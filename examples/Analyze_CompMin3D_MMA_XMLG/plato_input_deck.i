@@ -26,7 +26,7 @@ begin scenario 1
   boundary_conditions 1
   material 1
   minimum_ersatz_material_value 1e-9
-  tolerance 5e-8
+  tolerance 1e-12
 end scenario
 
 begin objective
@@ -97,15 +97,3 @@ begin mesh
    name bolted_bracket.exo
 end mesh
 
-begin paths
-code PlatoMain PlatoMain
-code plato_analyze analyze_MPMD
-end paths
-begin paths
-code PlatoMain /ascldap/users/bwclark/spack2/platoengine/RELEASE/apps/services/PlatoMain
-code plato_analyze analyze_MPMD
-end paths
-begin paths
-code PlatoMain /home/maguilo/platoengine/build_release/apps/services/PlatoMain
-code plato_analyze analyze_MPMD
-end paths
