@@ -152,7 +152,7 @@ begin optimization_parameters
    filter_in_engine true
 
    optimization_type topology
-   max_iterations 5 
+   max_iterations 2 
    output_frequency 1000 
    discretization density 
    initial_density_value 0.4
