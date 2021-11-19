@@ -78,7 +78,7 @@ end material
 
 begin optimization_parameters
    filter_type helmholtz
-   filter_radius_absolute 0.2
+   filter_radius_absolute 0.693
    boundary_sticking_penalty -1.0
    max_iterations 20 
    projection_type tanh
