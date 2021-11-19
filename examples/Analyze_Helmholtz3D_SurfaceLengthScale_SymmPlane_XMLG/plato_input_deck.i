@@ -87,7 +87,7 @@ end material
 
 begin optimization_parameters
    filter_type helmholtz
-   filter_radius_absolute 0.02
+   filter_radius_absolute 0.0693
    boundary_sticking_penalty 1.0
    symmetry_plane_location_names sym
    max_iterations 20 
