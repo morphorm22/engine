@@ -40,6 +40,8 @@ begin scenario 1
   dimensions 2
   boundary_conditions 1 2 3 4 5
   material 1
+  tolerance 1e-20
+  max_number_iterations 1000
 end scenario
 
 begin objective
