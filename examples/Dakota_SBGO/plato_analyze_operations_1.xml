@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+
+<include filename="defines.xml"/>
+
+<Operation>
+  <Name>Compute Compliance Criterion</Name>
+  <Function>ComputeCriterionValue</Function>
+  <Criterion>Internal Energy</Criterion>
+  <Output>
+    <Argument>Value</Argument>
+    <ArgumentName>Compliance Value</ArgumentName>
+  </Output>
+</Operation>
+
+<Operation>
+  <Name>Compute Volume Criterion</Name>
+  <Function>ComputeCriterionValue</Function>
+  <Criterion>Volume</Criterion>
+  <Output>
+    <Argument>Value</Argument>
+    <ArgumentName>Volume Value</ArgumentName>
+  </Output>
+</Operation>
+
+<Operation>
+  <Name>Reinitialize on Change</Name>
+  <Function>Reinitialize</Function>
+  <OnChange>true</OnChange>
+  <Input>
+    <ArgumentName>Parameters</ArgumentName>
+    <SharedDataName>Design Parameters</SharedDataName>
+  </Input>
+</Operation>
+

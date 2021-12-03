@@ -1,0 +1,4 @@
+<Define name="NumParameters" value="2" />
+<Array name="Parameters" type="int" from="1" to="{NumParameters}"/>
+<Define name="NumPerformers" type="int" value="3" />
+<Array name="Performers" type="int" from="0" to="{NumPerformers-1}" />
