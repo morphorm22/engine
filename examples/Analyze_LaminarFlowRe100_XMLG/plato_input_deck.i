@@ -21,13 +21,11 @@ end criterion
 
 begin criterion 2
   type mean_surface_pressure
-  surfaces inlet
   location_names inlet
 end criterion
 
 begin criterion 3
   type mean_surface_pressure
-  surfaces outlet
   location_names outlet
 end criterion
 
@@ -103,7 +101,7 @@ begin block 1
 end block
 
 begin material 1
-  material_model incompressible_flow
+  material_model laminar_flow
   reynolds_number 100
 end material
 
