@@ -41,7 +41,8 @@ end objective
 
 begin constraint 1
   criterion 2
-  relative_target 0.75 // 75% of the domain will be fluid and 25% will be solid
+  // 75% of the domain will be fluid and 25% will be solid
+  relative_target 0.75
   type less_than
   service 1
   scenario 1
