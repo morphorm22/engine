@@ -72,7 +72,7 @@ end load
       
 begin constraint 1
   criterion 2
-  relative_target 0.5
+  relative_target 0.85
   type less_than
   service 1
   scenario 1
@@ -107,7 +107,7 @@ begin optimization_parameters
    output_frequency 1000 
    optimization_algorithm oc
    discretization density 
-   initial_density_value 0.5
+   initial_density_value 0.6
    normalize_in_aggregator false
    fixed_block_ids 2 3
 end optimization_parameters
