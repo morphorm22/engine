@@ -61,7 +61,7 @@ set(INPUT_FILE PlatoMain.xml)
 Plato_add_performer(PLATO_NEW_TEST ${SERVICES_BINARY} ${SERVICES_NP} ${LOCAL_COMM_ID} ${INTERFACE_FILE} ${APP_FILE} ${INPUT_FILE})
 
 # set relative tolerance for diff test
-set( NUMDIFF_RELATIVE_TOLERANCE 1e-8 )
+set( NUMDIFF_RELATIVE_TOLERANCE 1e-7 )
 
 # Add the test
 Plato_add_numdiff_test("${PLATO_NEW_TEST}" ${TEST_NAME} ${NUMDIFF_COMMAND} ${NUMDIFF_RELATIVE_TOLERANCE} ${NUM_PROCS} ${IO_COMM_INDEX})
