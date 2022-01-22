@@ -67,12 +67,6 @@ with redirected():
   analyze = PlatoPython.Analyze(analyzeInputFile, analyzeAppFileName, "Inherent Strain")
   analyze.initialize();
 
-# create global PlatoServices instance
-engineAppFileName = "plato_operations.xml"
-engineInputFile = "platomain.xml"
-engine = PlatoServices.Services(engineInputFile, engineAppFileName, "services")
-engine.initialize();
-
 #define physics solution
 def sol(x):
 
