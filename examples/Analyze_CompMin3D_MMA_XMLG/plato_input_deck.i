@@ -91,6 +91,7 @@ begin optimization_parameters
    discretization density 
    initial_density_value .5
    normalize_in_aggregator false
+   mma_use_ipopt_sub_problem_solver true
 end optimization_parameters
 
 begin mesh
