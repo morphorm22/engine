@@ -30,7 +30,7 @@ begin scenario 1
   material_penalty_exponent 2.0
   minimum_ersatz_material_value 1e-6
   // Linear Solver
-  tolerance 1e-12
+  linear_solver_tolerance 1e-12
   // Scaling
   pressure_scaling 200.0
   temperature_scaling 100.0

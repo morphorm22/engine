@@ -24,7 +24,7 @@ begin scenario 1
    loads 1
    boundary_conditions 1
    material 1
-   tolerance 1e-6
+   linear_solver_tolerance 1e-6
 end scenario   
 
 begin objective

@@ -30,7 +30,7 @@ begin scenario 1
   material_penalty_exponent 3.0
   minimum_ersatz_material_value 1e-8
   // Linear solver
-  tolerance 1e-10
+  linear_solver_tolerance 1e-10
 end scenario
 
 begin objective
