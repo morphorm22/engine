@@ -140,8 +140,8 @@ val = dfdx(xinit, gradP)
 dvdx = array(gradP)
 x = array(xinit)
 
-print "objective is: ", val
-print "objective gradient is: ", gradP
+print( "objective is: ", val)
+print( "objective gradient is: ", gradP)
 
 stepSize = 0.01
 numSteps = 1
@@ -156,11 +156,11 @@ for iStep in range(numSteps):
   predictedVal = val + dv
   val = dfdx(x.tolist(), gradP)
   dvdx = array(gradP)
-  print "x: ", x.tolist()
-  print "gradP: ", gradP
+  print( "x: ", x.tolist())
+  print( "gradP: ", gradP)
   vals.append([(iStep+1)*stepSize, val, predictedVal])
 
-print vals
+print( vals)
 
 # finalize mpi and kokkos.  Not essential, but you'll get warnings otherwise.
 analyze.finalize()
@@ -169,10 +169,10 @@ engine.finalize()
 diff = vals[0][1] - vals[0][2]
 tsum = vals[0][1] + vals[0][2]
 error = math.fabs(diff/tsum)
-print "error: ", error
+print( "error: ", error)
 if error > 1.0e-3:
-  print "failed"
+  print( "failed")
   sys.exit(1)
 else:
-  print "passed"
+  print( "passed")
   sys.exit(0)

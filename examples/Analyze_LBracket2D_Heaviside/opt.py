@@ -74,7 +74,7 @@ def f(x, grad):
     filtered_grad = services.exportData("Filtered Gradient", "SCALAR_FIELD")
     grad[:] = filtered_grad
     
-    print " objective value: ", value
+    print( " objective value: ", value)
     return value
 
   else:
@@ -87,7 +87,7 @@ def f(x, grad):
     # export output data from Analyze instance
     value = analyze.exportData("Objective Value", "SCALAR")
   
-    print " objective value: ", value
+    print( " objective value: ", value)
     return value
 
 
@@ -110,7 +110,7 @@ def g(x, grad):
     value = analyze.exportData("Constraint Value", "SCALAR")
 
     val = value/refValue - targetFraction
-    print " constraint value: ", val
+    print( " constraint value: ", val)
     return val
 
   else:
@@ -119,7 +119,7 @@ def g(x, grad):
     value = analyze.exportData("Constraint Value", "SCALAR")
     
     val = value/refValue - targetFraction
-    print " constraint value: ", val
+    print( " constraint value: ", val)
     return val
 
 
@@ -138,10 +138,10 @@ opt.set_maxeval(20)
 xopt = opt.optimize(xinit)
 minf = opt.last_optimum_value()
 
-print "optimum at: ", minf
+print( "optimum at: ", minf)
 fauxgrad = array([])
-print "eval f() at min point: ", f(xopt,fauxgrad)
-print "eval g() at min point: ", g(xopt,fauxgrad)
+print( "eval f() at min point: ", f(xopt,fauxgrad))
+print( "eval g() at min point: ", g(xopt,fauxgrad))
 
 solx = analyze.exportData("Solution X", "SCALAR_FIELD")
 soly = analyze.exportData("Solution Y", "SCALAR_FIELD")

@@ -3,7 +3,7 @@ Plato_add_test_files( "${testFiles}" )
 
 Plato_new_test(TEST_NAME)
 
-set( TEST_COMMAND "${Python2_EXECUTABLE} computeGradientX.py" )
+set( TEST_COMMAND "${Python3_EXECUTABLE} computeGradientX.py" )
 set( OUTPUT_MESH "InternalEnergyGradX_out.exo" )
 
 Plato_add_serial_test( ${TEST_COMMAND} ${TEST_NAME} ${OUTPUT_MESH} )

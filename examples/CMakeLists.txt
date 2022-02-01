@@ -194,7 +194,7 @@ IF( ENABLE_PRUNE )
 ENDIF()
 
 IF( PLATO_ENABLE_SERVICES_PYTHON AND EXPY AND GEOMETRY )
-  find_package(Python2 COMPONENTS Development Interpreter)
+  find_package(Python3 COMPONENTS Development Interpreter)
   add_subdirectory(GeometryMLS/ComputeMLSField)
   add_subdirectory(GeometryMLS/ComputeMLSField2D)
   add_subdirectory(GeometryMLS/MapFieldToMLSPoints)
