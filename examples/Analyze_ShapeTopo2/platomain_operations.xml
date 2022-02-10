@@ -11,10 +11,56 @@
   PLACEHOLDER.  IT NEEDS TO BE IMPLEMENTED"</Command>
 -->
 </Operation>
+
+<Operation>
+  <Function>PlatoMainOutput</Function>
+  <OutputFrequency>1000</OutputFrequency>
+  <Name>PlatoMainOutput</Name>
+  <Input>
+    <ArgumentName>Topology</ArgumentName>
+    <Alias>Topology</Alias>
+  </Input>
+  <Input>
+    <ArgumentName>Unfiltered Topology</ArgumentName>
+    <Alias>OptDOFs</Alias>
+  </Input>
+  <Input>
+    <ArgumentName>Objective Gradient</ArgumentName>
+    <Alias>Objective Gradient</Alias>
+  </Input>
+  <Input>
+    <ArgumentName>Volume Gradient</ArgumentName>
+    <Alias>Volume Gradient</Alias>
+  </Input>
+  <Input>
+    <ArgumentName>Displacement X</ArgumentName>
+    <Alias>Displacement X</Alias>
+  </Input>
+  <Input>
+    <ArgumentName>Displacement Y</ArgumentName>
+    <Alias>Displacement Y</Alias>
+  </Input>
+  <Input>
+    <ArgumentName>Displacement Z</ArgumentName>
+    <Alias>Displacement Z</Alias>
+  </Input>
+</Operation>
+
+<Operation>
+  <Function>SetLowerBounds</Function>
+  <Name>Calculate Topology Lower Bounds</Name>
+  <Input>
+    <ArgumentName>Lower Bound Value</ArgumentName>
+  </Input>
+  <Output>
+    <ArgumentName>Lower Bound Vector</ArgumentName>
+  </Output>
+</Operation>
+
 <Operation>
   <Function>CSMMeshOutput</Function>
   <Name>CSMMeshOutput</Name>
-  <BaseMeshName>DesignVolume.exo</BaseMeshName>
+  <BaseMeshName>platomain.exo.1.0</BaseMeshName>
   <OutputFrequency>1</OutputFrequency>
   <MaxIterations>100</MaxIterations>
 </Operation>
@@ -36,6 +82,18 @@
     <Value>0.50</Value>
   </Uniform>
 </Operation>
+
+<Operation>
+  <Function>SetUpperBounds</Function>
+  <Name>Calculate Topology Upper Bounds</Name>
+  <Input>
+    <ArgumentName>Upper Bound Value</ArgumentName>
+  </Input>
+  <Output>
+    <ArgumentName>Upper Bound Vector</ArgumentName>
+  </Output>
+</Operation>
+
 <Operation>
   <Function>InitializeValues</Function>
   <Name>Initialize Values</Name>
@@ -143,6 +201,16 @@
     <PenaltyExponent>1.0</PenaltyExponent>
     <MinimumValue>0.0</MinimumValue>
   </SIMP>
+</Operation>
+<Operation>
+  <Function>SystemCall</Function>
+  <Name>Remove Iteration Files</Name>
+  <Command>rm Iteration.exo.*</Command>
+</Operation>
+<Operation>
+  <Function>SystemCall</Function>
+  <Name>Save Iteration File</Name>
+  <Command>if [ -f Iteration.exo.0 ] ; then cp platomain.exo.1.0 Iteration.exo.$(ls -rt Iteration.exo.* | tail -1 | awk -F. -f add.awk) ; else cp platomain.exo.1.0 Iteration.exo.0 ; fi</Command>
 </Operation>
 <Operation>
   <Function>SystemCall</Function>

@@ -32,6 +32,30 @@
 <!-- Define SharedData -->
 
 <SharedData>
+  <Name>Displacement X</Name>
+  <Type>Scalar</Type>
+  <Layout>Nodal Field</Layout>
+  <OwnerName>plato_analyze_1</OwnerName>
+  <UserName>PlatoMain</UserName>
+</SharedData>
+
+<SharedData>
+  <Name>Displacement Y</Name>
+  <Type>Scalar</Type>
+  <Layout>Nodal Field</Layout>
+  <OwnerName>plato_analyze_1</OwnerName>
+  <UserName>PlatoMain</UserName>
+</SharedData>
+
+<SharedData>
+  <Name>Displacement Z</Name>
+  <Type>Scalar</Type>
+  <Layout>Nodal Field</Layout>
+  <OwnerName>plato_analyze_1</OwnerName>
+  <UserName>PlatoMain</UserName>
+</SharedData>
+
+<SharedData>
   <Name>Objective</Name>
   <Type>Scalar</Type>
   <Layout>Global</Layout>
@@ -73,6 +97,9 @@
   <OwnerName>PlatoMain</OwnerName>
   <UserName>PlatoMain</UserName>
   <UserName>plato_analyze_1</UserName>
+  <For var="I" in="Parameters">
+    <UserName>PlatoESP_{I}</UserName>
+  </For>
 </SharedData>
 <For var="I" in="Parameters">
 <SharedData>
@@ -106,6 +133,20 @@
   <Layout>Global</Layout>
   <Size>{NumParameters}</Size>
   <OwnerName>plato_analyze_1</OwnerName>
+  <UserName>PlatoMain</UserName>
+</SharedData>
+<SharedData>
+  <Name>Topology Lower Bound Value</Name>
+  <Type>Scalar</Type>
+  <Layout>Global</Layout>
+  <OwnerName>PlatoMain</OwnerName>
+  <UserName>PlatoMain</UserName>
+</SharedData>
+<SharedData>
+  <Name>Topology Upper Bound Value</Name>
+  <Type>Scalar</Type>
+  <Layout>Global</Layout>
+  <OwnerName>PlatoMain</OwnerName>
   <UserName>PlatoMain</UserName>
 </SharedData>
 <SharedData>
@@ -168,16 +209,14 @@
 <SharedData>
   <Name>Topology Lower Bound Vector</Name>
   <Type>Scalar</Type>
-  <Layout>Global</Layout>
-  <Size>{NumParameters}</Size>
+  <Layout>Nodal Field</Layout>
   <OwnerName>PlatoMain</OwnerName>
   <UserName>PlatoMain</UserName>
 </SharedData>
 <SharedData>
   <Name>Topology Upper Bound Vector</Name>
   <Type>Scalar</Type>
-  <Layout>Global</Layout>
-  <Size>{NumParameters}</Size>
+  <Layout>Nodal Field</Layout>
   <OwnerName>PlatoMain</OwnerName>
   <UserName>PlatoMain</UserName>
 </SharedData>
@@ -185,11 +224,68 @@
 
 
 <!-- Define Stages -->
+<Stage>
+    <Name>Write Topology to File</Name>
+
+    <Operation>
+      <Name>Write Output</Name>
+      <PerformerName>plato_analyze_1</PerformerName>
+      <Output>
+        <ArgumentName>Solution X</ArgumentName>
+        <SharedDataName>Displacement X</SharedDataName>
+      </Output>
+      <Output>
+        <ArgumentName>Solution Y</ArgumentName>
+        <SharedDataName>Displacement Y</SharedDataName>
+      </Output>
+      <Output>
+        <ArgumentName>Solution Z</ArgumentName>
+        <SharedDataName>Displacement Z</SharedDataName>
+      </Output>
+    </Operation>
+
+    <Operation>
+      <Name>PlatoMainOutput</Name>
+      <PerformerName>PlatoMain</PerformerName>
+      <Input>
+        <ArgumentName>Topology</ArgumentName>
+        <SharedDataName>Filtered Topology</SharedDataName>
+      </Input>
+      <Input>
+        <ArgumentName>Unfiltered Topology</ArgumentName>
+        <SharedDataName>Topology</SharedDataName>
+      </Input>
+      <Input>
+        <ArgumentName>Objective Gradient</ArgumentName>
+        <SharedDataName>Objective Gradient wrt Topology</SharedDataName>
+      </Input>
+      <Input>
+        <ArgumentName>Volume Gradient</ArgumentName>
+        <SharedDataName>Constraint Gradient wrt Topology</SharedDataName>
+      </Input>
+      <Input>
+        <ArgumentName>Displacement X</ArgumentName>
+        <SharedDataName>Displacement X</SharedDataName>
+      </Input>
+      <Input>
+        <ArgumentName>Displacement Y</ArgumentName>
+        <SharedDataName>Displacement Y</SharedDataName>
+      </Input>
+      <Input>
+        <ArgumentName>Displacement Z</ArgumentName>
+        <SharedDataName>Displacement Z</SharedDataName>
+      </Input>
+    </Operation>
+</Stage>
+
 
 <Stage>
-  <Name>Output To File</Name>
+  <Name>Write Shape to File</Name>
   <Operation>
+<!--
     <Name>CSMMeshOutput</Name>
+-->
+    <Name>Save Iteration File</Name>
     <PerformerName>PlatoMain</PerformerName>
   </Operation>
 </Stage>
@@ -231,8 +327,32 @@
     </Output>
   </Operation>
   <Operation>
+    <Name>Remove Iteration Files</Name>
+    <PerformerName>PlatoMain</PerformerName>
+  </Operation>
+  <Operation>
     <Name>Initialize Geometry</Name>
     <PerformerName>PlatoMain</PerformerName>
+  </Operation>
+  <Operation>
+    <For var="I" in="Parameters">
+    <Operation>
+      <Name>Compute Parameter Sensitivity on Change</Name>
+      <PerformerName>PlatoESP_{I}</PerformerName>
+      <Parameter>
+        <ArgumentName>Parameter Index</ArgumentName>
+        <ArgumentValue>{I-1}</ArgumentValue>
+      </Parameter>
+      <Input>
+        <ArgumentName>Parameters</ArgumentName>
+        <SharedDataName>Shape Parameters</SharedDataName>
+      </Input>
+      <Output>
+        <ArgumentName>Parameter Sensitivity</ArgumentName>
+        <SharedDataName>Parameter Sensitivity {I}</SharedDataName>
+      </Output>
+    </Operation>
+    </For>
   </Operation>
   <Output>
     <SharedDataName>Shape Parameters</SharedDataName>
@@ -277,6 +397,21 @@
 
 <Stage>
   <Name>Set Topology Lower Bounds</Name>
+  <Input>
+    <SharedDataName>Topology Lower Bound Value</SharedDataName>
+  </Input>
+  <Operation>
+    <Name>Calculate Topology Lower Bounds</Name>
+    <PerformerName>PlatoMain</PerformerName>
+    <Input>
+      <ArgumentName>Lower Bound Value</ArgumentName>
+      <SharedDataName>Topology Lower Bound Value</SharedDataName>
+    </Input>
+    <Output>
+      <ArgumentName>Lower Bound Vector</ArgumentName>
+      <SharedDataName>Topology Lower Bound Vector</SharedDataName>
+    </Output>
+  </Operation>
   <Output>
     <SharedDataName>Topology Lower Bound Vector</SharedDataName>
   </Output>
@@ -284,6 +419,21 @@
 
 <Stage>
   <Name>Set Topology Upper Bounds</Name>
+  <Input>
+    <SharedDataName>Topology Upper Bound Value</SharedDataName>
+  </Input>
+  <Operation>
+    <Name>Calculate Topology Upper Bounds</Name>
+    <PerformerName>PlatoMain</PerformerName>
+    <Input>
+      <ArgumentName>Upper Bound Value</ArgumentName>
+      <SharedDataName>Topology Upper Bound Value</SharedDataName>
+    </Input>
+    <Output>
+      <ArgumentName>Upper Bound Vector</ArgumentName>
+      <SharedDataName>Topology Upper Bound Vector</SharedDataName>
+    </Output>
+  </Operation>
   <Output>
     <SharedDataName>Topology Upper Bound Vector</SharedDataName>
   </Output>
@@ -635,6 +785,11 @@
       <Name>Reinitialize</Name>
       <PerformerName>PlatoMain</PerformerName>
     </Operation>
+  </Operation>
+</Stage>
+<Stage>
+  <Name>Update Shape Sensitivities</Name>
+  <Operation>
     <For var="I" in="Parameters">
     <Operation>
       <Name>Compute Parameter Sensitivity on Change</Name>
@@ -660,7 +815,7 @@
   <Name>Outer Loop 1</Name>
   <Package>MMA</Package>
   <Options>
-    <MaxNumOuterIterations>1</MaxNumOuterIterations>
+    <MaxNumOuterIterations>2</MaxNumOuterIterations>
     <MoveLimit>0.1</MoveLimit>
     <AsymptoteExpansion>1.2</AsymptoteExpansion>
     <AsymptoteContraction>0.7</AsymptoteContraction>
@@ -670,7 +825,7 @@
     <UpdateFrequency>1</UpdateFrequency>
   </Options>
   <Output>
-    <OutputStage>Output To File</OutputStage>
+    <OutputStage>Write Shape to File</OutputStage>
   </Output>
   <CacheStage>
     <Name>Cache State</Name>
@@ -703,6 +858,7 @@
   <UpdateProblemStage>
     <Name>Update Shape</Name>
     <Name>Update Shared Data</Name>
+    <Name>Update Shape Sensitivities</Name>
   </UpdateProblemStage>
   <!-- below is the optimizer for the inner loop.  If this input block
        exists, then the factory knows to create the nested objective. -->
@@ -711,8 +867,8 @@
     <!-- this could actually be any algorithm, right? -->
     <Package>MMA</Package>
     <Options>
-      <MaxNumOuterIterations>5</MaxNumOuterIterations>
-      <MoveLimit>0.1</MoveLimit>
+      <MaxNumOuterIterations>10</MaxNumOuterIterations>
+      <MoveLimit>0.5</MoveLimit>
       <AsymptoteExpansion>1.2</AsymptoteExpansion>
       <AsymptoteContraction>0.7</AsymptoteContraction>
       <MaxNumSubProblemIter>50</MaxNumSubProblemIter>
@@ -720,7 +876,7 @@
       <ObjectiveStagnationTolerance>-1</ObjectiveStagnationTolerance>
     </Options>
     <Output>
-      <OutputStage>Output To File</OutputStage>
+      <OutputStage>Write Topology to File</OutputStage>
     </Output>
     <CacheStage>
       <Name>Cache State</Name>

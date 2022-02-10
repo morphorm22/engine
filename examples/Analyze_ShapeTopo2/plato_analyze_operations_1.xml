@@ -3,6 +3,20 @@
 <include filename="defines.xml"/>
 
 <Operation>
+  <Function>WriteOutput</Function>
+  <Name>Write Output</Name>
+  <Output>
+    <ArgumentName>Solution X</ArgumentName>
+  </Output>
+  <Output>
+    <ArgumentName>Solution Y</ArgumentName>
+  </Output>
+  <Output>
+    <ArgumentName>Solution Z</ArgumentName>
+  </Output>
+</Operation>
+
+<Operation>
   <Name>Compute Constraint Sensitivity</Name>
   <Function>MapCriterionGradientX</Function>
   <Criterion>Volume</Criterion>
