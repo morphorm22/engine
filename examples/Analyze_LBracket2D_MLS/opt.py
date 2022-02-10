@@ -82,7 +82,7 @@ def f(x, grad):
     services.compute("Map Field to Points");
     grad[:] = services.exportData("Mapped MLS Point Values", "SCALAR")
 
-    print " objective value: ", value
+    print( " objective value: ", value)
     return value
 
   else:
@@ -95,7 +95,7 @@ def f(x, grad):
     # export output data from Analyze instance
     value = analyze.exportData("Objective Value", "SCALAR")
   
-    print " objective value: ", value
+    print( " objective value: ", value)
     return value
 
 
@@ -124,7 +124,7 @@ def g(x, grad):
     grad[:] = services.exportData("Mapped MLS Point Values", "SCALAR")
 
     val = value/refValue - targetFraction
-    print " constraint value: ", val
+    print( " constraint value: ", val)
     return val
 
   else:
@@ -133,7 +133,7 @@ def g(x, grad):
     value = analyze.exportData("Constraint Value", "SCALAR")
     
     val = value/refValue - targetFraction
-    print " constraint value: ", val
+    print( " constraint value: ", val)
     return val
 
 
@@ -153,10 +153,10 @@ opt.set_maxeval(10)
 xopt = opt.optimize(pinit)
 minf = opt.last_optimum_value()
 
-print "optimum at: ", minf
+print( "optimum at: ", minf)
 fauxgrad = array([])
-print "eval f() at min point: ", f(xopt,fauxgrad)
-print "eval g() at min point: ", g(xopt,fauxgrad)
+print( "eval f() at min point: ", f(xopt,fauxgrad))
+print( "eval g() at min point: ", g(xopt,fauxgrad))
 
 services.importData("MLS Point Values", "SCALAR", xopt.tolist())
 services.compute("Compute Nodal Field");

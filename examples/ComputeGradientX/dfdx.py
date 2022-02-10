@@ -16,4 +16,4 @@ val = 0.0
 for inode in endNodes:
   val += gradx[inode]
 
-print "sum on end: ", val
+print( "sum on end: ", val )
