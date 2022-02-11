@@ -83,13 +83,13 @@ def dfdx(x, grad):
   if grad.size > 0:
     # export output data from Analyze instance
     analyzeGrad = analyze.exportData("Criterion Gradient", "SCALAR", len(grad))
-    print "grad:", analyzeGrad
+    print( "grad:", analyzeGrad)
 
     for iVal in range(len(analyzeGrad)):
       grad[iVal] = analyzeGrad[iVal]
 
-  print "eval at: ", x.tolist()
-  print "eval to: ", value
+  print( "eval at: ", x.tolist())
+  print( "eval to: ", value)
   return value
 
 xinit = [0.75, 4.8]
@@ -103,12 +103,12 @@ opt.set_upper_bounds([0.9, 6.0])
 opt.set_xtol_rel(1e-6)
 opt.set_maxeval(10)
 
-print "xinit", xinit
+print( "xinit", xinit)
 xopt = opt.optimize(xinit)
 minf = opt.last_optimum_value()
 
-print "optimum is: ", minf
-print "optimum at: ", xopt.tolist()
+print( "optimum is: ", minf)
+print( "optimum at: ", xopt.tolist())
 
 # finalize mpi and kokkos.  Not essential, but you'll get warnings otherwise.
 analyze.finalize()
@@ -121,9 +121,9 @@ for i in range(len(xopt)):
   error += math.fabs(xopt[i]-xtarget[i])
 
 if error > tol:
-  print "error (", error, ") exceeded tolerance"
+  print( "error (", error, ") exceeded tolerance")
   sys.exit(1)
 else:
-  print "error (", error, ") within tolerance"
+  print( "error (", error, ") within tolerance")
   sys.exit(0)
 

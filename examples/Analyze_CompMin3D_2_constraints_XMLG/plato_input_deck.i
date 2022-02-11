@@ -40,7 +40,7 @@ begin scenario 1
   material 1
   material_penalty_exponent 3.0
   minimum_ersatz_material_value 1e-6
-  tolerance 1e-10
+  linear_solver_tolerance 1e-10
 end scenario
 
 begin scenario 2
@@ -51,7 +51,7 @@ begin scenario 2
   material 1
   material_penalty_exponent 3.0
   minimum_ersatz_material_value 1e-6
-  tolerance 1e-10
+  linear_solver_tolerance 1e-10
 end scenario
 
 begin objective
@@ -152,7 +152,7 @@ begin optimization_parameters
    filter_in_engine true
 
    optimization_type topology
-   max_iterations 5 
+   max_iterations 2 
    output_frequency 1000 
    discretization density 
    initial_density_value 0.4

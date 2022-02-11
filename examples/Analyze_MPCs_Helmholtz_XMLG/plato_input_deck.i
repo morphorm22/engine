@@ -27,7 +27,7 @@ begin scenario 1
   assemblies 1 2 3
   material 1
   minimum_ersatz_material_value 1e-9
-  tolerance 1e-8
+  linear_solver_tolerance 1e-8
 end scenario
 
 begin objective
@@ -72,7 +72,7 @@ end load
       
 begin constraint 1
   criterion 2
-  relative_target 0.5
+  relative_target 0.85
   type less_than
   service 1
   scenario 1
@@ -101,12 +101,13 @@ end material
 
 begin optimization_parameters
    filter_type helmholtz
-   filter_radius_absolute 0.13
+   filter_radius_absolute 0.45
+   boundary_sticking_penalty -1.0
    max_iterations 3
    output_frequency 1000 
    optimization_algorithm oc
    discretization density 
-   initial_density_value 0.5
+   initial_density_value 0.6
    normalize_in_aggregator false
    fixed_block_ids 2 3
 end optimization_parameters

@@ -20,15 +20,13 @@ begin criterion 1
 end criterion
 
 begin criterion 2
-  type surface_pressure
-  surfaces inlet
-  location_names dummy
+  type mean_surface_pressure
+  location_names inlet
 end criterion
 
 begin criterion 3
-  type surface_pressure
-  surfaces outlet
-  location_names dummy
+  type mean_surface_pressure
+  location_names outlet
 end criterion
 
 begin criterion 4
@@ -40,6 +38,8 @@ begin scenario 1
   dimensions 2
   boundary_conditions 1 2 3 4 5
   material 1
+  linear_solver_tolerance 1e-20
+  linear_solver_iterations 1000
 end scenario
 
 begin objective
@@ -101,7 +101,7 @@ begin block 1
 end block
 
 begin material 1
-  material_model incompressible_flow
+  material_model laminar_flow
   reynolds_number 100
 end material
 

@@ -38,7 +38,7 @@ begin scenario 1
   boundary_conditions 1
   material 1
   minimum_ersatz_material_value 1e-3
-  tolerance 5e-14
+  linear_solver_tolerance 5e-14
 end scenario
 begin scenario 2
   physics transient_mechanics
@@ -47,7 +47,7 @@ begin scenario 2
   boundary_conditions 1
   material 1
   minimum_ersatz_material_value 1e-3
-  tolerance 5e-14
+  linear_solver_tolerance 5e-14
   newmark_beta .25
   newmark_gamma .5
   number_time_steps 5

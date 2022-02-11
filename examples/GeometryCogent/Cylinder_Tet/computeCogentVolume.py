@@ -15,7 +15,7 @@ services.compute("Compute Cogent Volume");
 volume = services.exportData("Volume", "SCALAR")
 volume_grad = services.exportData("Volume Gradient", "SCALAR_FIELD")
 
-print "volume: ", volume
+print("volume: ", volume)
 
 # open exodus file for output and configure
 outMesh = exodus.ExodusDB()
