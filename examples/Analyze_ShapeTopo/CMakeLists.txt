@@ -5,7 +5,7 @@ if(ANALYZE)
 Plato_new_test(TEST_NAME)
 
 # Copy Input files from source to binary dir
-set( testFiles "amgx.json;defines.xml;DesignVolume.csm;interface.xml;plato_analyze_input_deck_1.xml;plato_analyze_operations_1.xml;platoesp_operations.xml;PlatoESP.xml;platomain_operations.xml;PlatoMain.xml")
+set( testFiles "add.awk;amgx.json;defines.xml;DesignVolume.csm;interface.xml;plato_analyze_input_deck_1.xml;plato_analyze_operations_1.xml;platoesp_operations.xml;PlatoESP.xml;platomain_operations.xml;PlatoMain.xml")
 Plato_add_test_files("${testFiles}")
 
 set( PRETEST_COMMAND "plato-cli geometry esp --input DesignVolume.csm --output-model DesignVolume_opt.csm --output-mesh DesignVolume.exo --tesselation DesignVolume.eto")
@@ -47,11 +47,10 @@ Plato_add_performer(PLATO_NEW_TEST ${ANALYZE_BINARY} ${ANALYZE_NP} ${LOCAL_COMM_
 
 # prepend pretest command
 set( PLATO_NEW_TEST ${PRETEST_COMMAND} ${PLATO_NEW_TEST} )
-message("WITH PRETEST: ${PLATO_NEW_TEST}")
 
 # Add the test
 set(INPUT_MESH SKIP_DECOMP)
-set(OUTPUT_MESH SKIP_EXODIFF)
+set(OUTPUT_MESH platomain.exo)
 Plato_add_test("${PLATO_NEW_TEST}" ${TEST_NAME} ${NUM_PROCS} ${IO_COMM_INDEX} ${INPUT_MESH} ${OUTPUT_MESH})
 
 endif()

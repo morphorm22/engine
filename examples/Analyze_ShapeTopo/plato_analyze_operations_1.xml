@@ -3,6 +3,20 @@
 <include filename="defines.xml"/>
 
 <Operation>
+  <Function>WriteOutput</Function>
+  <Name>Write Output</Name>
+  <Output>
+    <ArgumentName>Solution X</ArgumentName>
+  </Output>
+  <Output>
+    <ArgumentName>Solution Y</ArgumentName>
+  </Output>
+  <Output>
+    <ArgumentName>Solution Z</ArgumentName>
+  </Output>
+</Operation>
+
+<Operation>
   <Name>Compute Constraint Sensitivity</Name>
   <Function>MapCriterionGradientX</Function>
   <Criterion>Volume</Criterion>
@@ -41,17 +55,30 @@
 </Operation>
 
 <Operation>
-  <Name>Compute Constraint Gradient</Name>
+  <Name>Compute Constraint Gradient wrt X</Name>
   <Function>ComputeCriterionX</Function>
   <Criterion>Volume</Criterion>
   <!-- no output needed -->
 </Operation>
 
 <Operation>
-  <Name>Compute Objective Gradient</Name>
+  <Name>Compute Objective Gradient wrt X</Name>
   <Function>ComputeCriterionX</Function>
   <Criterion>Internal Energy</Criterion>
   <!-- no output needed -->
+</Operation>
+
+<Operation>
+  <Name>Compute Objective Gradient wrt Topology</Name>
+  <Function>ComputeCriterion</Function>
+  <Criterion>Internal Energy</Criterion>
+  <Input>
+    <ArgumentName>Topology</ArgumentName>
+  </Input>
+  <Output>
+    <Argument>Gradient</Argument>
+    <ArgumentName>Objective Gradient</ArgumentName>
+  </Output>
 </Operation>
 
 <Operation>
@@ -60,7 +87,7 @@
   <Criterion>Volume</Criterion>
   <Output>
     <Argument>Value</Argument>
-    <ArgumentName>Constraint Value</ArgumentName>
+    <ArgumentName>Volume</ArgumentName>
   </Output>
 </Operation>
 

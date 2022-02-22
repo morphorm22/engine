@@ -84,7 +84,7 @@ subtract  none   1   0
 cylinder  XLength/2.0-XInset   -YLength/2.0+YInset   -ZLength/2.0+BaseThickness   XLength/2.0-XInset   -YLength/2.0+YInset   ZLength/2.0   HeadRadius
 subtract  none   1   0
 
-set       MeshLength 0.075
+set       MeshLength 0.25
 
 select    body   24
 select    face   11   3   1
