@@ -82,6 +82,17 @@
     <Value>0.50</Value>
   </Uniform>
 </Operation>
+<Operation>
+  <Function>InitializeField</Function>
+  <Name>Initialize Solid Field</Name>
+  <Method>Uniform</Method>
+  <Output>
+    <ArgumentName>Initialized Field</ArgumentName>
+  </Output>
+  <Uniform>
+    <Value>1.00</Value>
+  </Uniform>
+</Operation>
 
 <Operation>
   <Function>SetUpperBounds</Function>

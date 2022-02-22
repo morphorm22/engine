@@ -177,6 +177,14 @@
   <UserName>plato_analyze_1</UserName>
 </SharedData>
 <SharedData>
+  <Name>Solid Topology</Name>
+  <Type>Scalar</Type>
+  <Layout>Nodal Field</Layout>
+  <OwnerName>PlatoMain</OwnerName>
+  <UserName>PlatoMain</UserName>
+  <UserName>plato_analyze_1</UserName>
+</SharedData>
+<SharedData>
   <Name>Filtered Topology</Name>
   <Type>Scalar</Type>
   <Layout>Nodal Field</Layout>
@@ -372,6 +380,14 @@
       <SharedDataName>Topology</SharedDataName>
     </Output>
   </Operation>
+  <Operation>
+    <Name>Initialize Solid Field</Name>
+    <PerformerName>PlatoMain</PerformerName>
+    <Output>
+      <ArgumentName>Initialized Field</ArgumentName>
+      <SharedDataName>Solid Topology</SharedDataName>
+    </Output>
+  </Operation>
 </Stage>
 
 <Stage>
@@ -444,7 +460,19 @@
   <!--
     This stage is called inside the outer loop.
    -->
-  <Name>Get Constraint</Name>
+  <Name>Compute Outer Constraint</Name>
+  <Operation>
+    <Name>Compute Constraint Value</Name>
+    <PerformerName>plato_analyze_1</PerformerName>
+    <Input>
+      <ArgumentName>Topology</ArgumentName>
+      <SharedDataName>Solid Topology</SharedDataName>
+    </Input>
+    <Output>
+      <ArgumentName>Volume</ArgumentName>
+      <SharedDataName>Constraint</SharedDataName>
+    </Output>
+  </Operation>
   <Output>
     <SharedDataName>Constraint</SharedDataName>
   </Output>
@@ -554,6 +582,10 @@
   <Operation>
     <Name>Compute Constraint Gradient wrt X</Name>
     <PerformerName>plato_analyze_1</PerformerName>
+    <Input>
+      <ArgumentName>Topology</ArgumentName>
+      <SharedDataName>Solid Topology</SharedDataName>
+    </Input>
     <!-- no output -->
   </Operation>
   <!-- compose dG/dX . dX/dP_I for I = 1..NumParameters -->
@@ -815,8 +847,8 @@
   <Name>Outer Loop 1</Name>
   <Package>MMA</Package>
   <Options>
-    <MaxNumOuterIterations>2</MaxNumOuterIterations>
-    <MoveLimit>0.1</MoveLimit>
+    <MaxNumOuterIterations>3</MaxNumOuterIterations>
+    <MoveLimit>0.05</MoveLimit>
     <AsymptoteExpansion>1.2</AsymptoteExpansion>
     <AsymptoteContraction>0.7</AsymptoteContraction>
     <MaxNumSubProblemIter>50</MaxNumSubProblemIter>
@@ -850,10 +882,11 @@
   </BoundConstraint>
   <Constraint>
     <ValueName>Constraint</ValueName>
-    <ValueStageName>Get Constraint</ValueStageName>
+    <ValueStageName>Compute Outer Constraint</ValueStageName>
     <GradientName>Constraint Gradient wrt Shape</GradientName>
     <GradientStageName>Constraint Gradient wrt Shape</GradientStageName>
     <ReferenceValueName>Reference Volume</ReferenceValueName>
+    <NormalizedTargetValue>1.0</NormalizedTargetValue>
   </Constraint>
   <UpdateProblemStage>
     <Name>Update Shape</Name>
@@ -864,7 +897,6 @@
        exists, then the factory knows to create the nested objective. -->
   <Optimizer>
     <Name>Inner Loop 1</Name>
-    <!-- this could actually be any algorithm, right? -->
     <Package>MMA</Package>
     <Options>
       <MaxNumOuterIterations>5</MaxNumOuterIterations>

@@ -8,7 +8,7 @@ Plato_new_test(TEST_NAME)
 set( testFiles "add.awk;amgx.json;defines.xml;DesignVolume.csm;interface.xml;plato_analyze_input_deck_1.xml;plato_analyze_operations_1.xml;platoesp_operations.xml;PlatoESP.xml;platomain_operations.xml;PlatoMain.xml")
 Plato_add_test_files("${testFiles}")
 
-set( PRETEST_COMMAND "plato-cli geometry esp --input DesignVolume.csm --output-model DesignVolume_opt.csm --output-mesh DesignVolume.exo --tesselation DesignVolume.eto")
+set( PRETEST_COMMAND "plato-cli geometry esp --input DesignVolume.csm --output-model DesignVolume_opt.csm --output-mesh DesignVolume.exo --tesselation DesignVolume.eto --min-scale 1.0 --max-scale 1.0")
 
 # Set number of processors for PlatoMain comm
 set( PLATOMAIN_NP 1 )

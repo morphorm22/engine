@@ -58,6 +58,9 @@
   <Name>Compute Constraint Gradient wrt X</Name>
   <Function>ComputeCriterionX</Function>
   <Criterion>Volume</Criterion>
+  <Input>
+    <ArgumentName>Topology</ArgumentName>
+  </Input>
   <!-- no output needed -->
 </Operation>
 
