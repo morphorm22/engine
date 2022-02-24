@@ -80,6 +80,8 @@ IF( ANALYZE )
     add_subdirectory(Analyze_CompMin3D_ROL_AL_XMLG)
     add_subdirectory(Analyze_Stress_ROL_BC_XMLG)
     add_subdirectory(Analyze_Stress_ROL_BC_XMLG_LBracket)
+    add_subdirectory(Analyze_FixedBlocks_DefaultEnforceBounds_XMLG)
+    add_subdirectory(Analyze_FixedBlocks_NoEnforceBounds_XMLG)
   ENDIF()
 ENDIF()
 
