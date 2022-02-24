@@ -143,7 +143,7 @@ x = array(xinit)
 print( "objective is: ", val)
 print( "objective gradient is: ", gradP)
 
-stepSize = 0.01
+stepSize = 0.0001
 numSteps = 1
 
 vals = []
