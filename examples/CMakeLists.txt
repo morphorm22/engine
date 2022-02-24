@@ -42,6 +42,7 @@ endif()
 
 
 IF( ANALYZE )
+  add_subdirectory(Analyze_Disp_Opt_XMLG)
   add_subdirectory(Analyze_CompMin2D_XMLG)
   add_subdirectory(Analyze_CompMin3D_XMLG)
   add_subdirectory(Analyze_CompMin3D_2Load_XMLG)
