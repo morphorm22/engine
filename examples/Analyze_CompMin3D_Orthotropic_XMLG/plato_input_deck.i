@@ -1,6 +1,5 @@
 begin service 1
   code platomain
-  path /ascldap/users/rvierte/plato/develop-env/platoengine/spack-build-i24ei2h/apps/services/PlatoMain
   number_processors 1
   number_ranks 1
 end service
