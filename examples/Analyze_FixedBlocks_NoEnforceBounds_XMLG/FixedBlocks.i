@@ -6,7 +6,7 @@ end service
 begin service 2
    code plato_analyze
    number_processors 1
-   device_ids 1
+   device_ids 0
 end service
    
 begin criterion 1
