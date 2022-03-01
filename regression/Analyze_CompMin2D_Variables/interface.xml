@@ -204,11 +204,11 @@
       <Name>Write Output</Name>
       <PerformerName>Alexa</PerformerName>
       <Output>
-        <ArgumentName>Solution X</ArgumentName>
+        <ArgumentName>displacement X</ArgumentName>
         <SharedDataName>Displacement X</SharedDataName>
       </Output>
       <Output>
-        <ArgumentName>Solution Y</ArgumentName>
+        <ArgumentName>displacement Y</ArgumentName>
         <SharedDataName>Displacement Y</SharedDataName>
       </Output>
       <Output>
