@@ -851,9 +851,13 @@
     <MoveLimit>0.05</MoveLimit>
     <AsymptoteExpansion>1.2</AsymptoteExpansion>
     <AsymptoteContraction>0.7</AsymptoteContraction>
-    <MaxNumSubProblemIter>50</MaxNumSubProblemIter>
-    <ControlStagnationTolerance>-1</ControlStagnationTolerance>
-    <ObjectiveStagnationTolerance>-1</ObjectiveStagnationTolerance>
+    <MaxNumSubProblemIter>100</MaxNumSubProblemIter>
+    <ControlStagnationTolerance>1e-6</ControlStagnationTolerance>
+    <ObjectiveStagnationTolerance>1e-8</ObjectiveStagnationTolerance>
+    <SubProblemInitialPenalty>0.0015</SubProblemInitialPenalty>
+    <SubProblemPenaltyMultiplier>1.025</SubProblemPenaltyMultiplier>
+    <SubProblemFeasibilityTolerance>1.0e-8</SubProblemFeasibilityTolerance>
+    <UseIpoptForMMASubproblem>true</UseIpoptForMMASubproblem>
     <UpdateFrequency>1</UpdateFrequency>
   </Options>
   <Output>
@@ -903,9 +907,13 @@
       <MoveLimit>0.5</MoveLimit>
       <AsymptoteExpansion>1.2</AsymptoteExpansion>
       <AsymptoteContraction>0.7</AsymptoteContraction>
-      <MaxNumSubProblemIter>50</MaxNumSubProblemIter>
-      <ControlStagnationTolerance>-1</ControlStagnationTolerance>
-      <ObjectiveStagnationTolerance>-1</ObjectiveStagnationTolerance>
+      <MaxNumSubProblemIter>100</MaxNumSubProblemIter>
+      <ControlStagnationTolerance>1e-6</ControlStagnationTolerance>
+      <ObjectiveStagnationTolerance>1e-8</ObjectiveStagnationTolerance>
+      <SubProblemInitialPenalty>0.0015</SubProblemInitialPenalty>
+      <SubProblemPenaltyMultiplier>1.025</SubProblemPenaltyMultiplier>
+      <SubProblemFeasibilityTolerance>1.0e-8</SubProblemFeasibilityTolerance>
+      <UseIpoptForMMASubproblem>true</UseIpoptForMMASubproblem>
     </Options>
     <Output>
       <OutputStage>Write Topology to File</OutputStage>
