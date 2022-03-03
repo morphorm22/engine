@@ -1,0 +1,4 @@
+AMGX_LOG	RUNTIME_VERSION=10.2
+AMGX_LOG	Devicetype=device
+AMGX_LOG	Devicetype=host
+AMGX_LOG	Number of Levels=4
