@@ -2,7 +2,7 @@ if(ALBANY)
   if(NOT DEFINED ALBANY_BINARY)
     if(NOT DEFINED ALBANY_PATH)
       message(FATAL_ERROR "
-       Albany tests are enabled, but both ALBANY_BINARY and ALBANY_PATH are not set. 
+       Albany tests are enabled, but both ALBANY_BINARY and ALBANY_PATH are not set.
        One must be defined in order to enable Albany tests.")
     endif()
     Plato_find_exe(ALBANY_BINARY AlbanyMPMD ${ALBANY_PATH})
@@ -23,7 +23,7 @@ if(ANALYZE)
   if(NOT DEFINED ANALYZE_BINARY)
     if(NOT DEFINED ANALYZE_PATH)
       message(FATAL_ERROR "
-       Analyze tests are enabled, but both ANALYZE_BINARY and ANALYZE_PATH are not set. 
+       Analyze tests are enabled, but both ANALYZE_BINARY and ANALYZE_PATH are not set.
        One must be defined in order to enable Analyze tests.")
     endif()
     Plato_find_exe(ANALYZE_BINARY analyze_MPMD ${ANALYZE_PATH})
