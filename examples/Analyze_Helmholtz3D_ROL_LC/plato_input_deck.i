@@ -81,7 +81,7 @@ begin optimization_parameters
    boundary_sticking_penalty -1.0
    max_iterations 10 
    output_frequency 1000 
-   optimization_algorithm oc
+   optimization_algorithm rol_linear_constraint
    discretization density 
    initial_density_value .5
    normalize_in_aggregator false
