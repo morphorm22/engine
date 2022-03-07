@@ -42,7 +42,6 @@ endif()
 
 
 IF( ANALYZE )
-  add_subdirectory(Analyze_CompMin3D)
   add_subdirectory(Analyze_CompMin3D_Orthotropic)
   IF( STK_ENABLED )
     add_subdirectory(Analyze_CompMin3D_Restart)
