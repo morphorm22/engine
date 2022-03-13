@@ -75,7 +75,7 @@ begin optimization_parameters
     concurrent_evaluations 3
     num_shape_design_variables 2
     csm_file rocker.csm
-    sbgo_max_iterations 10
+    sbgo_max_iterations 1
     moga_population_size 300
     moga_max_function_evaluations 20000
     moga_niching_distance 0.02
