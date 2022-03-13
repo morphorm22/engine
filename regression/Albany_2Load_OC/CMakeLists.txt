@@ -42,7 +42,7 @@ Plato_add_performer(PLATO_NEW_TEST ${ALBANY_BINARY} ${ALBANY_NP} ${LOCAL_COMM_ID
 
 # Add the test
 set(INPUT_MESH mitchell3D.gen)
-set(OUTPUT_MESH platomain.exo)
+set(OUTPUT_MESH platomain.exo.1.0)
 Plato_add_test(${PLATO_NEW_TEST} ${TEST_NAME} ${NUM_PROCS} ${IO_COMM_INDEX} ${INPUT_MESH} ${OUTPUT_MESH})
 
 endif()
