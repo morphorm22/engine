@@ -27,7 +27,7 @@ set( NUM_PROCS "${PLATOMAIN_NP} ${PLATOESP_NP} ${ANALYZE_NP}" )
 set( IO_COMM_INDEX 0 )
 
 set( SKIP_EXODIFF 1 )
-set(OUTPUT_MESH platomain.exo)
+set(OUTPUT_MESH platomain.exo.1.0)
 set(XMLGEN_COMMAND "../../base/src/input_generator/XMLGenerator plato_input_deck.i")
 
 # Run test
