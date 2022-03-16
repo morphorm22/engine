@@ -17,8 +17,8 @@ begin criterion 2
    type displacement
    displacement_direction 0 -1 0
    measure_magnitude true
-   location_types sideset
-   location_names ss1
+   location_type sideset
+   location_name ss1
 end criterion
       
 begin criterion 3
