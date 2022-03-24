@@ -5,7 +5,7 @@ if(ANALYZE)
 Plato_new_test(TEST_NAME)
 
 # Copy Input files from source to binary dir
-set( testFiles "plato_input_deck.i;rocker.exo;rocker.csm")
+set( testFiles "plato_input_deck.i;rocker.csm")
 Plato_add_test_files("${testFiles}")
 
 # Set xml generator command
