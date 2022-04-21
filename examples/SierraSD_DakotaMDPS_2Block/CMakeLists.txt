@@ -1,6 +1,3 @@
-# specify codes
-if(ANALYZE)
-
 # Name the test with the directory name
 Plato_new_test(TEST_NAME)
 
@@ -23,5 +20,3 @@ set( NUMDIFF_RELATIVE_TOLERANCE 1e-4 )
 
 # Add the test
 Plato_add_xmlgen_numdiff_test(${TEST_NAME} ${XMLGEN_COMMAND} ${NUMDIFF_COMMAND} ${NUMDIFF_RELATIVE_TOLERANCE})
-
-endif()
