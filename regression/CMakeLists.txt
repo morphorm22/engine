@@ -40,6 +40,11 @@ if(ANALYZE)
   endif()
 endif()
 
+if( ESP_ENABLED )
+  IF ( SIERRA_TESTS_ENABLED )
+    add_subdirectory(SierraTF_TempMatch)
+  ENDIF()
+endif()
 
 IF( STK_ENABLED )
   add_subdirectory(CreateSupportStructure1)
