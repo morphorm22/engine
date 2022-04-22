@@ -320,7 +320,7 @@
   </Output>
 </Stage>
 <Optimizer>
-  <Package>MMA</Package>
+  <Package>KSBC</Package>
   <Options>
     <UseIpoptForMMASubproblem>true</UseIpoptForMMASubproblem>
     <MoveLimit>.05</MoveLimit>
