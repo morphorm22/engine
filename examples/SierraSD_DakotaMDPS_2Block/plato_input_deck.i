@@ -8,14 +8,12 @@ begin service 2
   code sierra_sd
   number_processors 4
   number_ranks 1
-  path /home/plato/Nightly/sierra_binaries/plato_sd_main
 end service
 
 begin service 3
   code sierra_sd
   number_processors 4
   number_ranks 1
-  path /home/plato/Nightly/sierra_binaries/plato_sd_main
 end service
 
 begin criterion 1
