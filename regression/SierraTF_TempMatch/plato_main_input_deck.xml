@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<mesh>
+  <type>unstructured</type>
+  <format>exodus</format>
+  <ignore_node_map>false</ignore_node_map>
+  <ignore_element_map>false</ignore_element_map>
+  <mesh>aria1.exo</mesh>
+  <block>
+    <index>1</index>
+    <material>1</material>
+    <integration>
+      <type>gauss</type>
+      <order>2</order>
+    </integration>
+  </block>
+</mesh>
+<output>
+  <file>platomain</file>
+  <format>exodus</format>
+</output>
