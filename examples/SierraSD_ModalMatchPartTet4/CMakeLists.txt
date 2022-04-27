@@ -1,6 +1,3 @@
-# specify codes
-if(ANALYZE)
-
 # Name the test with the directory name
 Plato_new_test(TEST_NAME)
 
@@ -31,5 +28,3 @@ set( SKIP_EXODIFF 0 )
 
 # Run test
 Plato_add_xmlgen_test(${TEST_NAME} ${XMLGEN_COMMAND} ${NUM_PROCS} ${IO_COMM_INDEX} ${OUTPUT_MESH} ${SKIP_EXODIFF})
-
-endif()
