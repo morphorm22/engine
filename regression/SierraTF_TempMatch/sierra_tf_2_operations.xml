@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+<include filename="defines.xml" />
+<Operation>
+  <Function>Update Problem</Function>
+  <Name>Update Problem</Name>
+</Operation>
+<Operation>
+  <Function>Cache State</Function>
+  <Name>Cache State</Name>
+</Operation>
+<Operation>
+  <Function>Displacement</Function>
+  <Name>Compute Displacement</Name>
+  <PenaltyModel>SIMP</PenaltyModel>
+  <Topology>
+    <Name>Topology</Name>
+  </Topology>
+  <SIMP>
+    <PenaltyExponent>3.0</PenaltyExponent>
+    <MinimumValue>0.001</MinimumValue>
+  </SIMP>
+</Operation>
+<Operation>
+  <Function>InternalEnergy</Function>
+  <Name>Compute Criterion</Name>
+  <PenaltyModel>SIMP</PenaltyModel>
+  <Topology>
+    <Name>Topology</Name>
+  </Topology>
+  <SIMP>
+    <PenaltyExponent>3.0</PenaltyExponent>
+    <MinimumValue>0.001</MinimumValue>
+  </SIMP>
+  <OutputValue>
+    <Name>Criterion</Name>
+  </OutputValue>
+</Operation>
+<Operation>
+  <Function>InternalEnergyGradient</Function>
+  <Name>Compute Criterion Gradient</Name>
+  <PenaltyModel>SIMP</PenaltyModel>
+  <Topology>
+    <Name>Topology</Name>
+  </Topology>
+  <SIMP>
+    <PenaltyExponent>3.0</PenaltyExponent>
+    <MinimumValue>0.001</MinimumValue>
+  </SIMP>
+  <OutputGradient>
+    <Name>Criterion Gradient</Name>
+  </OutputGradient>
+</Operation>
+<Operation>
+  <Name>Compute Criterion Gradient wrt CAD Parameters</Name>
+  <Function>Compute Objective Gradient wrt CAD Parameters</Function>
+  <For var="I" in="Parameters">
+    <Input>
+      <ArgumentName>Parameter Sensitivity {I}</ArgumentName>
+    </Input>
+  </For>
+  <Output>
+    <ArgumentName>Criterion Gradient wrt CAD Parameters</ArgumentName>
+  </Output>
+</Operation>
+<Operation>
+  <Function>InternalEnergyHessian</Function>
+  <Name>Compute HessianTimesVector</Name>
+  <PenaltyModel>SIMP</PenaltyModel>
+  <Topology>
+    <Name>Topology</Name>
+  </Topology>
+  <DescentDirection>
+    <Name>Descent Direction</Name>
+  </DescentDirection>
+  <SIMP>
+    <PenaltyExponent>3.0</PenaltyExponent>
+    <MinimumValue>0.001</MinimumValue>
+  </SIMP>
+  <OutputHessian>
+    <Name>HessianTimesVector</Name>
+  </OutputHessian>
+</Operation>

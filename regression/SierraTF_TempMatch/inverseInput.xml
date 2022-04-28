@@ -1,0 +1,8 @@
+<ParameterList name="Inputs">	
+  <Parameter name="checkReducedGradient" type="bool"   value="true" />
+  <Parameter name="finiteDifferenceScale" type="double"   value="1e-3" />
+  <ParameterList name="Problem Data">	
+     <Parameter name="Data File" type="string" value="aria1_gold.txt"/>
+	</ParameterList>
+</ParameterList>
+

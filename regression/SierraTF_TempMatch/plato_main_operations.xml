@@ -1,0 +1,108 @@
+<?xml version="1.0"?>
+<include filename="defines.xml" />
+<Operation>
+  <Function>InitializeValues</Function>
+  <Name>Initialize Values</Name>
+  <Output>
+    <ArgumentName>Values</ArgumentName>
+  </Output>
+  <Output>
+    <ArgumentName>Lower Bounds</ArgumentName>
+  </Output>
+  <Output>
+    <ArgumentName>Upper Bounds</ArgumentName>
+  </Output>
+  <Method>ReadFromCSMFile</Method>
+  <CSMFileName>aria1.csm</CSMFileName>
+</Operation>
+<Operation>
+  <Function>CopyField</Function>
+  <Name>Copy Field</Name>
+  <Input>
+    <ArgumentName>InputField</ArgumentName>
+  </Input>
+  <Output>
+    <ArgumentName>OutputField</ArgumentName>
+  </Output>
+</Operation>
+<Operation>
+  <Function>CopyValue</Function>
+  <Name>Copy Value</Name>
+  <Input>
+    <ArgumentName>InputValue</ArgumentName>
+  </Input>
+  <Output>
+    <ArgumentName>OutputValue</ArgumentName>
+  </Output>
+</Operation>
+<Operation>
+  <Name>Aggregate Data</Name>
+  <Function>Aggregator</Function>
+  <Aggregate>
+    <Layout>Value</Layout>
+    <Input>
+      <ArgumentName>Value 1</ArgumentName>
+    </Input>
+    <Output>
+      <ArgumentName>Value</ArgumentName>
+    </Output>
+  </Aggregate>
+  <Aggregate>
+    <Layout>Nodal Field</Layout>
+    <Input>
+      <ArgumentName>Field 1</ArgumentName>
+    </Input>
+    <Output>
+      <ArgumentName>Field</ArgumentName>
+    </Output>
+  </Aggregate>
+  <Weighting>
+    <Weight>
+      <Value>1</Value>
+    </Weight>
+  </Weighting>
+</Operation>
+<Operation>
+  <Function>CSMMeshOutput</Function>
+  <Name>CSMMeshOutput</Name>
+  <BaseMeshName>aria1.exo</BaseMeshName>
+  <OutputFrequency>100</OutputFrequency>
+  <MaxIterations>100</MaxIterations>
+</Operation>
+<Operation>
+  <Function>SystemCall</Function>
+  <Name>Initialize Geometry</Name>
+  <Command>plato-cli geometry esp</Command>
+  <Argument>--input aria1.csm</Argument>
+  <Argument>--output-model aria1.csm</Argument>
+  <Argument>--output-mesh aria1.exo</Argument>
+  <Argument>--tesselation aria1.eto</Argument>
+</Operation>
+<Operation>
+  <Function>SystemCall</Function>
+  <Name>Update Geometry on Change</Name>
+  <Command>plato-cli geometry esp</Command>
+  <OnChange>true</OnChange>
+  <Argument>--input aria1.csm</Argument>
+  <Argument>--output-model aria1_opt.csm</Argument>
+  <Argument>--output-mesh aria1.exo</Argument>
+  <Argument>--tesselation aria1.eto</Argument>
+  <Argument>--parameters</Argument>
+  <AppendInput>true</AppendInput>
+  <Input>
+    <ArgumentName>Parameters</ArgumentName>
+  </Input>
+</Operation>
+<!--
+<Operation>
+  <Function>SystemCall</Function>
+  <Name>ToTet10 On Change</Name>
+  <Command>cubit -input toTet10.jou -batch -nographics -nogui -noecho -nojournal -nobanner -information off</Command>
+  <OnChange>true</OnChange>
+  <AppendInput>false</AppendInput>
+  <Input>
+    <ArgumentName>Parameters</ArgumentName>
+  </Input>
+</Operation>
+-->
+
