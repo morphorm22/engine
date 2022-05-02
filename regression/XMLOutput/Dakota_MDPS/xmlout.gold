@@ -48,6 +48,8 @@ PlatoEngineServices evaluations_2/plato_main_input_deck_2.xml \
   <AppendInput>true</AppendInput>
   <Input>
     <ArgumentName>Parameters</ArgumentName>
+    <Layout>scalar</Layout>
+    <Size>2</Size>
   </Input>
 </Operation>
 <Operation>
@@ -63,6 +65,8 @@ PlatoEngineServices evaluations_2/plato_main_input_deck_2.xml \
   <AppendInput>true</AppendInput>
   <Input>
     <ArgumentName>Parameters</ArgumentName>
+    <Layout>scalar</Layout>
+    <Size>2</Size>
   </Input>
 </Operation>
 <Operation>
@@ -78,6 +82,8 @@ PlatoEngineServices evaluations_2/plato_main_input_deck_2.xml \
   <AppendInput>true</AppendInput>
   <Input>
     <ArgumentName>Parameters</ArgumentName>
+    <Layout>scalar</Layout>
+    <Size>2</Size>
   </Input>
 </Operation>
 <Operation>
