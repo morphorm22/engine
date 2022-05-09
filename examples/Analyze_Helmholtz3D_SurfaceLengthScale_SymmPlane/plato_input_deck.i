@@ -96,6 +96,7 @@ begin optimization_parameters
    discretization density 
    initial_density_value .5
    normalize_in_aggregator false
+   amgx_max_iterations 20000
 end optimization_parameters
 
 begin mesh
