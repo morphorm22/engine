@@ -22,7 +22,6 @@ end service
 begin service 4
   code plato_analyze
   number_processors 1
-  device_ids 1
 end service
       
 begin criterion 1
