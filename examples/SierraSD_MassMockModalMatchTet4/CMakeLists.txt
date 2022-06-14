@@ -12,8 +12,10 @@ set(XMLGEN_COMMAND "../../base/src/input_generator/XMLGenerator plato_input_deck
 set( OUT_FILE "simple_mock_opt.csm")
 set( GOLD_FILE "gold.csm")
 
-# set relative tolerance for diff test
+# set tolerance for diff test
 set( NUMDIFF_ABSOLUTE_TOLERANCE 1e-10 )
 
+SET( NUMDIFF_USE_ABSOLUTE TRUE )
+
 # Add the test
-Plato_add_xmlgen_numdiff_test(${TEST_NAME} ${XMLGEN_COMMAND} ${NUMDIFF_COMMAND} ${NUMDIFF_RELATIVE_TOLERANCE})
+Plato_add_xmlgen_numdiff_test(${TEST_NAME} ${XMLGEN_COMMAND} ${NUMDIFF_COMMAND} ${NUMDIFF_ABSOLUTE_TOLERANCE} ${NUMDIFF_USE_ABSOLUTE})
