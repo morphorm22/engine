@@ -1,10 +1,10 @@
 # brick.csm written by ocsmSave (v1.17)
 
 # Constant, Design, and Output Parameters:
-despmtr   Xdim       1.00000
-despmtr   Ydim       1.00000
-despmtr   Zdim       1.00000
-despmtr   Radius       0.25000
+despmtr   Xdim       1.00000 lbound 1.0 ubound 1.0 initial 1.0
+despmtr   Ydim       1.00000 lbound 1.0 ubound 1.0 initial 1.0
+despmtr   Zdim       1.00000 lbound 1.0 ubound 1.0 initial 1.0
+despmtr   Radius       0.25000 lbound 0.25 ubound 0.25 initial 0.25
 
 # Global Attributes:
 
