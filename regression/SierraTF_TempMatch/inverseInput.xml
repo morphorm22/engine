@@ -1,8 +1,16 @@
-<ParameterList name="Inputs">	
+<ParameterList name="Inputs">
   <Parameter name="checkReducedGradient" type="bool"   value="true" />
   <Parameter name="finiteDifferenceScale" type="double"   value="1e-3" />
-  <ParameterList name="Problem Data">	
+  <Parameter name="variableToMatch" type="string"   value="T" />
+  <ParameterList name="Problem Data">
      <Parameter name="Data File" type="string" value="aria1_gold.txt"/>
-	</ParameterList>
+  </ParameterList>
+  <ParameterList name="Plato">
+     <Parameter name="Exodus Gold Data File" type="string" value="gold.e"/>
+     <Parameter name="Mesh File" type="string" value="aria1.exo"/>
+     <Parameter name="State Variable" type="string" value="T"/>
+     <Parameter name="Nodesets To Match" type="string" value="{1, 2, 3, 5}"/>
+     <Parameter name="Nodesets To Search" type="string" value="{4}"/>
+  </ParameterList>
 </ParameterList>
 
