@@ -31,5 +31,6 @@ set( SKIP_EXODIFF 0 )
 
 # Run test
 Plato_add_xmlgen_test(${TEST_NAME} ${XMLGEN_COMMAND} ${NUM_PROCS} ${IO_COMM_INDEX} ${OUTPUT_MESH} ${SKIP_EXODIFF})
+set_property(TEST ${TEST_NAME} PROPERTY LABELS "small")
 
 endif()

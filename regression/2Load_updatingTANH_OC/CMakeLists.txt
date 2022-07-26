@@ -44,5 +44,6 @@ Plato_add_performer(PLATO_NEW_TEST ${PLATOSTATICS_BINARY} ${PLATOSTATICS_NP} ${L
 set(INPUT_MESH unsmesh.gen)
 set(OUTPUT_MESH platomain.exo)
 Plato_add_test(${PLATO_NEW_TEST} ${TEST_NAME} ${NUM_PROCS} ${IO_COMM_INDEX} ${INPUT_MESH} ${OUTPUT_MESH})
+set_property(TEST ${TEST_NAME} PROPERTY LABELS "medium")
 
 endif()
