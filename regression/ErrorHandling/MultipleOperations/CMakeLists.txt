@@ -43,5 +43,6 @@ Plato_add_performer(PLATO_NEW_TEST ${PLATOSTATICS_BINARY} ${PLATOSTATICS_NP} ${L
 # Add the test
 set(INPUT_MESH unsmesh.gen)
 Plato_add_diff(${PLATO_NEW_TEST} ${TEST_NAME} ${NUM_PROCS} ${INPUT_MESH})
+set_property(TEST ${TEST_NAME} PROPERTY LABELS "small")
 
 endif()
