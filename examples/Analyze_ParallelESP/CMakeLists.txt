@@ -32,5 +32,6 @@ set(XMLGEN_COMMAND "../../base/src/input_generator/XMLGenerator plato_input_deck
 
 # Run test
 Plato_add_xmlgen_test(${TEST_NAME} ${XMLGEN_COMMAND} ${NUM_PROCS} ${IO_COMM_INDEX} ${OUTPUT_MESH} ${SKIP_EXODIFF})
+set_property(TEST ${TEST_NAME} PROPERTY LABELS "medium")
 
 endif()
