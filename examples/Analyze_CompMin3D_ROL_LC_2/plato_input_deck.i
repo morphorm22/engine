@@ -109,7 +109,7 @@ begin optimization_parameters
    initial_density_value .08
    normalize_in_aggregator false
    fixed_block_ids 1
-   amgx_max_iterations 3000
+   amgx_max_iterations 5000
 end optimization_parameters
 
 begin mesh
