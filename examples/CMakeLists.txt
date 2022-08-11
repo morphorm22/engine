@@ -94,6 +94,7 @@ IF( ANALYZE )
     add_subdirectory(Analyze_Uncertain_Load_ROL_LC)
     add_subdirectory(Analyze_FixedBlocks_DefaultEnforceBounds)
     add_subdirectory(Analyze_FixedBlocks_NoEnforceBounds)
+    add_subdirectory(GradientCheck/Analyze_CompMin2D_ROL_LC)
   ENDIF()
 ENDIF()
 
