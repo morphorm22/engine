@@ -1,7 +1,6 @@
 // Optimizer service
 begin service 1  
   code platomain
-  path /fgs/bwclark/pe_develop/platoengine/spack-build-h24jmsz/apps/services/PlatoMain
   number_processors 1
 end service
 
