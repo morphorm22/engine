@@ -5,32 +5,27 @@ if(ANALYZE)
 Plato_new_test(TEST_NAME)
 
 # Copy Input files from source to binary dir
-set( testFiles "plato_input_deck.i;mesh.exo")
+set( testFiles "plato_input_deck.i;mesh.exo;confirm_gradient_convergence_trend.py;ROL_gradient_check_output.gold.txt")
 Plato_add_test_files("${testFiles}")
 
-# write out the path info in the plato input deck
-Plato_add_text_to_file_after_keyword("plato_input_deck.i" "platomain" "path ${PLATOMAIN_BINARY}\n")
-
-# Specify which comm will provide the output for comparison
-set( IO_COMM_INDEX 0 )
-
-# Set number of processors for PlatoMain comm 
-set( PLATOMAIN_NP 1 )
-
-# Set number of processors for Performer comms
-set( ANALYZE_NP 1 )
-
-# Create list of comm sizes 
-set( NUM_PROCS "${PLATOMAIN_NP} ${ANALYZE_NP}" )
-
-# set mesh for epu at end
-set(OUTPUT_MESH platomain.exo.1.0)
+# Set xml generator command
 set(XMLGEN_COMMAND "../../../base/src/input_generator/XMLGenerator plato_input_deck.i")
 
-set( SKIP_EXODIFF 0 )
+# Set the name of the interface file
+set( INTERFACE_FILE interface.xml )
 
-# Run test
-Plato_add_xmlgen_test(${TEST_NAME} ${XMLGEN_COMMAND} ${NUM_PROCS} ${IO_COMM_INDEX} ${OUTPUT_MESH} ${SKIP_EXODIFF})
-set_property(TEST ${TEST_NAME} PROPERTY LABELS "medium")
+# Set input file names for custom command
+set( PYTHON_FILE "confirm_gradient_convergence_trend.py")
+set( INFNORM_IGNORE_ROWS 2 )
+set( INFNORM_RELATIVE_TOLERANCE 1e-3 )
+set( OUT_FILE "ROL_gradient_check_output.txt")
+set( GOLD_FILE "ROL_gradient_check_output.gold.txt")
+set( LAST_ROW 6 )
+
+
+SET(CUSTOM_COMMAND "python ${PYTHON_FILE} ${INFNORM_IGNORE_ROWS} ${INFNORM_RELATIVE_TOLERANCE} ${OUT_FILE} ${CMAKE_CURRENT_SOURCE_DIR}/${GOLD_FILE} ${LAST_ROW}")
+
+# Add the test
+Plato_add_xmlgen_custom_command_test(${TEST_NAME} ${XMLGEN_COMMAND} ${CUSTOM_COMMAND})
 
 endif()
