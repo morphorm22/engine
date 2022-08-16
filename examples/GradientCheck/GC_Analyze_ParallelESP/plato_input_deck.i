@@ -96,13 +96,14 @@ begin optimization_parameters
    max_iterations 2 
    output_frequency 1
    optimization_algorithm rol_linear_constraint
+ //  reset_algorithm_on_update true
 //   discretization density 
 //   initial_density_value .5
    normalize_in_aggregator false
    csm_file rocker.csm
    num_shape_design_variables 5
    optimization_type shape
-//   verbose true
+   verbose true
 end optimization_parameters
 
 begin mesh
