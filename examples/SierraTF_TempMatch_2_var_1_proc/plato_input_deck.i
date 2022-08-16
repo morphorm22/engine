@@ -8,7 +8,6 @@ end service
 begin service 2
   code sierra_tf
   number_processors 1
-  path /fgs/bwclark/sierra/bin/linux-gcc-7.2.0-openmpi-4.0.5/release/plato_tf_main
 end service
 
 // Service for calculating CAD parameter sensitivities
