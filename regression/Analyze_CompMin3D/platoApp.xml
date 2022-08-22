@@ -10,7 +10,11 @@
    <Function>SystemCall</Function>
    <Command>./report.sh</Command>
    <Name>Report Value</Name>
-   <Input> <ArgumentName>Value</ArgumentName> </Input>
+   <Input> 
+     <ArgumentName>Value</ArgumentName> 
+     <Layout>Scalar</Layout> 
+     <Size>1</Size> 
+   </Input>
  </Operation>
 
 <Operation>

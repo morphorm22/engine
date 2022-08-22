@@ -36,5 +36,6 @@ Plato_add_simple_performer(PLATO_NEW_TEST ${PLATOROCEKTDESIGN_BINARY} ${PROXY_NP
 
 # Add the test
 Plato_add_simple_test(${PLATO_NEW_TEST} ${TEST_NAME} ${NUM_PROCS} ${IO_COMM_INDEX})
+set_property(TEST ${TEST_NAME} PROPERTY LABELS "small")
 
 endif()

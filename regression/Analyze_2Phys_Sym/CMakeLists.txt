@@ -45,5 +45,6 @@ Plato_add_performer(PLATO_NEW_TEST ${ANALYZE_BINARY} ${ANALYZE_2_NP} ${LOCAL_COM
 set(INPUT_MESH design_vol.exo)
 set(OUTPUT_MESH platomain.exo.1.0)
 Plato_add_test(${PLATO_NEW_TEST} ${TEST_NAME} ${NUM_PROCS} ${IO_COMM_INDEX} ${INPUT_MESH} ${OUTPUT_MESH})
+set_property(TEST ${TEST_NAME} PROPERTY LABELS "medium")
 
 endif()

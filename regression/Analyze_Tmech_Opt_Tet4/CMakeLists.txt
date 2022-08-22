@@ -38,5 +38,6 @@ Plato_add_performer(PLATO_NEW_TEST ${ANALYZE_BINARY} ${ANALYZE_NP} ${LOCAL_COMM_
 set(INPUT_MESH tm2.exo)
 set(OUTPUT_MESH platomain.exo)
 Plato_add_test(${PLATO_NEW_TEST} ${TEST_NAME} ${NUM_PROCS} ${IO_COMM_INDEX} ${INPUT_MESH} ${OUTPUT_MESH})
+set_property(TEST ${TEST_NAME} PROPERTY LABELS "large")
 
 endif()
