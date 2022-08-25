@@ -510,6 +510,7 @@
   <Options>
     <ROLGradientCheckPerturbationScale>1</ROLGradientCheckPerturbationScale>
     <ROLGradientCheckSteps>12</ROLGradientCheckSteps>
+    <ROLGradientCheckSeed>123</ROLGradientCheckSeed>
   </Options>
 
 

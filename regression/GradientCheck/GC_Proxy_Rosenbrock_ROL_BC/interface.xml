@@ -152,6 +152,8 @@
   <Options>
     <ROLGradientCheckPerturbationScale>0.1</ROLGradientCheckPerturbationScale>
     <ROLGradientCheckSteps>13</ROLGradientCheckSteps>
+    <ROLGradientCheckSeed>123</ROLGradientCheckSeed>
+
     <OutputControlToFile>true</OutputControlToFile>
     <OutputDiagnosticsToFile>true</OutputDiagnosticsToFile>
     <KSOuterStagnationTolerance>1e-8</KSOuterStagnationTolerance>

@@ -446,6 +446,7 @@
   <Options>
     <ROLGradientCheckPerturbationScale>0.5</ROLGradientCheckPerturbationScale>
     <ROLGradientCheckSteps>12</ROLGradientCheckSteps>
+    <ROLGradientCheckSeed>123</ROLGradientCheckSeed>
   </Options>
   <Output>
     <OutputStage>Output To File</OutputStage>
