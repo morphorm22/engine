@@ -571,11 +571,6 @@
 
 <Optimizer>
   <Package>GCMMA</Package>
-<!--
-  <Package>DerivativeChecker</Package>
-  <CheckHessian>false</CheckHessian>
-  <CheckGradient>true</CheckGradient>
--->
   <Output>
     <OutputStage>Output To File</OutputStage>
   </Output>
