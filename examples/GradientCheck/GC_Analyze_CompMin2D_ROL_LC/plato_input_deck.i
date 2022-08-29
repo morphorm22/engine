@@ -82,6 +82,7 @@ begin optimization_parameters
    check_gradient true
    rol_gradient_check_perturbation_scale 0.01
    rol_gradient_check_steps 12
+   rol_gradient_check_random_seed 123
    filter_radius_scale 6
    max_iterations 20 
    output_frequency 1000 

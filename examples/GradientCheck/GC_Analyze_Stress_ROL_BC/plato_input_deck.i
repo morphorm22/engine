@@ -70,6 +70,7 @@ begin optimization_parameters
    check_gradient true
    rol_gradient_check_perturbation_scale 0.01
    rol_gradient_check_steps 12
+   rol_gradient_check_random_seed 123
    max_iterations 15
    filter_radius_absolute 0.05712
    number_buffer_layers 0

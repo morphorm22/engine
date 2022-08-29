@@ -78,8 +78,9 @@ end material
 
 begin optimization_parameters
    check_gradient true
-   rol_gradient_check_perturbation_scale 0.001
+   rol_gradient_check_perturbation_scale 0.1
    rol_gradient_check_steps 12
+   rol_gradient_check_random_seed 123
    verbose true
    filter_radius_scale 1.5
    max_iterations 1 
