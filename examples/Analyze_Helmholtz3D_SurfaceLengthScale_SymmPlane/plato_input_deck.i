@@ -90,7 +90,7 @@ begin optimization_parameters
    filter_radius_absolute 0.0693
    boundary_sticking_penalty 1.0
    symmetry_plane_location_names sym
-   max_iterations 20 
+   max_iterations 15 
    output_frequency 1000 
    optimization_algorithm oc
    discretization density 
