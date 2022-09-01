@@ -52,10 +52,6 @@ begin scenario 2
   newmark_gamma .5
   number_time_steps 5
   time_step 2e-6
-  symmetry_plane_normal 1 0 0
-  symmetry_plane_origin 0 0 0
-  mesh_map_filter_radius .15
-  filter_before_symmetry_enforcement false
 end scenario
 
 // Objective
@@ -140,6 +136,7 @@ begin optimization_parameters
    symmetry_plane_normal 1 0 0
    symmetry_plane_origin 0 0 0
    mesh_map_filter_radius .15
+   mesh_map_search_tolerance 0.5
    filter_before_symmetry_enforcement false
    filter_in_engine false
 end optimization_parameters
