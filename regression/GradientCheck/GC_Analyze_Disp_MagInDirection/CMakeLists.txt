@@ -40,7 +40,7 @@ set( INFNORM_IGNORE_ROWS 1 )
 set( INFNORM_RELATIVE_TOLERANCE 1e-1 )
 set( OUT_FILE "ROL_gradient_check_output.txt")
 set( GOLD_FILE "ROL_gradient_check_output.gold.txt")
-set( LAST_ROW 6 )
+set( LAST_ROW 5 )
 
 SET(CUSTOM_COMMAND "python ${PYTHON_FILE} ${INFNORM_IGNORE_ROWS} ${INFNORM_RELATIVE_TOLERANCE} ${OUT_FILE} ${CMAKE_CURRENT_SOURCE_DIR}/${GOLD_FILE} ${LAST_ROW}")
 
