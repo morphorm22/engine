@@ -7,7 +7,6 @@ begin service 2
   code sierra_sd
   number_processors 1
   cache_state true
-  path /home/plato/Nightly/sierra_binaries/plato_sd_main
 end service
 
 begin service 3

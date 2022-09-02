@@ -284,8 +284,6 @@
 
 <Optimizer>
   <Package>KSBC</Package>
-  <!--Package>DerivativeChecker</Package-->
-  <!--CheckGradient>true</CheckGradient-->
   <Options>
     <KSTrustRegionExpansionFactor>4</KSTrustRegionExpansionFactor>
     <KSTrustRegionContractionFactor>0.5</KSTrustRegionContractionFactor>

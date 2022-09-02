@@ -45,5 +45,6 @@ set(INPUT_MESH unsmesh.gen)
 set(OUTPUT_MESH platomain.exo)
 set(RESTART_MESH initialguess.exo)
 Plato_add_test(${PLATO_NEW_TEST} ${TEST_NAME} ${NUM_PROCS} ${IO_COMM_INDEX} ${INPUT_MESH} ${OUTPUT_MESH} ${RESTART_MESH})
+set_property(TEST ${TEST_NAME} PROPERTY LABELS "small")
 
 endif()

@@ -1,0 +1,280 @@
+mpirun --oversubscribe -np 1 -x PLATO_PERFORMER_ID=0 \
+-x PLATO_INTERFACE_FILE=interface.xml \
+-x PLATO_APP_FILE=plato_main_operations.xml \
+PlatoMain plato_main_input_deck.xml \
+: -np 1 -x PLATO_PERFORMER_ID=1 \
+-x PLATO_INTERFACE_FILE=interface.xml \
+-x PLATO_APP_FILE=plato_main_operations.xml \
+PlatoEngineServices plato_main_input_deck.xml \
+: -np 1 -x PLATO_PERFORMER_ID=2 \
+-x PLATO_INTERFACE_FILE=interface.xml \
+-x PLATO_APP_FILE=plato_main_operations.xml \
+PlatoEngineServices plato_main_input_deck.xml \
+: -np 1 -x PLATO_PERFORMER_ID=3 \
+-x PLATO_INTERFACE_FILE=interface.xml \
+-x PLATO_APP_FILE=plato_main_operations.xml \
+PlatoEngineServices plato_main_input_deck.xml \
+<?xml version="1.0"?>
+<Array name="Parameters" type="int" from="0" to="2" />
+<Array name="Performers" type="int" from="0" to="2" />
+<?xml version="1.0"?>
+<Operation>
+  <Function>SystemCall</Function>
+  <Name>aprepro_0</Name>
+  <Command>aprepro</Command>
+  <ChDir>evaluations_0</ChDir>
+  <OnChange>true</OnChange>
+  <Argument>-q</Argument>
+  <Argument>gemma_matched_power_balance_input_deck.yaml.template</Argument>
+  <Argument>gemma_matched_power_balance_input_deck.yaml</Argument>
+  <AppendInput>true</AppendInput>
+  <Option>slot_length=</Option>
+  <Option>slot_width=</Option>
+  <Option>slot_depth=</Option>
+  <Input>
+    <ArgumentName>parameters</ArgumentName>
+    <Layout>scalar</Layout>
+    <Size>3</Size>
+  </Input>
+</Operation>
+<Operation>
+  <Function>SystemCall</Function>
+  <Name>aprepro_1</Name>
+  <Command>aprepro</Command>
+  <ChDir>evaluations_1</ChDir>
+  <OnChange>true</OnChange>
+  <Argument>-q</Argument>
+  <Argument>gemma_matched_power_balance_input_deck.yaml.template</Argument>
+  <Argument>gemma_matched_power_balance_input_deck.yaml</Argument>
+  <AppendInput>true</AppendInput>
+  <Option>slot_length=</Option>
+  <Option>slot_width=</Option>
+  <Option>slot_depth=</Option>
+  <Input>
+    <ArgumentName>parameters</ArgumentName>
+    <Layout>scalar</Layout>
+    <Size>3</Size>
+  </Input>
+</Operation>
+<Operation>
+  <Function>SystemCall</Function>
+  <Name>aprepro_2</Name>
+  <Command>aprepro</Command>
+  <ChDir>evaluations_2</ChDir>
+  <OnChange>true</OnChange>
+  <Argument>-q</Argument>
+  <Argument>gemma_matched_power_balance_input_deck.yaml.template</Argument>
+  <Argument>gemma_matched_power_balance_input_deck.yaml</Argument>
+  <AppendInput>true</AppendInput>
+  <Option>slot_length=</Option>
+  <Option>slot_width=</Option>
+  <Option>slot_depth=</Option>
+  <Input>
+    <ArgumentName>parameters</ArgumentName>
+    <Layout>scalar</Layout>
+    <Size>3</Size>
+  </Input>
+</Operation>
+<Operation>
+  <Function>SystemCallMPI</Function>
+  <Name>gemma_0</Name>
+  <Command>/projects/gemma_user/develop/RedHat-Generic-NoGPU/bin/gemma</Command>
+  <ChDir>evaluations_0</ChDir>
+  <OnChange>true</OnChange>
+  <NumRanks>1</NumRanks>
+  <Argument>gemma_matched_power_balance_input_deck.yaml</Argument>
+  <AppendInput>false</AppendInput>
+</Operation>
+<Operation>
+  <Function>SystemCallMPI</Function>
+  <Name>gemma_1</Name>
+  <Command>/projects/gemma_user/develop/RedHat-Generic-NoGPU/bin/gemma</Command>
+  <ChDir>evaluations_1</ChDir>
+  <OnChange>true</OnChange>
+  <NumRanks>1</NumRanks>
+  <Argument>gemma_matched_power_balance_input_deck.yaml</Argument>
+  <AppendInput>false</AppendInput>
+</Operation>
+<Operation>
+  <Function>SystemCallMPI</Function>
+  <Name>gemma_2</Name>
+  <Command>/projects/gemma_user/develop/RedHat-Generic-NoGPU/bin/gemma</Command>
+  <ChDir>evaluations_2</ChDir>
+  <OnChange>true</OnChange>
+  <NumRanks>1</NumRanks>
+  <Argument>gemma_matched_power_balance_input_deck.yaml</Argument>
+  <AppendInput>false</AppendInput>
+</Operation>
+<Operation>
+  <Function>SystemCall</Function>
+  <Name>wait_0</Name>
+  <Command>while lsof -u `id -u -n` | grep ./gemma_matched_power_balance_input_deck_power_balance.dat; do sleep 1; done</Command>
+  <ChDir>evaluations_0</ChDir>
+  <OnChange>false</OnChange>
+</Operation>
+<Operation>
+  <Function>SystemCall</Function>
+  <Name>wait_1</Name>
+  <Command>while lsof -u `id -u -n` | grep ./gemma_matched_power_balance_input_deck_power_balance.dat; do sleep 1; done</Command>
+  <ChDir>evaluations_1</ChDir>
+  <OnChange>false</OnChange>
+</Operation>
+<Operation>
+  <Function>SystemCall</Function>
+  <Name>wait_2</Name>
+  <Command>while lsof -u `id -u -n` | grep ./gemma_matched_power_balance_input_deck_power_balance.dat; do sleep 1; done</Command>
+  <ChDir>evaluations_2</ChDir>
+  <OnChange>false</OnChange>
+</Operation>
+<Operation>
+  <Function>HarvestDataFromFile</Function>
+  <Name>harvest_data_0</Name>
+  <File>./evaluations_0/gemma_matched_power_balance_input_deck_power_balance.dat</File>
+  <Operation>max</Operation>
+  <Column>1</Column>
+  <Output>
+    <ArgumentName>criterion value</ArgumentName>
+    <Layout>scalar</Layout>
+    <Size>1</Size>
+  </Output>
+</Operation>
+<Operation>
+  <Function>HarvestDataFromFile</Function>
+  <Name>harvest_data_1</Name>
+  <File>./evaluations_1/gemma_matched_power_balance_input_deck_power_balance.dat</File>
+  <Operation>max</Operation>
+  <Column>1</Column>
+  <Output>
+    <ArgumentName>criterion value</ArgumentName>
+    <Layout>scalar</Layout>
+    <Size>1</Size>
+  </Output>
+</Operation>
+<Operation>
+  <Function>HarvestDataFromFile</Function>
+  <Name>harvest_data_2</Name>
+  <File>./evaluations_2/gemma_matched_power_balance_input_deck_power_balance.dat</File>
+  <Operation>max</Operation>
+  <Column>1</Column>
+  <Output>
+    <ArgumentName>criterion value</ArgumentName>
+    <Layout>scalar</Layout>
+    <Size>1</Size>
+  </Output>
+</Operation>
+<?xml version="1.0"?>
+<include filename="defines.xml" />
+<Console>
+  <Enabled>false</Enabled>
+  <Verbose>true</Verbose>
+</Console>
+<Performer>
+  <PerformerID>0</PerformerID>
+  <Name>platomain_1</Name>
+  <Code>platomain</Code>
+</Performer>
+<For var="E" in="Performers">
+  <Performer>
+    <PerformerID>{E+1}</PerformerID>
+    <Name>plato_services_{E}</Name>
+    <Code>plato_services</Code>
+  </Performer>
+</For>
+<For var="E" in="Parameters">
+  <SharedData>
+    <Name>design_parameters_{E}</Name>
+    <Type>Scalar</Type>
+    <Layout>Global</Layout>
+    <Size>3</Size>
+    <OwnerName>platomain_1</OwnerName>
+    <UserName>platomain_1</UserName>
+    <UserName>plato_services_{E}</UserName>
+  </SharedData>
+</For>
+<For var="E" in="Parameters">
+  <SharedData>
+    <Name>criterion_X_service_X_scenario_X_{E}</Name>
+    <Type>Scalar</Type>
+    <Layout>Global</Layout>
+    <Size>1</Size>
+    <OwnerName>plato_services_{E}</OwnerName>
+    <UserName>platomain_1</UserName>
+  </SharedData>
+</For>
+<Stage>
+  <Name>Initialize Input</Name>
+  <For var="E" in="Parameters">
+    <Input>
+      <SharedDataName>design_parameters_{E}</SharedDataName>
+    </Input>
+  </For>
+  <Operation>
+    <For var="E" in="Parameters">
+      <Operation>
+        <Name>aprepro_{E}</Name>
+        <PerformerName>plato_services_{E}</PerformerName>
+        <Input>
+          <ArgumentName>parameters</ArgumentName>
+          <SharedDataName>design_parameters_{E}</SharedDataName>
+        </Input>
+      </Operation>
+    </For>
+  </Operation>
+</Stage>
+<Stage>
+  <Name>Compute Criterion 0 Value</Name>
+  <Operation>
+    <For var="E" in="Parameters">
+      <Operation>
+        <Name>gemma_{E}</Name>
+        <PerformerName>plato_services_{E}</PerformerName>
+      </Operation>
+    </For>
+  </Operation>
+  <Operation>
+    <For var="E" in="Parameters">
+      <Operation>
+        <Name>wait_{E}</Name>
+        <PerformerName>plato_services_{E}</PerformerName>
+      </Operation>
+    </For>
+  </Operation>
+  <Operation>
+    <For var="E" in="Parameters">
+      <Operation>
+        <Name>harvest_data_{E}</Name>
+        <PerformerName>plato_services_{E}</PerformerName>
+        <Output>
+          <ArgumentName>criterion value</ArgumentName>
+          <SharedDataName>criterion_X_service_X_scenario_X_{E}</SharedDataName>
+        </Output>
+      </Operation>
+    </For>
+  </Operation>
+  <For var="E" in="Parameters">
+    <Output>
+      <SharedDataName>criterion_X_service_X_scenario_X_{E}</SharedDataName>
+    </Output>
+  </For>
+</Stage>
+<DakotaDriver>
+  <Stage>
+    <StageTag>initialize</StageTag>
+    <StageName>Initialize Input</StageName>
+    <For var="E" in="Parameters">
+      <Input>
+        <Tag>continuous</Tag>
+        <SharedDataName>design_parameters_{E}</SharedDataName>
+      </Input>
+    </For>
+  </Stage>
+  <Stage>
+    <StageTag>criterion_value_0</StageTag>
+    <StageName>Compute Criterion 0 Value</StageName>
+    <For var="E" in="Parameters">
+      <Output>
+        <SharedDataName>criterion_X_service_X_scenario_X_{E}</SharedDataName>
+      </Output>
+    </For>
+  </Stage>
+</DakotaDriver>

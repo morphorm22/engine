@@ -64,5 +64,7 @@
   <AppendInput>true</AppendInput>
   <Input>
     <ArgumentName>Parameters</ArgumentName>
+    <Layout>Scalar</Layout>
+    <Size>5</Size>
   </Input>
 </Operation>

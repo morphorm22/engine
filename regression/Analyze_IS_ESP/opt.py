@@ -136,41 +136,45 @@ def dfdx(x, grad):
 xinit = [1.0, 1.0, 1.0, 0.25]
 gradP = [0.0 for i in range(len(xinit))]
 
-val = dfdx(xinit, gradP)
-dvdx = array(gradP)
+f_x = dfdx(xinit, gradP) # f(x)
+g_x = array(gradP) # f'(x)
 x = array(xinit)
 
-print( "objective is: ", val)
-print( "objective gradient is: ", gradP)
+print( "objective is: ", f_x)
+print( "objective gradient is: ", g_x)
 
-stepSize = 0.0001
-numSteps = 1
+#gnorm = linalg.norm(dvdx,2)
 
-vals = []
+h = 0.0001
 
-for iStep in range(numSteps):
-  gnorm = linalg.norm(dvdx,2)
-  dx = stepSize/gnorm*dvdx
-  x = x + dx
-  dv = dot(dvdx,dx)
-  predictedVal = val + dv
-  val = dfdx(x.tolist(), gradP)
-  dvdx = array(gradP)
-  print( "x: ", x.tolist())
-  print( "gradP: ", gradP)
-  vals.append([(iStep+1)*stepSize, val, predictedVal])
+d = array([0.5, -0.5, 0.5, -0.5]) # a given direction with unit norm
+#d = array([1, 0, 0, 0]) # another direction
+x_plus = x + h*d
 
-print( vals)
+# f(x+h*d) = f(x) + f'(x)*h*d + o(h)
+
+# f(x+h*d)
+f_x_plus_dx = dfdx(x_plus.tolist(), gradP)
+
+# (f(x+h*d)-f(x))/h
+fd_approx = (f_x_plus_dx - f_x)/h
+
+# f'(x)*d
+derivative = dot(g_x,d)
+
+newton_quotient = fd_approx - derivative
+
+print( "step size is: ", h)
+print( "perturbed objective is: ", f_x_plus_dx)
+print( "finite-difference approximation: ", fd_approx)
+print( "derivative: ", derivative)
+print( "Newton quotient: ", newton_quotient)
 
 # finalize mpi and kokkos.  Not essential, but you'll get warnings otherwise.
 analyze.finalize()
 engine.finalize()
 
-diff = vals[0][1] - vals[0][2]
-tsum = vals[0][1] + vals[0][2]
-error = math.fabs(diff/tsum)
-print( "error: ", error)
-if error > 1.0e-3:
+if math.fabs(newton_quotient) > 1.0e-3:
   print( "failed")
   sys.exit(1)
 else:
