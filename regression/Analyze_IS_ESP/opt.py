@@ -132,11 +132,35 @@ def dfdx(x, grad):
   
     return value
 
+def gradient_exception_exit_code(err):
+  if "HATCHING_GRADIENT" in str(err):
+    print("passed")
+    return 0
+  else:
+    print("Expected HATCHING_GRADIENT in error message")
+    print("failed")
+    return 1
+
+def dfdx_with_gradient_exception_check(xinit, gradP, hatching_gradient_enabled):
+  if hatching_gradient_enabled:
+    return dfdx(xinit, gradP) # f(x)
+  else:
+    try:
+      dfdx(xinit, gradP)
+    except RuntimeError as err:
+      print(f"Caught expected exception: {err}")
+      sys.exit(gradient_exception_exit_code(err))
+    else:
+      print("This test is expecting hatching gradients to be disabled, which is detected via an exception.")
+      print("An exception is thrown if HATCHING_GRADIENT is disabled in the platoanalyze build, but was not caught.")
+      print("If hatching gradients have been fixed, this check can be removed.")
+      print("failed")
+      sys.exit(1)
 
 xinit = [1.0, 1.0, 1.0, 0.25]
 gradP = [0.0 for i in range(len(xinit))]
+f_x = dfdx_with_gradient_exception_check(xinit, gradP, hatching_gradient_enabled=False)
 
-f_x = dfdx(xinit, gradP) # f(x)
 g_x = array(gradP) # f'(x)
 x = array(xinit)
 
