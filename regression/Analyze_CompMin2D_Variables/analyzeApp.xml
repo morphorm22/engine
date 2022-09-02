@@ -100,10 +100,10 @@
   <Function>WriteOutput</Function>
   <Name>Write Output</Name>
   <Output>
-    <ArgumentName>displacement X</ArgumentName>
+    <ArgumentName>Solution X</ArgumentName>
   </Output>
   <Output>
-    <ArgumentName>displacement Y</ArgumentName>
+    <ArgumentName>Solution Y</ArgumentName>
   </Output>
   <Output>
     <ArgumentName>Objective Gradient</ArgumentName>
