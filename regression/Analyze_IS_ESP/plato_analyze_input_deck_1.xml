@@ -9,7 +9,7 @@
 
   <ParameterList name="Plato Problem">
     <Parameter name="Physics"         type="string"  value="Mechanical"/>
-    <Parameter name="PDE Constraint"  type="string"  value="Updated Lagrangian Elliptic"/>
+    <Parameter name="PDE Constraint"  type="string"  value="Elliptic Hatching"/>
 
     <ParameterList name="Criteria">
       <ParameterList name="Volume">
