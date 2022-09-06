@@ -93,6 +93,7 @@ IF( ANALYZE )
   add_subdirectory(Analyze_HeatEq3D_Norm)
   add_subdirectory(Analyze_ProcessAware_Elastic)
   add_subdirectory(Analyze_Tmech_Opt_Tet4)
+  add_subdirectory(Analyze_Tmech_Opt_Expr_Tet4)
   #  add_subdirectory(Analyze_TransMech_Opt)
   ## until Tacho is available in PA
   # add_subdirectory(Analyze_Tmech_Opt_Tet10)
