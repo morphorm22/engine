@@ -199,10 +199,10 @@ TEST(PlatoTestXMLGenerator, InsertSymmetryFilterInputs)
 {
     XMLGen::MetaDataTags tTags;
     XMLGen::insert_plato_symmetry_filter_input_options(tTags);
-    EXPECT_EQ(4u, tTags.size());
+    EXPECT_EQ(5u, tTags.size());
 
     std::unordered_map<std::string, std::string> tGoldValues = { {"symmetry_plane_normal",""}, {"symmetry_plane_origin",""}, 
-        {"mesh_map_filter_radius", ""}, {"filter_before_symmetry_enforcement", ""} };
+        {"mesh_map_filter_radius", ""}, {"filter_before_symmetry_enforcement", ""}, {"mesh_map_search_tolerance", ""} };
     for(auto& tPair : tTags)
     {
         // TEST INPUT KEYWORDS
@@ -288,26 +288,6 @@ TEST(PlatoTestXMLGenerator, InsertOptimalityCriteriaInputs)
 
     std::unordered_map<std::string, std::string> tGoldValues = { {"oc_gradient_tolerance","1e-8"}, 
         {"oc_control_stagnation_tolerance", "1e-2"}, {"oc_objective_stagnation_tolerance", "1e-5"} };
-    for(auto& tPair : tTags)
-    {
-        // TEST INPUT KEYWORDS
-        auto tGoldItr = tGoldValues.find(tPair.first);
-        ASSERT_FALSE(tGoldItr == tGoldValues.end());
-        EXPECT_STREQ(tPair.first.c_str(), tGoldItr->first.c_str());
-
-        // TEST DEFAULT VALUES
-        EXPECT_STREQ(tPair.second.second.c_str(), tGoldItr->second.c_str());
-    }
-}
-
-TEST(PlatoTestXMLGenerator, InsertDerivativeCheckerInputs)
-{
-    XMLGen::MetaDataTags tTags;
-    XMLGen::insert_derivative_checker_input_options(tTags);
-    EXPECT_EQ(4u, tTags.size());
-
-    std::unordered_map<std::string, std::string> tGoldValues = { {"check_hessian","false"}, {"check_gradient","false"}, 
-        {"derivative_checker_final_superscript", "8"}, {"derivative_checker_initial_superscript", "1"} };
     for(auto& tPair : tTags)
     {
         // TEST INPUT KEYWORDS

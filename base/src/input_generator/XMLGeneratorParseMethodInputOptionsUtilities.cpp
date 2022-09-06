@@ -80,8 +80,6 @@ void insert_derivative_checker_input_options(XMLGen::MetaDataTags &aTags)
 {
     aTags.insert({ "check_hessian", { { {"check_hessian"}, ""}, "false" } });
     aTags.insert({ "check_gradient", { { {"check_gradient"}, ""}, "false" } });
-    aTags.insert({ "derivative_checker_final_superscript", { { {"derivative_checker_final_superscript"}, ""}, "8" } });
-    aTags.insert({ "derivative_checker_initial_superscript", { { {"derivative_checker_initial_superscript"}, ""}, "1" } });
 }
 // function insert_derivative_checker_input_options
 /******************************************************************************/
@@ -215,6 +213,7 @@ void insert_plato_symmetry_filter_input_options(XMLGen::MetaDataTags &aTags)
     aTags.insert({ "symmetry_plane_normal", { { {"symmetry_plane_normal"}, ""}, "" } });
     aTags.insert({ "symmetry_plane_origin", { { {"symmetry_plane_origin"}, ""}, "" } });
     aTags.insert({ "mesh_map_filter_radius", { { {"mesh_map_filter_radius"}, ""}, "" } });
+    aTags.insert({ "mesh_map_search_tolerance", { { {"mesh_map_search_tolerance"}, ""}, "" } });
     aTags.insert({ "filter_before_symmetry_enforcement", { { {"filter_before_symmetry_enforcement"}, ""}, "" } });
 }
 // function insert_plato_symmetry_filter_input_options

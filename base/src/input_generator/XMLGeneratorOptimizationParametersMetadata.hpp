@@ -233,6 +233,13 @@ public:
     void set(const std::string& aTag, const std::vector<std::string>& aList, const bool& aIsDefault=false);
 
     /******************************************************************************//**
+     * \fn filter_before_symmetry_enforcement 
+     * \brief Return string value for keyword 'filter_before_symmetry_enforcement'.
+     * \return value
+    **********************************************************************************/
+    std::string filter_before_symmetry_enforcement() const;
+
+    /******************************************************************************//**
      * \fn mesh_map_filter_radius 
      * \brief Return string value for keyword 'mesh_map_filter_radius'.
      * \return value
@@ -240,11 +247,11 @@ public:
     std::string mesh_map_filter_radius() const;
 
     /******************************************************************************//**
-     * \fn filter_before_symmetry_enforcement 
-     * \brief Return string value for keyword 'filter_before_symmetry_enforcement'.
+     * \fn mesh_map_search_tolerance 
+     * \brief Return string value for keyword 'mesh_map_search_tolerance'.
      * \return value
     **********************************************************************************/
-    std::string filter_before_symmetry_enforcement() const;
+    std::string mesh_map_search_tolerance() const;
 
     /******************************************************************************//**
      * \fn descriptors
@@ -402,8 +409,6 @@ public:
     std::string optimization_type() const {return value("optimization_type");}
     std::string check_gradient() const {return value("check_gradient");}
     std::string check_hessian() const {return value("check_hessian");}
-    std::string derivative_checker_initial_superscript() const {return value("derivative_checker_initial_superscript");}
-    std::string derivative_checker_final_superscript() const {return value("derivative_checker_final_superscript");}
     std::string max_iterations() const {return value("max_iterations");}
     std::string filter_in_engine() const {return value("filter_in_engine");}
     void filter_in_engine(const std::string& aValue) { append("filter_in_engine", aValue, true); }
