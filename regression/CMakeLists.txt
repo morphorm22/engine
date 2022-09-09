@@ -99,6 +99,7 @@ IF( ANALYZE )
   # add_subdirectory(Analyze_Tmech_Opt_Tet10)
   # add_subdirectory(Analyze_Tmech_Opt_Hex8)
   # add_subdirectory(Analyze_Tmech_Opt_Hex27)
+  add_subdirectory(Analyze_TransientTM_FDcheck)
   add_subdirectory(Analyze_2Phys_Sym)
   ## until PA fluids is re-enabled
   # add_subdirectory(Analyze_NaturalConvectionGr1e3)
