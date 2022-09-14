@@ -1,11 +1,11 @@
 # aria_test3.csm written by ocsmSave (v1.20)
 
 # Constant, Design, and Output Parameters:
-despmtr   width       1 lbound .1 ubound 1.75 initial 1
-despmtr   height       1 lbound .1 ubound 4.5 initial 1
+despmtr   width       1.7 lbound .1 ubound 1.75 initial 1.7
+despmtr   height      4 lbound .1 ubound 4.5 initial 4
 
 # Global Attributes:
-set MeshLength 1
+set MeshLength 0.1
 
 # Branches:
 box       -5   -2.5   -.5   2   5   1
