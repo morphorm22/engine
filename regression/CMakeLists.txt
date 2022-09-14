@@ -1,5 +1,3 @@
-Plato_find_exe(NUMDIFF_COMMAND numdiff ${NUMDIFF_PATH}/bin)
-
 if(ALBANY)
   if(NOT DEFINED ALBANY_BINARY)
     if(NOT DEFINED ALBANY_PATH)
