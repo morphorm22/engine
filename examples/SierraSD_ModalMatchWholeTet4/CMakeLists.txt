@@ -21,7 +21,7 @@ set( SD_NP 1 )
 set( NUM_PROCS "${PLATOMAIN_NP} ${SD_NP}" )
 
 # set mesh for epu at end
-set(OUTPUT_MESH "Iteration37.exo")
+set(OUTPUT_MESH "Iteration17.exo")
 set(XMLGEN_COMMAND "../../base/src/input_generator/XMLGenerator plato_input_deck.i")
 
 set( SKIP_EXODIFF 0 )
