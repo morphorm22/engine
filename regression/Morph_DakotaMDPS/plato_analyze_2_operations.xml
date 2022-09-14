@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<Operation>
+  <Name>reinitialize_on_change_plato_analyze_2</Name>
+  <Function>Reinitialize</Function>
+  <OnChange>true</OnChange>
+  <Input>
+    <ArgumentName>Parameters</ArgumentName>
+  </Input>
+</Operation>
+<Operation>
+  <Function>ComputeCriterionValue</Function>
+  <Name>Compute Criterion Value - criterion_1_service_2_scenario_1</Name>
+  <Criterion>my_mechanical_compliance_criterion_id_1</Criterion>
+  <Output>
+    <Argument>Value</Argument>
+    <ArgumentName>criterion_1_service_2_scenario_1 value</ArgumentName>
+  </Output>
+</Operation>
