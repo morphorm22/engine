@@ -1,3 +1,5 @@
+Plato_find_exe(NUMDIFF_COMMAND numdiff ${NUMDIFF_PATH}/bin)
+
 if(ALBANY)
   if(NOT DEFINED ALBANY_BINARY)
     if(NOT DEFINED ALBANY_PATH)
@@ -74,7 +76,6 @@ IF( ANALYZE )
 #     add_subdirectory(GradientCheck/GC_Analyze_ESP_Stress_ROL_BC)
 	endif()
     IF( ENABLE_PLATO_SERVICES AND DAKOTADRIVER )
-        Plato_find_exe(NUMDIFF_COMMAND numdiff ${NUMDIFF_PATH}/bin)
         add_subdirectory(Dakota_MDPS)
         add_subdirectory(Dakota_MDPS_PE_Vol)
         add_subdirectory(Dakota_SBGO)

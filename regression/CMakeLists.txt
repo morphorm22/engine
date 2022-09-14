@@ -1,3 +1,5 @@
+Plato_find_exe(NUMDIFF_COMMAND numdiff ${NUMDIFF_PATH}/bin)
+
 if(ALBANY)
   if(NOT DEFINED ALBANY_BINARY)
     if(NOT DEFINED ALBANY_PATH)
@@ -133,7 +135,6 @@ IF( ANALYZE )
       add_subdirectory(Analyze_ShapeTopo)
     ENDIF()
     IF( ENABLE_PLATO_SERVICES AND DAKOTADRIVER )
-        Plato_find_exe(NUMDIFF_COMMAND numdiff ${NUMDIFF_PATH}/bin)
         add_subdirectory(XMLOutput/Dakota_MDPS)
         add_subdirectory(XMLOutput/Dakota_MDPS_Gemma)
     ENDIF()
