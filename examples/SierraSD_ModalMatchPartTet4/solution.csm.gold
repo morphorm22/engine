@@ -1,0 +1,68 @@
+# ejoin2.csm written by ocsmSave (v1.17)
+
+# Constant, Design, and Output Parameters:
+despmtr length 17.5147461194545 lbound 15 ubound 25 initial 20.0
+
+# Global Attributes:
+
+# Branches:
+skbeg     0   0   0   1
+   skvar     xy   0.000000;0.000000;0.000000;5.000000;0.000000;0.000000;5.000000;1.500000;0.000000;0.000000;1.500000;0.000000;
+   skcon     X   1   -1  0
+   skcon     Y   1   -1  0
+   skcon     H   1   2  0
+   skcon     V   2   3  0
+   skcon     H   3   4  0
+   skcon     V   4   1  0
+   skcon     L   1   2  length
+   skcon     L   2   3  1
+   linseg    ::x[2]   ::y[2]   0
+   linseg    ::x[3]   ::y[3]   0
+   linseg    ::x[4]   ::y[4]   0
+   linseg    ::x[1]   ::y[1]   0
+skend     0
+extrude   0   0   1
+box       2   1   0   4   1   1
+subtract  none   1   0
+box       8   1   0   2   1   1
+subtract  none   1   0
+box       12   1   0   2   1   1
+subtract  none   1   0
+
+set MeshLength 1
+
+select    body   13
+select    face   12   3   1
+attribute capsGroup   $measure_nodeset
+select    body   13
+select    face   10   3   1
+attribute capsGroup   $measure_nodeset
+select    body   13
+select    face   8   3   1
+attribute capsGroup   $measure_nodeset
+select    body   13
+select    face   7   4   1
+attribute capsGroup   $shape_sideset
+
+select body
+attribute capsAIM $aflr4AIM;aflr3AIM
+attribute capsGroup $solid_group
+attribute capsMeshLength 1
+
+select face
+attribute capsGroup $solid_group
+attribute capsMeshLength 1
+
+select    body   13
+select    face   12   3   1
+attribute capsGroup   $measure_nodeset
+select    body   13
+select    face   10   3   1
+attribute capsGroup   $measure_nodeset
+select    body   13
+select    face   8   3   1
+attribute capsGroup   $measure_nodeset
+select    body   13
+select    face   7   4   1
+attribute capsGroup   $shape_sideset
+end
