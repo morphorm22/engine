@@ -103,6 +103,10 @@ opt.set_upper_bounds([0.9, 6.0])
 opt.set_xtol_rel(1e-6)
 opt.set_maxeval(10)
 
+opt.set_maxeval(-1)
+opt.set_ftol_rel(1e-5)
+opt.set_xtol_rel(1e-5)
+
 print( "xinit", xinit)
 xopt = opt.optimize(xinit)
 minf = opt.last_optimum_value()
