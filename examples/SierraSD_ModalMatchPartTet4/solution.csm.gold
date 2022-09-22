@@ -1,7 +1,7 @@
 # ejoin2.csm written by ocsmSave (v1.17)
 
 # Constant, Design, and Output Parameters:
-despmtr length 17.5147461194545 lbound 15 ubound 25 initial 20.0
+despmtr length 17.514746 lbound 15 ubound 25 initial 20.0
 
 # Global Attributes:
 

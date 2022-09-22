@@ -1,7 +1,7 @@
 # aria1.csm written by ocsmSave (v1.20)
 
 # Constant, Design, and Output Parameters:
-despmtr length 5.000080868084734 lbound 4.7 ubound 10 initial 6
+despmtr length 4.9996432 lbound 4.7 ubound 10 initial 6
 
 # Global Attributes:
 set MeshLength .5

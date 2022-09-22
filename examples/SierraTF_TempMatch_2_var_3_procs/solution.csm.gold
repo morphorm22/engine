@@ -2,7 +2,7 @@
 
 # Constant, Design, and Output Parameters:
 despmtr width 1.75 lbound .1 ubound 1.75 initial 1.7
-despmtr height 3.16811401660405 lbound .1 ubound 4.5 initial 4
+despmtr height 3.1522491 lbound .1 ubound 4.5 initial 4
 
 # Global Attributes:
 set MeshLength 0.1
