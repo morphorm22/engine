@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <include filename="defines.xml" />
 <Console>
-  <Enabled>true</Enabled>
+  <Enabled>false</Enabled>
   <Verbose>false</Verbose>
 </Console>
 <Performer>
