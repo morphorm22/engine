@@ -34,7 +34,7 @@
 <Operation>
   <Function>SystemCall</Function>
   <Name>wait_0</Name>
-  <Command>while ps -u $USER | grep morph_mesher; do sleep 1; done</Command>
+  <Command>while ps -u `whoami` | grep morph_mesher; do sleep 1; done</Command>
   <OnChange>false</OnChange>
 </Operation>
 <Operation>
@@ -72,7 +72,7 @@
 <Operation>
   <Function>SystemCall</Function>
   <Name>wait_1</Name>
-  <Command>while ps -u $USER | grep morph_mesher; do sleep 1; done</Command>
+  <Command>while ps -u `whoami` | grep morph_mesher; do sleep 1; done</Command>
   <OnChange>false</OnChange>
 </Operation>
 <Operation>
@@ -110,7 +110,7 @@
 <Operation>
   <Function>SystemCall</Function>
   <Name>wait_2</Name>
-  <Command>while ps -u $USER | grep morph_mesher; do sleep 1; done</Command>
+  <Command>while ps -u `whoami` | grep morph_mesher; do sleep 1; done</Command>
   <OnChange>false</OnChange>
 </Operation>
 <Operation>
