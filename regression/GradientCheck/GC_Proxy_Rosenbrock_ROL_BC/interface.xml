@@ -70,7 +70,7 @@
 
   <Operation>
     <PerformerName>Proxy</PerformerName>
-    <Name>CriterionObjective</Name>
+    <Name>CriterionValue</Name>
     <Input>
       <ArgumentName>Controls</ArgumentName>
       <SharedDataName>Control</SharedDataName>
