@@ -42,11 +42,10 @@ set( OUT_FILE "ROL_gradient_check_output.txt")
 set( GOLD_FILE "ROL_gradient_check_output.gold.txt")
 set( LAST_ROW 6 )
 
-#SET(CUSTOM_COMMAND "python ${PYTHON_FILE} ${INFNORM_IGNORE_ROWS} ${INFNORM_RELATIVE_TOLERANCE} ${OUT_FILE} ${CMAKE_CURRENT_SOURCE_DIR}/${GOLD_FILE} ${LAST_ROW}")
+SET(CUSTOM_COMMAND "python ${PYTHON_FILE} ${INFNORM_IGNORE_ROWS} ${INFNORM_RELATIVE_TOLERANCE} ${OUT_FILE} ${CMAKE_CURRENT_SOURCE_DIR}/${GOLD_FILE} ${LAST_ROW}")
 
 # Add the test
-#Plato_add_custom_command_test(${PLATO_NEW_TEST} ${TEST_NAME} ${NUM_PROCS} ${IO_COMM_INDEX} ${CUSTOM_COMMAND})
-Plato_add_expect_fail_test(${PLATO_NEW_TEST} ${TEST_NAME} ${NUM_PROCS} ${IO_COMM_INDEX} "Transient thermomechanics is not currently supported." "Alexa_1")
+Plato_add_custom_command_test(${PLATO_NEW_TEST} ${TEST_NAME} ${NUM_PROCS} ${IO_COMM_INDEX} ${CUSTOM_COMMAND})
 set_property(TEST ${TEST_NAME} PROPERTY LABELS "small")
 
 endif()
