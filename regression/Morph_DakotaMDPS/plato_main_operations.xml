@@ -21,7 +21,7 @@
   <Name>mesh_geometry_on_change_0</Name>
   <OnChange>true</OnChange>
   <Command>morph_mesher</Command>
-  <NumRanks>1</NumRanks>
+  <NumRanks>4</NumRanks>
   <ChDir>evaluations_0</ChDir>
   <Argument>--geom</Argument>
   <Argument>rocker_0.step</Argument>
@@ -35,6 +35,12 @@
   <Function>SystemCall</Function>
   <Name>wait_0</Name>
   <Command>while ps -u `whoami` | grep morph_mesher; do sleep 1; done</Command>
+  <OnChange>false</OnChange>
+</Operation>
+<Operation>
+  <Function>SystemCall</Function>
+  <Name>join_meshed_geometry_0</Name>
+  <Command>cd evaluations_0; epu -auto rocker_0.exo.4.0</Command>
   <OnChange>false</OnChange>
 </Operation>
 <Operation>
@@ -59,7 +65,7 @@
   <Name>mesh_geometry_on_change_1</Name>
   <OnChange>true</OnChange>
   <Command>morph_mesher</Command>
-  <NumRanks>1</NumRanks>
+  <NumRanks>4</NumRanks>
   <ChDir>evaluations_1</ChDir>
   <Argument>--geom</Argument>
   <Argument>rocker_1.step</Argument>
@@ -73,6 +79,12 @@
   <Function>SystemCall</Function>
   <Name>wait_1</Name>
   <Command>while ps -u `whoami` | grep morph_mesher; do sleep 1; done</Command>
+  <OnChange>false</OnChange>
+</Operation>
+<Operation>
+  <Function>SystemCall</Function>
+  <Name>join_meshed_geometry_1</Name>
+  <Command>cd evaluations_1; epu -auto rocker_1.exo.4.0</Command>
   <OnChange>false</OnChange>
 </Operation>
 <Operation>
@@ -97,7 +109,7 @@
   <Name>mesh_geometry_on_change_2</Name>
   <OnChange>true</OnChange>
   <Command>morph_mesher</Command>
-  <NumRanks>1</NumRanks>
+  <NumRanks>4</NumRanks>
   <ChDir>evaluations_2</ChDir>
   <Argument>--geom</Argument>
   <Argument>rocker_2.step</Argument>
@@ -111,6 +123,12 @@
   <Function>SystemCall</Function>
   <Name>wait_2</Name>
   <Command>while ps -u `whoami` | grep morph_mesher; do sleep 1; done</Command>
+  <OnChange>false</OnChange>
+</Operation>
+<Operation>
+  <Function>SystemCall</Function>
+  <Name>join_meshed_geometry_2</Name>
+  <Command>cd evaluations_2; epu -auto rocker_2.exo.4.0</Command>
   <OnChange>false</OnChange>
 </Operation>
 <Operation>

@@ -102,6 +102,14 @@
   <Operation>
     <For var="I" in="Parameters">
       <Operation>
+        <Name>join_meshed_geometry_{I}</Name>
+        <PerformerName>plato_services_{I}</PerformerName>
+      </Operation>
+    </For>
+  </Operation>
+  <Operation>
+    <For var="I" in="Parameters">
+      <Operation>
         <Name>reinitialize_on_change_plato_services</Name>
         <PerformerName>plato_services_{I}</PerformerName>
         <Input>
