@@ -126,6 +126,11 @@
          <Parameter  name="Sides"    type="string" value="base_fix"/>
        </ParameterList>
      </ParameterList>
+
+     <ParameterList name="Linear Solver">
+       <Parameter name="Relative Diagonal Offset" type="double" value="1.0e-8"/>
+     </ParameterList>
+
   </ParameterList>
 </ParameterList>
 
