@@ -5,7 +5,7 @@ end service
 
 begin service 2
   code sierra_tf
-  number_processors 1
+  number_processors 3
 end service
 
 begin service 3
