@@ -135,8 +135,7 @@ $---------------------------------------------------
 $---------------------------------------------------
 $           Specify initial conditions
 $---------------------------------------------------
-         IC for Temperature on all_blocks = Optimization value = 300
-         #IC for Temperature on all_blocks = constant value = 300
+         IC for Temperature on all_blocks = Constant value = 300
 
 
          Compute Shape Gradient on insulated_sideset

@@ -96,7 +96,8 @@ $           Define nonlinear solver parameters
 $---------------------------------------------------
             Nonlinear Solution Strategy  = Newton
             Maximum Nonlinear Iterations = 10
-            Nonlinear Residual Tolerance = 1.e-6
+            Nonlinear Residual Tolerance = 1.e-10
+            #Nonlinear Residual Tolerance = 1.e-6
             Nonlinear Relaxation Factor  = 1.0 # default
 
             Use DOF Averaged Nonlinear Residual
@@ -116,7 +117,7 @@ $---------------------------------------------------
 $---------------------------------------------------
 $           Specify initial conditions
 $---------------------------------------------------
-            IC for Temperature on all_blocks = Optimization value = 0
+            IC for Temperature on all_blocks = Constant value = 0
 
 $---------------------------------------------------
 $           Specify boundary conditions

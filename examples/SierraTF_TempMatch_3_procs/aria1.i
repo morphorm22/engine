@@ -117,7 +117,7 @@ $---------------------------------------------------
 $---------------------------------------------------
 $           Specify initial conditions
 $---------------------------------------------------
-            IC for Temperature on all_blocks = Optimization value = 0
+            IC for Temperature on all_blocks = Constant value = 0
 
 $---------------------------------------------------
 $           Specify boundary conditions
