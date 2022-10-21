@@ -11,6 +11,7 @@
   <Function>ComputeCriterionValue</Function>
   <Name>Compute Objective Value</Name>
   <Criterion>Displacement</Criterion>
+  <Target>5.0</Target>
   <Input>
     <ArgumentName>Topology</ArgumentName>
   </Input>
