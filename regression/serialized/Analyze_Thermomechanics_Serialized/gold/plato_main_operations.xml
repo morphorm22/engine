@@ -1,0 +1,184 @@
+<?xml version="1.0"?>
+<Filter>
+  <Name>Kernel</Name>
+  <Scale>2.5</Scale>
+  <Power>1</Power>
+</Filter>
+<Operation>
+  <Function>PlatoMainOutput</Function>
+  <Name>PlatoMainOutput</Name>
+  <WriteRestart>false</WriteRestart>
+  <OutputFrequency>1000</OutputFrequency>
+  <MaxIterations>100</MaxIterations>
+  <Input>
+    <ArgumentName>topology</ArgumentName>
+    <Layout>Nodal Field</Layout>
+  </Input>
+  <Input>
+    <ArgumentName>control</ArgumentName>
+    <Layout>Nodal Field</Layout>
+  </Input>
+  <Input>
+    <ArgumentName>objective gradient</ArgumentName>
+  </Input>
+  <Input>
+    <ArgumentName>constraint gradient 1</ArgumentName>
+  </Input>
+  <SurfaceExtraction>
+    <OutputMethod>epu</OutputMethod>
+    <Discretization>density</Discretization>
+    <Output>
+      <Format>Exodus</Format>
+    </Output>
+  </SurfaceExtraction>
+</Operation>
+<Operation>
+  <Function>InitializeField</Function>
+  <Name>Initialize Field</Name>
+  <Method>Uniform</Method>
+  <Uniform>
+    <Value>.5</Value>
+  </Uniform>
+  <Output>
+    <ArgumentName>Initialized Field</ArgumentName>
+  </Output>
+</Operation>
+<Operation>
+  <Function>SetLowerBounds</Function>
+  <Name>Compute Lower Bounds</Name>
+  <UseCase>solid</UseCase>
+  <Discretization>density</Discretization>
+  <Input>
+    <ArgumentName>Lower Bound Value</ArgumentName>
+  </Input>
+  <Output>
+    <ArgumentName>Lower Bound Vector</ArgumentName>
+  </Output>
+</Operation>
+<Operation>
+  <Function>SetUpperBounds</Function>
+  <Name>Compute Upper Bounds</Name>
+  <UseCase>solid</UseCase>
+  <Discretization>density</Discretization>
+  <Input>
+    <ArgumentName>Upper Bound Value</ArgumentName>
+  </Input>
+  <Output>
+    <ArgumentName>Upper Bound Vector</ArgumentName>
+  </Output>
+</Operation>
+<Operation>
+  <Function>CopyField</Function>
+  <Name>Copy Field</Name>
+  <Input>
+    <ArgumentName>InputField</ArgumentName>
+  </Input>
+  <Output>
+    <ArgumentName>OutputField</ArgumentName>
+  </Output>
+</Operation>
+<Operation>
+  <Function>CopyValue</Function>
+  <Name>Copy Value</Name>
+  <Input>
+    <ArgumentName>InputValue</ArgumentName>
+  </Input>
+  <Output>
+    <ArgumentName>OutputValue</ArgumentName>
+  </Output>
+</Operation>
+<Operation>
+  <Function>DesignVolume</Function>
+  <Name>Design Volume</Name>
+  <Output>
+    <ArgumentName>Design Volume</ArgumentName>
+  </Output>
+</Operation>
+<Operation>
+  <Function>ComputeVolume</Function>
+  <Name>Compute Constraint Value 1</Name>
+  <PenaltyModel>SIMP</PenaltyModel>
+  <Input>
+    <ArgumentName>Topology</ArgumentName>
+  </Input>
+  <Output>
+    <ArgumentName>Volume</ArgumentName>
+  </Output>
+  <Output>
+    <ArgumentName>Volume Gradient</ArgumentName>
+  </Output>
+  <SIMP>
+    <PenaltyExponent>1.0</PenaltyExponent>
+    <MinimumValue>0.0</MinimumValue>
+  </SIMP>
+</Operation>
+<Operation>
+  <Function>ComputeVolume</Function>
+  <Name>Compute Constraint Gradient 1</Name>
+  <PenaltyModel>SIMP</PenaltyModel>
+  <Input>
+    <ArgumentName>Topology</ArgumentName>
+  </Input>
+  <Output>
+    <ArgumentName>Volume</ArgumentName>
+  </Output>
+  <Output>
+    <ArgumentName>Volume Gradient</ArgumentName>
+  </Output>
+  <SIMP>
+    <PenaltyExponent>1.0</PenaltyExponent>
+    <MinimumValue>0.0</MinimumValue>
+  </SIMP>
+</Operation>
+<Operation>
+  <Function>Filter</Function>
+  <Name>Filter Control</Name>
+  <Gradient>False</Gradient>
+  <Input>
+    <ArgumentName>Field</ArgumentName>
+  </Input>
+  <Output>
+    <ArgumentName>Filtered Field</ArgumentName>
+  </Output>
+</Operation>
+<Operation>
+  <Function>Filter</Function>
+  <Name>Filter Gradient</Name>
+  <Gradient>True</Gradient>
+  <Input>
+    <ArgumentName>Field</ArgumentName>
+  </Input>
+  <Input>
+    <ArgumentName>Gradient</ArgumentName>
+  </Input>
+  <Output>
+    <ArgumentName>Filtered Gradient</ArgumentName>
+  </Output>
+</Operation>
+<Operation>
+  <Name>Aggregate Data</Name>
+  <Function>Aggregator</Function>
+  <Aggregate>
+    <Layout>Value</Layout>
+    <Input>
+      <ArgumentName>Value 1</ArgumentName>
+    </Input>
+    <Output>
+      <ArgumentName>Value</ArgumentName>
+    </Output>
+  </Aggregate>
+  <Aggregate>
+    <Layout>Nodal Field</Layout>
+    <Input>
+      <ArgumentName>Field 1</ArgumentName>
+    </Input>
+    <Output>
+      <ArgumentName>Field</ArgumentName>
+    </Output>
+  </Aggregate>
+  <Weighting>
+    <Weight>
+      <Value>1.0e1</Value>
+    </Weight>
+  </Weighting>
+</Operation>

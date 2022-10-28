@@ -124,7 +124,7 @@ begin optimization_parameters
    filter_type kernel
    max_iterations 10 
    output_frequency 1000 
-   optimization_algorithm mma
+   optimization_algorithm rol_linear_constraint
    verbose true
    discretization density 
    initial_density_value .4

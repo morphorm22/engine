@@ -85,8 +85,7 @@ begin optimization_parameters
    number_buffer_layers 0
    filter_type kernel
    filter_radius_absolute .4
-   optimization_algorithm mma
-   mma_use_ipopt_sub_problem_solver true
+   optimization_algorithm rol_augmented_lagrangian
    normalize_in_aggregator false
    output_frequency 100
    //initial_density_value 1.0

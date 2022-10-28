@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<MeshMap>
+  <FilterFirst>false</FilterFirst>
+  <Filter>
+    <Type>Linear</Type>
+    <Radius>.15</Radius>
+  </Filter>
+  <LinearMap>
+    <Type>SymmetryPlane</Type>
+    <Origin>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+    </Origin>
+    <Normal>
+      <X>1</X>
+      <Y>0</Y>
+      <Z>0</Z>
+    </Normal>
+  </LinearMap>
+</MeshMap>
+<Operation>
+  <Function>WriteOutput</Function>
+  <Name>Write Output</Name>
+  <Output>
+    <ArgumentName>Topology</ArgumentName>
+  </Output>
+  <Output>
+    <ArgumentName>Vonmises</ArgumentName>
+  </Output>
+</Operation>
+<Operation>
+  <Function>ComputeCriterionValue</Function>
+  <Name>Compute Constraint Value 2</Name>
+  <Criterion>my_mechanical_compliance_criterion_id_3</Criterion>
+  <Input>
+    <ArgumentName>Topology</ArgumentName>
+  </Input>
+  <Output>
+    <Argument>Value</Argument>
+    <ArgumentName>Constraint Value 2</ArgumentName>
+  </Output>
+</Operation>
+<Operation>
+  <Function>ComputeCriterionGradient</Function>
+  <Name>Compute Constraint Gradient 2</Name>
+  <Criterion>my_mechanical_compliance_criterion_id_3</Criterion>
+  <Input>
+    <ArgumentName>Topology</ArgumentName>
+  </Input>
+  <Output>
+    <Argument>Gradient</Argument>
+    <ArgumentName>Constraint Gradient 2</ArgumentName>
+  </Output>
+</Operation>

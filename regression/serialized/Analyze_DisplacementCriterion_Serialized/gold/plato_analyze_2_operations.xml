@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<Operation>
+  <Function>WriteOutput</Function>
+  <Name>Write Output</Name>
+  <Output>
+    <ArgumentName>displacement X</ArgumentName>
+  </Output>
+  <Output>
+    <ArgumentName>displacement Y</ArgumentName>
+  </Output>
+  <Output>
+    <ArgumentName>displacement Z</ArgumentName>
+  </Output>
+  <Output>
+    <ArgumentName>Vonmises</ArgumentName>
+  </Output>
+</Operation>
+<Operation>
+  <Function>ComputeCriterionValue</Function>
+  <Name>Compute Constraint Value 1</Name>
+  <Criterion>my_displacement_criterion_id_2</Criterion>
+  <Input>
+    <ArgumentName>Topology</ArgumentName>
+  </Input>
+  <Output>
+    <Argument>Value</Argument>
+    <ArgumentName>Constraint Value 1</ArgumentName>
+  </Output>
+</Operation>
+<Operation>
+  <Function>ComputeCriterionGradient</Function>
+  <Name>Compute Constraint Gradient 1</Name>
+  <Criterion>my_displacement_criterion_id_2</Criterion>
+  <Input>
+    <ArgumentName>Topology</ArgumentName>
+  </Input>
+  <Output>
+    <Argument>Gradient</Argument>
+    <ArgumentName>Constraint Gradient 1</ArgumentName>
+  </Output>
+</Operation>
