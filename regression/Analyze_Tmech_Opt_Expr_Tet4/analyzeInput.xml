@@ -6,6 +6,9 @@
   <ParameterList name="Plato Problem">
     <Parameter name="Physics"            type="string"  value="Thermomechanical"/>
     <Parameter name="PDE Constraint"     type="string"  value="Elliptic"/>
+    <ParameterList name='Linear Solver'>
+      <Parameter name='Solver Stack' type='string' value='AmgX'/>
+    </ParameterList>
 
     <Parameter name="Self-Adjoint"       type="bool"    value="false"/>
 
