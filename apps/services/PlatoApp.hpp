@@ -78,7 +78,7 @@ class PlatoApp : public Plato::Application
 public:
     PlatoApp() = default;
     /******************************************************************************//**
-     * @brief Constructor
+     * \brief Constructor
      * @param [in] aLocalComm local communicator
     **********************************************************************************/
     PlatoApp(MPI_Comm& aLocalComm);
