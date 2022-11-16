@@ -52,6 +52,8 @@
 #include "Plato_DriverInterface.hpp"
 #include "Plato_OptimizerUtilities.hpp"
 
+#include <mpi.h>
+
 namespace Plato
 {
 
@@ -65,9 +67,6 @@ struct optimizer
         KELLEY_SACHS_UNCONSTRAINED = 4,
         KELLEY_SACHS_BOUND_CONSTRAINED = 5,
         KELLEY_SACHS_AUGMENTED_LAGRANGIAN = 6,
-        DERIVATIVE_CHECKER = 7,
-        ROL_KSAL = 8,
-        ROL_KSBC = 9,
         STOCHASTIC_REDUCED_ORDER_MODEL = 10,
         PARTICLE_SWARM_OPTMIZATION_ALPSO = 11,
         PARTICLE_SWARM_OPTMIZATION_BCPSO = 12,
@@ -86,9 +85,11 @@ template<typename ScalarType, typename OrdinalType = size_t>
 class OptimizerInterface : public DriverInterface<ScalarType, OrdinalType>
 {
 public:
-    virtual ~OptimizerInterface()
-    {
-    }
+    OptimizerInterface(Plato::Interface* aInterface, const MPI_Comm & aComm):
+        mComm(aComm), mInterface(aInterface),
+        mInputData(Plato::OptimizerEngineStageData()) { }
+
+    virtual ~OptimizerInterface() = default;
 
     /******************************************************************************//**
      * @brief Return true if the last driver
@@ -176,6 +177,24 @@ public:
     **********************************************************************************/
     bool lastOptimizer() const { return mLastOptimizer; }
 
+    void initialize() override
+    {
+        Plato::initialize<ScalarType, OrdinalType>(this->mInterface, this->mInputData, this->mOptimizerIndex);
+    }
+    
+    friend class boost::serialization::access;
+    template<class Archive>
+    void serialize(Archive & aArchive, const unsigned int version)
+    {
+      aArchive & boost::serialization::make_nvp("OptimizerName",mOptimizerName);
+      aArchive & boost::serialization::make_nvp("OptimizerIndex",mOptimizerIndex);
+      aArchive & boost::serialization::make_nvp("LastOptimizer",mLastOptimizer);
+      aArchive & boost::serialization::make_nvp("HasInnerLoop",mHasInnerLoop);
+      //aArchive & boost::serialization::make_nvp("Interface",*mInterface);<<<this is already serialized 
+      aArchive & boost::serialization::make_nvp("InputData",mInputData);
+      aArchive & boost::serialization::make_nvp("StageDataMng",mStageDataMng);
+    }
+
 protected:
     /******************************************************************************//**
      * @brief String containing the optimizer name - Optional
@@ -200,6 +219,11 @@ protected:
      * @brief Boolean indicating an inner optimizer loop is present
     **********************************************************************************/
     bool mHasInnerLoop{false};
+
+    MPI_Comm mComm;
+    Plato::Interface* mInterface;
+    Plato::OptimizerEngineStageData mInputData;
+    Plato::StageInputDataMng mStageDataMng;
 };
 // class OptimizerInterface
 

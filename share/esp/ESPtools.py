@@ -283,7 +283,7 @@ def updateModel(modelName, paramVals):
 ##############################################################################
 ## define function that generates exodus mesh from csm file
 ##############################################################################
-def mesh(modelNameIn, modelNameOut=None, meshName=None, minScale=0.2, maxScale=1.0, meshLengthFactor=1.0, etoName=None, parameters=None ):
+def mesh(modelNameIn, modelNameOut=None, meshName=None, minScale=0.2, maxScale=1.0, meshLengthFactor=1.0, etoName=None, mesh=True, geom=None, url=None, precision=8, parameters=None ):
 
   deleteOnExit = False
   if modelNameOut == None:
@@ -305,43 +305,54 @@ def mesh(modelNameIn, modelNameOut=None, meshName=None, minScale=0.2, maxScale=1
   if type(meshLengthFactor) == str:
     meshLengthFactor = float(meshLengthFactor)
 
+  if type(precision) == str:
+    precision = int(precision)
+
   paramVals = []
+  precision_str = '{0:.' + str(precision - 1) + 'E}'
   if type(parameters) == str:
-    paramVals = [float(entry) for entry in parameters.split(',')]
+    paramVals = [float(precision_str.format(float(entry))) for entry in parameters.split(',')]
   else:
     paramVals = getInitialValues(modelNameIn)
 
   subprocess.call(['cp', modelNameIn, modelNameOut])
 
-  with redirected('csm.console'):
-    updateModel(modelNameOut, paramVals)
+  # with redirected('csm.console'):
+  #   updateModel(modelNameOut, paramVals)
+  updateModel(modelNameOut, paramVals)
 
-  with redirected('aflr.console'):
-    aflr(modelNameOut, meshName, minScale, maxScale, meshLengthFactor, etoName)
+  if geom != None:
+    # with redirected('dump.console'):
+    #   subprocess.call(['serveCSM', '-batch', modelNameOut])
+    subprocess.call(['serveCSM', '-batch', modelNameOut])
 
-  ## get capsGroup map
-  groupAttrs = []
-  f_in = open('aflr.console')
-  for line in f_in:
-    tokens = line.split(' ')
-    tokens = list(filter(None, tokens)) ## filter out empty strings
-    if tokens[0] == "Mapping" and tokens[1] == "capsGroup" and tokens[2] == "attributes":
-      numberLine = f_in.readline()
-      tokens = numberLine.split(' = ')
+  if mesh == True:
+    with redirected('aflr.console'):
+      aflr(modelNameOut, meshName, minScale, maxScale, meshLengthFactor, etoName)
+
+    ## get capsGroup map
+    groupAttrs = []
+    f_in = open('aflr.console')
+    for line in f_in:
+      tokens = line.split(' ')
       tokens = list(filter(None, tokens)) ## filter out empty strings
-      if tokens[0].strip() == "Number of unique capsGroup attributes":
-        numLines = int(tokens[1].strip())
-        for iEntry in range(numLines):
-          nextLine = f_in.readline()
-          defs = nextLine.split(', ')
-          defs = list(filter(None, defs)) ## filter out empty strings
-          groupName = defs[0].split(' = ')[1].strip()
-          groupIndex = defs[1].split(' = ')[1].strip()
-          groupAttrs.append({"name": groupName, "index": groupIndex})
-      
+      if tokens[0] == "Mapping" and tokens[1] == "capsGroup" and tokens[2] == "attributes":
+        numberLine = f_in.readline()
+        tokens = numberLine.split(' = ')
+        tokens = list(filter(None, tokens)) ## filter out empty strings
+        if tokens[0].strip() == "Number of unique capsGroup attributes":
+          numLines = int(tokens[1].strip())
+          for iEntry in range(numLines):
+            nextLine = f_in.readline()
+            defs = nextLine.split(', ')
+            defs = list(filter(None, defs)) ## filter out empty strings
+            groupName = defs[0].split(' = ')[1].strip()
+            groupIndex = defs[1].split(' = ')[1].strip()
+            groupAttrs.append({"name": groupName, "index": groupIndex})
+        
 
-  with redirected('toExo.console'):
-    toExo(meshName, groupAttrs)
+    with redirected('toExo.console'):
+      toExo(meshName, groupAttrs)
 
   if deleteOnExit:
     subprocess.call(['rm', modelNameOut])

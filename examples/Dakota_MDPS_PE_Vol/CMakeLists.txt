@@ -19,9 +19,10 @@ set( OUT_FILE "dakota_multi_dimensional_parameter_study.dat")
 set( GOLD_FILE "solution.txt.gold")
 
 # set relative tolerance for diff test
+set( NUMDIFF_USE_ABSOLUTE FALSE )
 set( NUMDIFF_RELATIVE_TOLERANCE 1e-2 )
 
 # Add the test
-Plato_add_xmlgen_numdiff_test(${TEST_NAME} ${XMLGEN_COMMAND} ${NUMDIFF_COMMAND} ${NUMDIFF_RELATIVE_TOLERANCE})
+Plato_add_xmlgen_numdiff_test(${TEST_NAME} ${XMLGEN_COMMAND} ${NUMDIFF_COMMAND} ${NUMDIFF_USE_ABSOLUTE} ${NUMDIFF_RELATIVE_TOLERANCE})
 
 endif()

@@ -11,26 +11,18 @@ Plato_add_test_files("${testFiles}")
 # write out the path info in the plato input deck
 Plato_add_text_to_file_after_keyword("plato_input_deck.i" "platomain" "path ${PLATOMAIN_BINARY}\n")
 
-# Set number of processors for PlatoMain comm
-set( PLATOMAIN_NP 1 )
-
-# Set number of processors for Performer comms
-set( PLATOESP_NP 5 )
-
-# Set number of processors for Performer comms
-set( ANALYZE_NP 1 )
-
-# Create list of comm sizes 
-set( NUM_PROCS "${PLATOMAIN_NP} ${PLATOESP_NP} ${ANALYZE_NP}" )
-
-# Specify which comm will provide the output for comparison
-set( IO_COMM_INDEX 0 )
-
-set( SKIP_EXODIFF 1 )
-set(OUTPUT_MESH platomain.exo.1.0)
+# Set xml generator command
 set(XMLGEN_COMMAND "../../base/src/input_generator/XMLGenerator plato_input_deck.i")
 
-# Run test
-Plato_add_xmlgen_test(${TEST_NAME} ${XMLGEN_COMMAND} ${NUM_PROCS} ${IO_COMM_INDEX} ${OUTPUT_MESH} ${SKIP_EXODIFF})
+# Set file names for diff
+set( OUT_FILE "rocker_opt.csm")
+set( GOLD_FILE "solution.csm.gold")
+
+# set relative tolerance for diff test
+set( NUMDIFF_USE_ABSOLUTE FALSE)
+set( NUMDIFF_RELATIVE_TOLERANCE 1e-8 )
+
+# Add the test
+Plato_add_xmlgen_numdiff_test(${TEST_NAME} ${XMLGEN_COMMAND} ${NUMDIFF_COMMAND} ${NUMDIFF_USE_ABSOLUTE} ${NUMDIFF_RELATIVE_TOLERANCE})
 
 endif()

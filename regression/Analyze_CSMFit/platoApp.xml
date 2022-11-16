@@ -57,6 +57,7 @@
   <Argument>--output-model model_opt.csm</Argument>
   <Argument>--output-mesh model.exo</Argument>
   <Argument>--tesselation model.eto</Argument>
+  <Argument>--precision 16</Argument>
   <Argument>--parameters</Argument>
   <AppendInput>true</AppendInput>
   <Input>

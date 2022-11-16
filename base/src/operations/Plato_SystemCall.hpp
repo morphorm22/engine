@@ -72,11 +72,17 @@ class InputData;
 class SystemCall
 {
 public:
+    SystemCall() = default;
     /******************************************************************************//**
      * \brief Constructor
      * \param [in] aNode input metadata
     **********************************************************************************/
     SystemCall(const Plato::InputData & aNode);
+
+    /******************************************************************************//**
+     * \brief Destructor 
+    **********************************************************************************/
+    virtual ~SystemCall() = default;
 
     /******************************************************************************//**
      * \brief perform local operation to call a shell script.
@@ -143,6 +149,8 @@ public:
      * \return list of names
     **********************************************************************************/
     std::string commandPlusArguments() const {return mCommandPlusArguments; }
+
+   
 
 private:
     /******************************************************************************//**

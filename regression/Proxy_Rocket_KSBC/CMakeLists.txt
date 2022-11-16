@@ -5,20 +5,8 @@ if(PLATOPROXY)
 Plato_new_test(TEST_NAME)
 
 # Copy Input files from source to binary dir
-set( testFiles "interface.xml;solution.txt.gold")
+set( testFiles "interface.xml;solution.txt.gold;mpirun.source")
 Plato_add_test_files("${testFiles}")
-
-# Set number of processors for PlatoMain comm
-set( PLATOMAIN_NP 1 )
-
-# Set number of processors for Performer comms
-set( PROXY_NP 1 )
-
-# Create list of comm sizes 
-set( NUM_PROCS "${PLATOMAIN_NP} ${PROXY_NP}" )
-
-# Specify which comm will provide the output for comparison
-set( IO_COMM_INDEX 0 )
 
 # Set the name of the interface file
 set( INTERFACE_FILE interface.xml )
@@ -27,14 +15,13 @@ set( INTERFACE_FILE interface.xml )
 set( OUT_FILE "plato_ksbc_algorithm_diagnostics.txt")
 set( GOLD_FILE "solution.txt.gold")
 
-# Create simple regression test and define the PlatoMain performer
-Plato_create_simple_test(PLATO_NEW_TEST ${PLATOMAIN_BINARY} ${PLATOMAIN_NP} ${INTERFACE_FILE})
+# set relative tolerance for diff test
+set( NUMDIFF_USE_ABSOLUTE true)
+set( NUMDIFF_RELATIVE_TOLERANCE 1e-10 )
 
-# Define/add a performer
-set( LOCAL_COMM_ID 1 )
-Plato_add_simple_performer(PLATO_NEW_TEST ${PLATOROCEKTDESIGN_BINARY} ${PROXY_NP} ${LOCAL_COMM_ID} ${INTERFACE_FILE})
+set( RUN_COMMAND "source ${CMAKE_CURRENT_BINARY_DIR}/mpirun.source" )
 
 # Add the test
-Plato_add_simple_test(${PLATO_NEW_TEST} ${TEST_NAME} ${NUM_PROCS} ${IO_COMM_INDEX})
+Plato_add_numdiff_test(${RUN_COMMAND} ${TEST_NAME} ${NUMDIFF_COMMAND} ${NUMDIFF_USE_ABSOLUTE} ${NUMDIFF_RELATIVE_TOLERANCE})
 
 endif()

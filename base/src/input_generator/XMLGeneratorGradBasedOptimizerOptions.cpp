@@ -40,8 +40,7 @@ void append_grad_based_optimizer_options
 {
     std::unordered_map<std::string, std::string> tValidOptimizers =
         { {"oc", "OC"}, {"mma", "MMA"}, {"ksbc", "KSBC"}, {"ksal", "KSAL"} , {"rol_bound_constrained", "ROL BoundConstrained"}, 
-        {"rol_augmented_lagrangian", "ROL AugmentedLagrangian"}, {"rol_linear_constraint", "ROL LinearConstraint"}, 
-        {"derivativechecker", "DerivativeChecker"} };
+        {"rol_augmented_lagrangian", "ROL AugmentedLagrangian"}, {"rol_linear_constraint", "ROL LinearConstraint"} };
 
     auto tLower = Plato::tolower(aMetaData.optimization_parameters().optimization_algorithm());
     auto tOptimizerItr = tValidOptimizers.find(tLower);
@@ -63,7 +62,21 @@ void append_grad_based_optimizer_parameters
  pugi::xml_node& aParentNode)
 {
     auto tLower = XMLGen::to_lower(aMetaData.optimization_parameters().optimization_algorithm());
-    if(tLower.compare("oc") == 0)
+    
+    if(tLower.compare("rol_linear_constraint") == 0 || tLower.compare("rol_augmented_lagrangian") == 0 || tLower.compare("rol_bound_constrained") == 0)
+    {
+        auto tCheckGradient = aMetaData.optimization_parameters().check_gradient().empty() ? std::string("false") : XMLGen::to_lower(aMetaData.optimization_parameters().check_gradient());
+        if(tCheckGradient.compare("true") == 0)
+        {   
+            XMLGen::append_rol_gradient_check_flags(aMetaData, aParentNode);
+            XMLGen::append_rol_gradient_check_options(aMetaData, aParentNode);
+        }
+        XMLGen::append_trust_region_kelley_sachs_options(aMetaData, aParentNode);
+        XMLGen::append_reset_algorithm_on_update_option(aMetaData, aParentNode);
+        XMLGen::generate_rol_input_file(aMetaData);
+        XMLGen::append_rol_input_file(aMetaData, aParentNode);
+    }
+    else if(tLower.compare("oc") == 0)
     {
         XMLGen::append_optimality_criteria_options(aMetaData, aParentNode);
     }
@@ -79,33 +92,6 @@ void append_grad_based_optimizer_parameters
     {
         XMLGen::append_trust_region_kelley_sachs_options(aMetaData, aParentNode);
         XMLGen::append_augmented_lagrangian_options(aMetaData, aParentNode);
-    }
-    else if(tLower.compare("rol_linear_constraint") == 0)
-    {
-        // Calling this to get a couple of the option like hessian type and problem update frequency. These
-        // probably need to be pulled out into a different function.
-        XMLGen::append_trust_region_kelley_sachs_options(aMetaData, aParentNode);
-        XMLGen::append_reset_algorithm_on_update_option(aMetaData, aParentNode);
-        XMLGen::generate_rol_input_file(aMetaData);
-        XMLGen::append_rol_input_file(aMetaData, aParentNode);
-    }
-    else if(tLower.compare("rol_augmented_lagrangian") == 0)
-    {
-        XMLGen::append_trust_region_kelley_sachs_options(aMetaData, aParentNode);
-        XMLGen::append_reset_algorithm_on_update_option(aMetaData, aParentNode);
-        XMLGen::generate_rol_input_file(aMetaData);
-        XMLGen::append_rol_input_file(aMetaData, aParentNode);
-    }
-    else if(tLower.compare("rol_bound_constrained") == 0)
-    {
-        XMLGen::append_trust_region_kelley_sachs_options(aMetaData, aParentNode);
-        XMLGen::append_reset_algorithm_on_update_option(aMetaData, aParentNode);
-        XMLGen::generate_rol_input_file(aMetaData);
-        XMLGen::append_rol_input_file(aMetaData, aParentNode);
-    }
-    else if(tLower.compare("derivativechecker") == 0)
-    {
-        XMLGen::append_derivative_checker_options(aMetaData, aParentNode);
     }
     else
     {
@@ -207,7 +193,11 @@ void append_trust_region_kelley_sachs_options
                                         aMetaData.optimization_parameters().ks_trust_region_ratio_mid(), 
                                         aMetaData.optimization_parameters().ks_trust_region_ratio_high()};
     XMLGen::set_value_keyword_to_ignore_if_empty(tValues);
-    auto tOptionsNode = aParentNode.append_child("Options");
+    auto tOptionsNode = aParentNode.child("Options");
+    if(tOptionsNode.empty())
+    {
+        tOptionsNode = aParentNode.append_child("Options");
+    }
     XMLGen::append_children(tKeys, tValues, tOptionsNode);
     auto tConvergenceNode = aParentNode.append_child("Convergence");
     XMLGen::append_children({"MaxIterations"}, {aMetaData.optimization_parameters().max_iterations()}, tConvergenceNode);
@@ -236,6 +226,27 @@ void append_augmented_lagrangian_options
 /******************************************************************************/
 
 /******************************************************************************/
+void append_rol_gradient_check_options
+(const XMLGen::InputData& aMetaData,
+ pugi::xml_node& aParentNode)
+{ 
+    std::vector<std::string> tKeys = {"ROLGradientCheckPerturbationScale",
+                                      "ROLGradientCheckSteps",
+                                      "ROLGradientCheckSeed"};
+    std::vector<std::string> tValues = {aMetaData.optimization_parameters().rol_gradient_check_perturbation_scale(),
+                                        aMetaData.optimization_parameters().rol_gradient_check_steps(),
+                                        aMetaData.optimization_parameters().rol_gradient_check_random_seed()};
+    XMLGen::set_value_keyword_to_ignore_if_empty(tValues);
+    auto tOptionsNode = aParentNode.child("Options");
+    if(tOptionsNode.empty())
+    {
+        tOptionsNode = aParentNode.append_child("Options");
+    }
+    XMLGen::append_children(tKeys, tValues, tOptionsNode);
+}
+
+// function append_reset_algorithm_on_update_option
+/******************************************************************************/
 void append_reset_algorithm_on_update_option
 (const XMLGen::InputData& aMetaData,
  pugi::xml_node& aParentNode)
@@ -249,9 +260,8 @@ void append_reset_algorithm_on_update_option
         tOptionsNode = aParentNode.append_child("Options");
     }
     XMLGen::append_children(tKeys, tValues, tOptionsNode);
+
 }
-// function append_reset_algorithm_on_update_option
-/******************************************************************************/
 
 /******************************************************************************/
 void generate_rol_input_file(const XMLGen::InputData& aMetaData)
@@ -548,20 +558,18 @@ std::string get_subproblem_model(const std::string &aSubproblemModelString)
 /******************************************************************************/
 
 /******************************************************************************/
-void append_derivative_checker_options
+
+
+void append_rol_gradient_check_flags
 (const XMLGen::InputData& aMetaData,
  pugi::xml_node& aParentNode)
 {
     auto tCheckGradient = aMetaData.optimization_parameters().check_gradient().empty() ? std::string("true") : aMetaData.optimization_parameters().check_gradient();
     std::vector<std::string> tKeys = {"CheckGradient", "CheckHessian", "UseUserInitialGuess"};
-    std::vector<std::string> tValues = {tCheckGradient, aMetaData.optimization_parameters().check_hessian(), "True"};
+    std::vector<std::string> tValues = {tCheckGradient, "False", "True"};
     XMLGen::append_children(tKeys, tValues, aParentNode);
-
-    auto tOptionsNode = aParentNode.append_child("Options");
-    tKeys = {"DerivativeCheckerInitialSuperscript", "DerivativeCheckerFinalSuperscript"};
-    tValues = {aMetaData.optimization_parameters().derivative_checker_initial_superscript(), aMetaData.optimization_parameters().derivative_checker_final_superscript()};
-    XMLGen::append_children(tKeys, tValues, tOptionsNode);
 }
+
 // function append_derivative_checker_options
 /******************************************************************************/
 
@@ -642,7 +650,7 @@ void append_grad_based_optimizer_objective_options
 (const XMLGen::InputData& aMetaData,
  pugi::xml_node& aParentNode)
 {
-    std::unordered_map<std::string, std::string> tKeyToValueMap =
+    std::map<std::string, std::string> tKeyToValueMap =
         { {"ValueName", ""}, {"ValueStageName", ""}, {"GradientName", ""}, {"GradientStageName", ""} };
 
     std::string tValueNameString = "Objective Value";
@@ -667,7 +675,7 @@ void append_grad_based_optimizer_constraint_options
 {
     for (auto &tConstraint : aMetaData.constraints)
     {
-        std::unordered_map<std::string, std::string> tKeyToValueMap;
+        std::map<std::string, std::string> tKeyToValueMap;
         if(aMetaData.optimization_parameters().optimizationType() == OT_TOPOLOGY  && aMetaData.optimization_parameters().discretization() == "density")
         {
             tKeyToValueMap =
@@ -706,7 +714,7 @@ void append_grad_based_optimizer_constraint_options
 void generate_target_value_entries
 (const XMLGen::InputData& aXMLMetaData,
  const XMLGen::Constraint &aConstraint,
- std::unordered_map<std::string, std::string> &aKeyToValueMap)
+ std::map<std::string, std::string> &aKeyToValueMap)
 {
     auto tCriterion = aXMLMetaData.criterion(aConstraint.criterion());
     std::string tCriterionType = tCriterion.type();

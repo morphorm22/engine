@@ -1047,13 +1047,23 @@ void append_mesh_join_operation_to_plato_main_operation
         addChild(operationNode, "Name", "JoinMesh On Change");
         addChild(operationNode, "Command", "ejoin");
         addChild(operationNode, "OnChange", "true");
+        std::string tNumRanks = "1";
+        for (const auto& iService : aXMLMetaData.services())
+        {
+          if(iService.code() == "platomain")
+          {
+            tNumRanks = iService.numberProcessors();
+          }
+        }
+        addChild(operationNode, "NumRanks", tNumRanks);
         addChild(operationNode, "Argument", "-output");
         addChild(operationNode, "Argument", joinedMeshFile);
         addChild(operationNode, "Argument", exodusFile);
         addChild(operationNode, "Argument", auxiliaryMeshFile);
         addChild(operationNode, "AppendInput", "false");
         auto tInputNode = operationNode.append_child("Input");
-        XMLGen::append_children({"ArgumentName"}, {"Parameters"}, tInputNode);
+        std::string tNumParameters = std::to_string(XMLGen::get_number_of_shape_parameters(aXMLMetaData));
+        XMLGen::append_children({"ArgumentName", "Layout", "Size"}, {"Parameters", "scalar", tNumParameters}, tInputNode);
     }
 }
 // function append_mesh_join_operation_to_plato_main_operation
@@ -1072,7 +1082,7 @@ void append_mesh_rename_operation_to_plato_main_operation
         const std::string joinedMeshFile(aXMLMetaData.mesh.joined_mesh_name);
 
         std::stringstream moveCmd;
-        moveCmd << "while lsof -u $USER | grep " << joinedMeshFile << "; do sleep 1; done; ";
+        moveCmd << "while lsof -u `id -u -n` | grep " << joinedMeshFile << "; do sleep 1; done; ";
         moveCmd << "/bin/cp " << joinedMeshFile << " " << exodusFile;
 
         pugi::xml_node operationNode = aDocument.append_child("Operation");
@@ -1082,7 +1092,8 @@ void append_mesh_rename_operation_to_plato_main_operation
         addChild(operationNode, "OnChange", "true");
         addChild(operationNode, "AppendInput", "false");
         auto tInputNode = operationNode.append_child("Input");
-        XMLGen::append_children({"ArgumentName"}, {"Parameters"}, tInputNode);
+        std::string tNumParameters = std::to_string(XMLGen::get_number_of_shape_parameters(aXMLMetaData));
+        XMLGen::append_children({"ArgumentName", "Layout", "Size"}, {"Parameters", "scalar", tNumParameters}, tInputNode);
     }
 }
 // function append_mesh_rename_operation_to_plato_main_operation
@@ -1150,7 +1161,7 @@ void append_wait_for_file_close_operation_commands
    
     addChild(tNode, "Function", "SystemCall");
     addChild(tNode, "Name", aName);
-    std::string tCommand = "while lsof -u $USER | grep " + aFolder + "/" + aFile + "; do sleep 1; done; ";
+    std::string tCommand = "while lsof -u `id -u -n` | grep " + aFolder + "/" + aFile + "; do sleep 1; done; ";
     addChild(tNode, "Command", tCommand);
     addChild(tNode, "OnChange", "false");
  }

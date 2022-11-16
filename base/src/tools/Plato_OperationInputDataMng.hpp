@@ -55,6 +55,10 @@
 #include <utility>
 
 #include "Plato_InputData.hpp"
+#include "Plato_OperationTypes.hpp"
+#include "Plato_SerializationHeaders.hpp"
+
+#include <boost/optional.hpp>
 
 namespace Plato
 {
@@ -73,6 +77,7 @@ public:
     const std::string & getPerformerName(const int & aOperationIndex) const;
     const std::string & getOperationName(const int & aOperationIndex) const;
     const std::string & getOperationName(const std::string & aPerformerName) const;
+    boost::optional<OperationType> getOperationType(const std::string & aPerformerName) const;
 
     int getNumInputs(const int & aOperationIndex) const;
     int getNumInputs(const std::string & aPerformerName) const;
@@ -109,6 +114,17 @@ public:
                     const std::vector<std::string> & aSharedDataNames,
                     const std::vector<std::string> & aArgumentNames);
 
+
+    friend class boost::serialization::access;
+    template<class Archive>
+    void serialize(Archive & aArchive, const unsigned int version)
+    {
+      aArchive & boost::serialization::make_nvp("InputData",boost::serialization::base_object<Plato::InputData>(*this));
+      aArchive & boost::serialization::make_nvp("PerformerName",mPerformerName);
+      aArchive & boost::serialization::make_nvp("OperationMap",mOperationMap);
+      aArchive & boost::serialization::make_nvp("InputDataMap",mInputDataMap);
+      aArchive & boost::serialization::make_nvp("OutputDataMap",mOutputDataMap);
+    }
 
 private:
     std::vector<std::string> mPerformerName;

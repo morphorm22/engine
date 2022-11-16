@@ -506,9 +506,6 @@
 <Optimizer>
   <Package>MMA</Package>
   <Options>
-<!--
-    <MaxNumOuterIterations>50</MaxNumOuterIterations>
--->
     <MaxNumOuterIterations>5</MaxNumOuterIterations>
     <MoveLimit>0.1</MoveLimit>
     <AsymptoteExpansion>1.2</AsymptoteExpansion>
@@ -517,11 +514,6 @@
     <ControlStagnationTolerance>1e-6</ControlStagnationTolerance>
     <ObjectiveStagnationTolerance>1e-8</ObjectiveStagnationTolerance>
   </Options>
-<!--
-  <Package>DerivativeChecker</Package>
-  <CheckHessian>false</CheckHessian>
-  <CheckGradient>true</CheckGradient>
--->
   <Output>
     <OutputStage>Output To File</OutputStage>
   </Output>

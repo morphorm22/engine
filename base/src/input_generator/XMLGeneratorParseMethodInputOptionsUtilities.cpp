@@ -57,6 +57,9 @@ void insert_rol_input_options(XMLGen::MetaDataTags &aTags)
     aTags.insert({ "rol_subproblem_model", { { {"rol_subproblem_model"}, ""}, "" } });
     aTags.insert({ "reset_algorithm_on_update", { { {"reset_algorithm_on_update"}, ""}, "false" } });
     aTags.insert({ "rol_lin_more_cauchy_initial_step_size", { { {"rol_lin_more_cauchy_initial_step_size"}, ""}, "3.0" } });
+    aTags.insert({ "rol_gradient_check_perturbation_scale", { { {"rol_gradient_check_perturbation_scale"}, ""}, "1.0" } });
+    aTags.insert({ "rol_gradient_check_steps", { { {"rol_gradient_check_steps"}, ""}, "12" } });
+    aTags.insert({ "rol_gradient_check_random_seed", { { {"rol_gradient_check_random_seed"}, ""}, "" } });
 }
 // function insert_rol_input_options
 /******************************************************************************/
@@ -77,8 +80,6 @@ void insert_derivative_checker_input_options(XMLGen::MetaDataTags &aTags)
 {
     aTags.insert({ "check_hessian", { { {"check_hessian"}, ""}, "false" } });
     aTags.insert({ "check_gradient", { { {"check_gradient"}, ""}, "false" } });
-    aTags.insert({ "derivative_checker_final_superscript", { { {"derivative_checker_final_superscript"}, ""}, "8" } });
-    aTags.insert({ "derivative_checker_initial_superscript", { { {"derivative_checker_initial_superscript"}, ""}, "1" } });
 }
 // function insert_derivative_checker_input_options
 /******************************************************************************/
@@ -212,6 +213,7 @@ void insert_plato_symmetry_filter_input_options(XMLGen::MetaDataTags &aTags)
     aTags.insert({ "symmetry_plane_normal", { { {"symmetry_plane_normal"}, ""}, "" } });
     aTags.insert({ "symmetry_plane_origin", { { {"symmetry_plane_origin"}, ""}, "" } });
     aTags.insert({ "mesh_map_filter_radius", { { {"mesh_map_filter_radius"}, ""}, "" } });
+    aTags.insert({ "mesh_map_search_tolerance", { { {"mesh_map_search_tolerance"}, ""}, "" } });
     aTags.insert({ "filter_before_symmetry_enforcement", { { {"filter_before_symmetry_enforcement"}, ""}, "" } });
 }
 // function insert_plato_symmetry_filter_input_options

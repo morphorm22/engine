@@ -461,11 +461,6 @@
 </Stage>
 
 <Optimizer>
-<!--
-  <Package>DerivativeChecker</Package>
-  <CheckHessian>false</CheckHessian>
-  <CheckGradient>true</CheckGradient>
--->
   <Package>KSAL</Package>
   <Output>
     <OutputStage>Output To File</OutputStage>

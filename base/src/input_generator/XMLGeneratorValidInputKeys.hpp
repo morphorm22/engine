@@ -69,6 +69,8 @@ struct ValidCriterionParameterKeys
         "normalize", 
         "normalization_value",
         "stress_p_norm_exponent",
+        "stress_p_norm_measure",
+        "stress_p_norm_volume_scaling",
         "mechanical_weighting_factor",
         "thermal_weighting_factor",
         "material_penalty_model", 
@@ -118,7 +120,7 @@ struct ValidCriterionParameterKeys
         "volume_penalty_divisor",
         "volume_penalty_bias",
         "surface_area_sideset_id",
-        // SD modal objectives
+        // Sierra/SD modal objectives
         "num_modes_compute",
         "modes_to_exclude",
         "eigen_solver_shift",
@@ -127,6 +129,9 @@ struct ValidCriterionParameterKeys
         "shape_sideset",
         "ref_data_file",
         "match_nodesets",
+        // Sierra/TF keywords
+        "search_nodesets",
+        "temperature_field_name",
         // mass properties
         "mass",
         "cgx", 
@@ -236,6 +241,7 @@ private:
         "fluid_thermal_compliance",
         "maximize_fluid_thermal_flux",
         "modal_matching",
+        "temperature_matching",
         "modal_projection_error",
         "mass_properties",
         "displacement",
@@ -264,6 +270,39 @@ public:
     { return mKeys; }
 };
 // struct ValidCriterionTypeKeys
+
+struct ValidPNormMeasureKeys
+{
+private:
+    /*!<
+     * \brief Valid p-norm measures.
+     **/
+    std::vector<std::string> mKeys = {"vonmises"};
+
+public:
+    /******************************************************************************//**
+     * \fn value
+     * \brief Return supported p-norm measure keyword.
+     * \param [in] aKey input file keyword
+     * \return supported criterion keyword. If key is not supported, return an empty string.
+    **********************************************************************************/
+    std::string value(const std::string& aKey) const
+    {
+        return (XMLGen::return_supported_value(aKey, mKeys));
+    }
+};
+// struct ValidPNormMeasureKeys
+
+struct ValidPNormMeasureKeyMap
+{
+    /*!<
+     * valid p-norm measure key map \n
+     * \brief map from p-norm measure keyword to identification keyword for Plato Analyze input deck, i.e. map<measure_key, identification_key>.
+     *
+     **/
+    std::unordered_map<std::string, std::string> mKeys = { { "vonmises", "Von Mises" } };
+};
+// ValidPNormMeasureKeyMap
 
 struct ValidRandomCategoryKeys
 {
@@ -707,7 +746,7 @@ public:
     {
         return (XMLGen::return_supported_value(aKey, mKeys));
     }
-    std::vector<std::string> mKeys = {"plato_analyze", "sierra_sd", "lightmp", "platomain", "plato_esp", "xtk", "gemma"};
+    std::vector<std::string> mKeys = {"plato_analyze", "sierra_tf", "sierra_sd", "lightmp", "platomain", "plato_esp", "xtk", "gemma"};
 };
 // struct ValidCodeKeys
 
@@ -1532,6 +1571,7 @@ struct ValidOptimizationParameterKeys
      "symmetry_plane_origin",
      "mesh_map_filter_radius",
      "filter_before_symmetry_enforcement",
+     "mesh_map_search_tolerance",
      "mma_asymptote_expansion",
      "mma_asymptote_contraction",
      "mma_max_sub_problem_iterations",
@@ -1548,8 +1588,6 @@ struct ValidOptimizationParameterKeys
      "initial_guess_file_name",
      "initial_guess_field_name",
      "normalize_in_aggregator",
-     "derivative_checker_final_superscript",
-     "derivative_checker_initial_superscript",
      "output_method",
      "output_frequency",
      "initial_density_value",
@@ -1639,6 +1677,9 @@ struct ValidOptimizationParameterKeys
      "moga_max_function_evaluations",
      "sbgo_surrogate_output_name",
      "num_sampling_method_samples",
+     "rol_gradient_check_perturbation_scale",
+     "rol_gradient_check_steps",
+     "rol_gradient_check_random_seed",
     };
 };
 

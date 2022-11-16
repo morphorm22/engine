@@ -76,9 +76,10 @@ OperationFactory::create(
 {
     Plato::InputData inputNode = aOperationDataMng.get<Plato::InputData>("Input Data");
 
-    std::string opType = inputNode.name();
+    const std::string opType = inputNode.name();
     if( opType == "Operation" ){
-      bool tHasSubOperations = aOperationDataMng.hasSubOperations();
+      const bool tHasSubOperations = aOperationDataMng.hasSubOperations();
+      
       if(tHasSubOperations == true)
       {
         return new MultiOperation(aOperationDataMng, aPerformer, aSharedData);

@@ -94,6 +94,16 @@ void append_reset_algorithm_on_update_option
  pugi::xml_node& aParentNode);
 
 /******************************************************************************//**
+ * \fn append_rol_gradient_check_options
+ * \brief Append options related to the derivative checker
+ * \param [in]  aMetaData  Plato problem input data
+ * \param [out] aParentNode Parent to add data to
+**********************************************************************************/
+void append_rol_gradient_check_options
+(const XMLGen::InputData& aMetaData,
+ pugi::xml_node& aParentNode);
+
+/******************************************************************************//**
  * \fn generate_rol_input_file
  * \brief Create the ROL input xml file
  * \param [in] aMetaData  Plato problem input data
@@ -136,7 +146,7 @@ void append_rol_step_block
  * \param [in]  aMetaData  Plato problem input data
  * \param [out] aParentNode Parent to add data to
 **********************************************************************************/
-void append_derivative_checker_options
+void append_rol_gradient_check_flags
 (const XMLGen::InputData& aMetaData,
  pugi::xml_node& aParentNode);
 
@@ -215,7 +225,7 @@ void append_bound_constraints_options_topology_optimization
 void generate_target_value_entries
 (const XMLGen::InputData& aMetaData,
  const XMLGen::Constraint &aConstraint,
- std::unordered_map<std::string, std::string> &aKeyToValueMap);
+ std::map<std::string, std::string> &aKeyToValueMap);
 
 }
 //  namespace XMLGen

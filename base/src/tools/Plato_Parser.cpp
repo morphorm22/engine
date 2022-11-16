@@ -65,6 +65,7 @@
 #include "Plato_Parser.hpp"
 #include "Plato_Exceptions.hpp"
 
+
 namespace Plato
 {
 
@@ -683,6 +684,12 @@ PugiParser::addChildren(const pugi::xml_node& node, InputData& inputData)
         inputData.add<Plato::InputData>(child.name(), newData);
       }
     }
+}
+
+InputData inputDataFromPugiParsedFile(const std::string& aFileName)
+{
+    Plato::PugiParser tParser;
+    return tParser.parseFile(aFileName);
 }
 
 namespace Get
@@ -1415,7 +1422,24 @@ void parseOptimizerOptions(const Plato::InputData & aOptimizerNode, Plato::Optim
             bool tOutputDiagnosticsToFile = Plato::Get::Bool(tOptionsNode, "OutputDiagnosticsToFile");
             aOptimizerEngineStageData.setOutputDiagnosticsToFile(tOutputDiagnosticsToFile);
         }
-
+        
+        if( tOptionsNode.size<std::string>("ROLGradientCheckPerturbationScale") )
+        {
+            double tROLGradientCheckPerturbationScale = Plato::Get::Double(tOptionsNode, "ROLGradientCheckPerturbationScale");
+            aOptimizerEngineStageData.setROLPerturbationScale(tROLGradientCheckPerturbationScale);
+        }
+        
+        if( tOptionsNode.size<std::string>("ROLGradientCheckSteps") )
+        {
+            int tROLGradientCheckSteps = Plato::Get::Int(tOptionsNode, "ROLGradientCheckSteps");
+            aOptimizerEngineStageData.setROLCheckGradientSteps(tROLGradientCheckSteps);
+        }
+        if( tOptionsNode.size<std::string>("ROLGradientCheckSeed") )
+        {
+            int tROLGradientCheckSteps = Plato::Get::Int(tOptionsNode, "ROLGradientCheckSeed");
+            aOptimizerEngineStageData.setROLCheckGradientSeed(tROLGradientCheckSteps);
+        }
+        
         if( tOptionsNode.size<std::string>("HessianType") )
         {
             std::string tHessianType = Plato::Get::String(tOptionsNode, "HessianType");
@@ -1451,18 +1475,6 @@ void parseOptimizerOptions(const Plato::InputData & aOptimizerNode, Plato::Optim
         {
             std::string tAlgebraType = tOptionsNode.get<std::string>("Algebra");
             aOptimizerEngineStageData.setAlgebra(tAlgebraType);
-        }
-
-        if( tOptionsNode.size<std::string>("DerivativeCheckerFinalSuperscript") )
-        {
-            int tFinalSuperscript = Plato::Get::Int(tOptionsNode, "DerivativeCheckerFinalSuperscript");
-            aOptimizerEngineStageData.setDerivativeCheckerFinalSuperscript(tFinalSuperscript);
-        }
-
-        if( tOptionsNode.size<std::string>("DerivativeCheckerInitialSuperscript") )
-        {
-            int tInitialSuperscript = Plato::Get::Int(tOptionsNode, "DerivativeCheckerInitialSuperscript");
-            aOptimizerEngineStageData.setDerivativeCheckerInitialSuperscript(tInitialSuperscript);
         }
 
         if( tOptionsNode.size<std::string>("GCMMAInitialMovingAsymptoteScaleFactor") )

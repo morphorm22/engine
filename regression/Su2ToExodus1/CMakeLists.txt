@@ -7,3 +7,4 @@ set( TEST_COMMAND "${CMAKE_BINARY_DIR}/base/src/Su2ToExodus/Su2ToExodus BoxWithH
 set( OUTPUT_MESH "output_mesh.exo" )
 
 Plato_add_serial_test( ${TEST_COMMAND} ${TEST_NAME} ${OUTPUT_MESH} )
+set_property(TEST ${TEST_NAME} PROPERTY LABELS "small")

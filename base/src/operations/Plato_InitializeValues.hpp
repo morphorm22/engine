@@ -64,6 +64,7 @@ class InitializeValues : public Plato::LocalOp
 {
 
 public:
+    InitializeValues() = default;
     /******************************************************************************//**
      * @brief Constructor
      * @param [in] aPlatoApp PLATO application
@@ -82,22 +83,27 @@ public:
     **********************************************************************************/
     void getArguments(std::vector<Plato::LocalArg> & aLocalArgs);
 
-    /******************************************************************************//**
-     * @brief Read initialization values from CSM file.
-    **********************************************************************************/
-    void getValuesFromCSMFile();
-
-    /******************************************************************************//**
-     * @brief Read initialization values from input stream.
-    **********************************************************************************/
-    void getValuesFromStream(std::istream &aStream);
-
     double getValue(int aIndex){return mValues[aIndex];}
     double getValueUpperBound(int aIndex){return mUpperBounds[aIndex];}
     double getValueLowerBound(int aIndex){return mLowerBounds[aIndex];}
 
-private:
 
+    friend class boost::serialization::access;
+    template<class Archive>
+    void serialize(Archive & aArchive, const unsigned int version)
+    {
+      aArchive & boost::serialization::make_nvp("LocalOp",boost::serialization::base_object<LocalOp>(*this));
+      aArchive & boost::serialization::make_nvp("ValueNames",mValuesName);
+      aArchive & boost::serialization::make_nvp("UpperBoundsName",mUpperBoundsName);
+      aArchive & boost::serialization::make_nvp("LowerBoundsName",mLowerBoundsName);
+      aArchive & boost::serialization::make_nvp("StringMethod",mStringMethod);
+      aArchive & boost::serialization::make_nvp("CSMFileName",mCSMFileName);
+      aArchive & boost::serialization::make_nvp("Values",mValues);
+      aArchive & boost::serialization::make_nvp("LowerBounds",mLowerBounds);
+      aArchive & boost::serialization::make_nvp("UpperBounds",mUpperBounds);
+    }
+    
+private:
 
     std::string mValuesName; /*!< initial value argument name */
     std::string mUpperBoundsName; /*!< initial value argument name */
@@ -113,3 +119,6 @@ private:
 
 }
 // namespace Plato
+
+#include <boost/serialization/export.hpp>
+BOOST_CLASS_EXPORT_KEY2(Plato::InitializeValues, "InitializeValues")

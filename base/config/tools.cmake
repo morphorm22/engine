@@ -357,6 +357,50 @@ function( Plato_add_simple_test RUN_COMMAND TEST_NAME NUM_PROCS IO_COMM_INDEX )
 
 endfunction( Plato_add_simple_test )
 
+
+###############################################################################
+## Plato_add_custom_command_test( 
+## )
+###############################################################################
+
+function( Plato_add_custom_command_test RUN_COMMAND TEST_NAME NUM_PROCS IO_COMM_INDEX CUSTOM_COMMAND )
+
+    file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/mpirun.source "${RUN_COMMAND}")
+
+    add_test(NAME ${TEST_NAME}
+           COMMAND ${CMAKE_COMMAND} 
+           -DTEST_COMMAND=${RUN_COMMAND}
+           -DDATA_DIR=${CMAKE_CURRENT_SOURCE_DIR} 
+           -DOUT_FILE=${OUT_FILE} 
+           -DGOLD_FILE=${GOLD_FILE} 
+           -DCUSTOM_COMMAND=${CUSTOM_COMMAND}
+           -P ${CMAKE_SOURCE_DIR}/base/config/runcustomcommandtest.cmake )
+
+endfunction( Plato_add_custom_command_test )
+
+###############################################################################                                           
+## Plato_add_expect_fail_test(                                                                                         
+## )                                                                                                                      
+###############################################################################                                           
+
+function( Plato_add_expect_fail_test RUN_COMMAND TEST_NAME NUM_PROCS IO_COMM_INDEX EXPECTED_STRING OUTPUT_FILE )
+
+    file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/mpirun.source "${RUN_COMMAND}")
+
+    add_test(NAME ${TEST_NAME}
+           COMMAND ${CMAKE_COMMAND}
+           -DTEST_COMMAND=${RUN_COMMAND}
+           -DDATA_DIR=${CMAKE_CURRENT_SOURCE_DIR}
+           -DOUT_FILE=${OUT_FILE}
+           -DGOLD_FILE=${GOLD_FILE}
+           -DEXPECTED_STRING=${EXPECTED_STRING}
+           -DOUTPUT_FILE=${OUTPUT_FILE}
+           -P ${CMAKE_SOURCE_DIR}/base/config/runexpectfailtest.cmake )
+
+endfunction( Plato_add_expect_fail_test )
+
+
+
 ###############################################################################
 ## Plato_add_numdiff_test( 
 ##    TEST_NAME      == test name
@@ -365,18 +409,17 @@ endfunction( Plato_add_simple_test )
 ## )
 ###############################################################################
 
-function( Plato_add_numdiff_test RUN_COMMAND TEST_NAME NUMDIFF_COMMAND NUMDIFF_RELATIVE_TOLERANCE NUM_PROCS IO_COMM_INDEX )
-
-    file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/mpirun.source "${RUN_COMMAND}")
+function( Plato_add_numdiff_test RUN_COMMAND TEST_NAME NUMDIFF_COMMAND NUMDIFF_ABSOLUTE NUMDIFF_TOLERANCE )
 
     add_test( NAME ${TEST_NAME}
               COMMAND ${CMAKE_COMMAND} 
-              "-DTEST_COMMAND=${RUN_COMMAND}"
+              -DTEST_COMMAND=${RUN_COMMAND}
               -DDATA_DIR=${CMAKE_CURRENT_SOURCE_DIR} 
               -DOUT_FILE=${OUT_FILE} 
               -DGOLD_FILE=${GOLD_FILE} 
               -DNUMDIFF_COMMAND=${NUMDIFF_COMMAND}
-              -DNUMDIFF_RELATIVE_TOLERANCE=${NUMDIFF_RELATIVE_TOLERANCE}
+              -DNUMDIFF_ABSOLUTE=${NUMDIFF_ABSOLUTE}
+              -DNUMDIFF_TOLERANCE=${NUMDIFF_TOLERANCE}
               -P ${CMAKE_SOURCE_DIR}/base/config/runnumdifftest.cmake )
 
 endfunction( Plato_add_numdiff_test )
@@ -386,7 +429,7 @@ endfunction( Plato_add_numdiff_test )
 ## )
 ###############################################################################
 
-function( Plato_add_xmlgen_numdiff_test TEST_NAME XMLGEN_COMMAND NUMDIFF_COMMAND NUMDIFF_RELATIVE_TOLERANCE )
+function( Plato_add_xmlgen_numdiff_test TEST_NAME XMLGEN_COMMAND NUMDIFF_COMMAND NUMDIFF_ABSOLUTE NUMDIFF_TOLERANCE )
 
   set( RUN_COMMAND "source ${CMAKE_CURRENT_BINARY_DIR}/mpirun.source" )
 
@@ -398,7 +441,8 @@ function( Plato_add_xmlgen_numdiff_test TEST_NAME XMLGEN_COMMAND NUMDIFF_COMMAND
            -DOUT_FILE=${OUT_FILE} 
            -DGOLD_FILE=${GOLD_FILE} 
            -DNUMDIFF_COMMAND=${NUMDIFF_COMMAND}
-           -DNUMDIFF_RELATIVE_TOLERANCE=${NUMDIFF_RELATIVE_TOLERANCE}
+           -DNUMDIFF_ABSOLUTE=${NUMDIFF_ABSOLUTE}
+           -DNUMDIFF_TOLERANCE=${NUMDIFF_TOLERANCE}
            -P ${CMAKE_SOURCE_DIR}/base/config/runxmlgennumdifftest.cmake)
 
 endfunction( Plato_add_xmlgen_numdiff_test )
@@ -423,6 +467,28 @@ function( Plato_add_xmlgen_custom_command_test TEST_NAME XMLGEN_COMMAND CUSTOM_C
            -P ${CMAKE_SOURCE_DIR}/base/config/runxmlgencustomcommandtest.cmake)
 
 endfunction( Plato_add_xmlgen_custom_command_test )
+
+
+###############################################################################
+## Plato_add_xmlgen_no_run_expect_fail_test(
+## )
+###############################################################################
+
+function( Plato_add_xmlgen_no_run_expect_fail_test TEST_NAME XMLGEN_COMMAND )
+
+  set( RUN_COMMAND "${XMLGEN_COMMAND} >& xmllog" )
+
+    add_test(NAME ${TEST_NAME}
+           COMMAND ${CMAKE_COMMAND}
+           -DTEST_COMMAND=${RUN_COMMAND}
+           -DXMLGEN_COMMAND=${XMLGEN_COMMAND}
+           -DDATA_DIR=${CMAKE_CURRENT_SOURCE_DIR}
+           -DOUT_FILE=${OUT_FILE}
+           -DGOLD_FILE=${GOLD_FILE}
+	   -P ${CMAKE_SOURCE_DIR}/base/config/runxmlgenexpectfailtest.cmake )
+
+endfunction( Plato_add_xmlgen_no_run_expect_fail_test )
+
 
 ###############################################################################
 ## Plato_add_xmlgen_no_run_custom_command_test( 

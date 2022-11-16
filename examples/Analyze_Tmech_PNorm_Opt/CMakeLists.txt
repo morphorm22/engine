@@ -29,6 +29,8 @@ set(XMLGEN_COMMAND "../../base/src/input_generator/XMLGenerator plato_input_deck
 
 set( SKIP_EXODIFF 0 )
 # Run test
-Plato_add_xmlgen_test(${TEST_NAME} ${XMLGEN_COMMAND} ${NUM_PROCS} ${IO_COMM_INDEX} ${OUTPUT_MESH} ${SKIP_EXODIFF})
+#Plato_add_xmlgen_test(${TEST_NAME} ${XMLGEN_COMMAND} ${NUM_PROCS} ${IO_COMM_INDEX} ${OUTPUT_MESH} ${SKIP_EXODIFF})
+Plato_add_xmlgen_no_run_expect_fail_test(${TEST_NAME} ${XMLGEN_COMMAND})
+set_property(TEST ${TEST_NAME} PROPERTY LABELS "large")
 
 endif()

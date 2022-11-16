@@ -70,6 +70,9 @@ PhysicsProxyApp::PhysicsProxyApp(const std::string & aInputMeshFile, const MPI_C
         mDesignVariables(),
         mObjectiveGradient()
 {
+#ifdef BUILD_IN_SIERRA // GLAZE1
+  mMeshData->use_simple_fields();
+#endif
 }
 
 PhysicsProxyApp::~PhysicsProxyApp()
@@ -112,6 +115,9 @@ void PhysicsProxyApp::reinitialize()
 {
     delete mMeshData;
     mMeshData = new stk::io::StkMeshIoBroker(mMyComm);
+#ifdef BUILD_IN_SIERRA // GLAZE1
+    mMeshData->use_simple_fields();
+#endif
 
     mGlobalIDsOwned.clear();
     mGlobalIDsOwnedAndShared.clear();

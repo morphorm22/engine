@@ -12,7 +12,7 @@ end service
 
 begin criterion 1
   type mechanical_compliance
-  minimum_ersatz_material_value 1e-9
+  minimum_ersatz_material_value 1e-3
 end criterion
 
 begin criterion 2
@@ -25,7 +25,7 @@ begin scenario 1
   loads 1
   boundary_conditions 1 2
   material 1
-  minimum_ersatz_material_value 1e-9
+  minimum_ersatz_material_value 1e-3
   linear_solver_tolerance 1e-8
 end scenario
 
@@ -90,7 +90,7 @@ begin optimization_parameters
    filter_radius_absolute 0.0693
    boundary_sticking_penalty 1.0
    symmetry_plane_location_names sym
-   max_iterations 20 
+   max_iterations 15 
    output_frequency 1000 
    optimization_algorithm oc
    discretization density 

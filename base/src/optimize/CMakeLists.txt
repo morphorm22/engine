@@ -137,10 +137,8 @@ set(${LIB_NAME}_HEADERS Plato_BoundsBase.hpp
                         Plato_StandardVectorReductionOperations.hpp
                         Plato_NonlinearProgrammingSubProblemOC.hpp
                         Plato_Vector.hpp
-                        Plato_Diagnostics.hpp
                         Plato_DriverInterface.hpp
                         Plato_SOParameterStudies.hpp
-                        Plato_DiagnosticsInterface.hpp
                         Plato_DistributedVector.hpp
                         Plato_EpetraSerialDenseVector.hpp
                         Plato_SOParameterStudiesInterface.hpp
@@ -182,20 +180,18 @@ set(${LIB_NAME}_HEADERS Plato_BoundsBase.hpp
                         
 IF( ENABLE_ROL )
 SET(${LIB_NAME}_HEADERS ${${LIB_NAME}_HEADERS}
-                                                Plato_ROLBoundConstrainedInterface.hpp
-                                                Plato_ROLAugmentedLagrangianInterface.hpp
-                                                Plato_ROLLinearConstraintInterface.hpp
-                                                Plato_ROLSPGInterface.hpp
-						Plato_SerialEpetraVectorROL.hpp
-						Plato_DistributedVectorROL.hpp
-						Plato_ReducedConstraintROL.hpp
-						Plato_ReducedObjectiveROL.hpp
-						Plato_ConstraintSimOptROL.hpp
-						Plato_ObjectiveSimOptROL.hpp
-						Plato_ProxyComplianceROL.hpp
-                                                Plato_SerialVectorROL.hpp
-						Plato_ProxyVolumeROL.hpp
-                        )
+  Plato_ROLInterface.hpp
+  Plato_ROLSPGInterface.hpp
+  Plato_SerialEpetraVectorROL.hpp
+  Plato_DistributedVectorROL.hpp
+  Plato_ReducedConstraintROL.hpp
+  Plato_ReducedObjectiveROL.hpp
+  Plato_ConstraintSimOptROL.hpp
+  Plato_ObjectiveSimOptROL.hpp
+  Plato_ProxyComplianceROL.hpp
+  Plato_SerialVectorROL.hpp
+  Plato_ProxyVolumeROL.hpp
+  )
 ENDIF()
 
 INCLUDE_DIRECTORIES(${PLATO_INCLUDES})

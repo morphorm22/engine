@@ -1,2 +1,0 @@
-plato-cli geometry esp --input rocker.csm --output-model rocker_opt.csm --output-mesh rocker.exo --tesselation rocker.eto
-

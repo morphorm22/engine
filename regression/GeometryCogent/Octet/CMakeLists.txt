@@ -12,3 +12,4 @@ add_test(
   -DCOMMANDS=${COMMANDS}
   -P ${CMAKE_SOURCE_DIR}/base/config/run.cmake
 )
+set_property(TEST ${TEST_NAME} PROPERTY LABELS "medium")

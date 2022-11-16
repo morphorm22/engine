@@ -50,7 +50,12 @@
 #ifndef SRC_PERFORMER_HPP_
 #define SRC_PERFORMER_HPP_
 
+#include "Plato_OperationTypes.hpp"
+
+#include "Plato_SerializationHeaders.hpp"
+
 #include <string>
+#include <vector>
 
 namespace Plato
 {
@@ -64,10 +69,12 @@ class SharedData;
 class Performer
 {
 public:
+    Performer(){};
     Performer(const std::string & aMyName, const int & aCommID);
 
     void finalize();
     void compute(const std::string & aOperationName);
+
 
     void importData(const std::string & aArgumentName, const SharedData & aImportData);
     void exportData(const std::string & aArgumentName, SharedData & aExportData);
@@ -78,10 +85,29 @@ public:
     std::string myName();
     int myCommID();
 
+    //!{
+    //! Constrained interface
+    bool usesConstrainedOperationInterface() const;
+    std::vector<OperationType> supportedOperationTypes() const;
+    static auto computeFunction(OperationType aOperation) -> std::function<void(Performer&)>;
+    //!}
+    
+    template<class Archive>
+    void serialize(Archive & aArchive, const unsigned int version)
+    {
+        aArchive & boost::serialization::make_nvp("PerformerName",mName);
+        //aArchive & boost::serialization::make_nvp("Application",mApplication);
+        aArchive & boost::serialization::make_nvp("CommID",mCommID);
+    } 
+
 private:
+    void computeCriterionValue();
+    void computeCriterionGradient();
+    void computeCriterionHessianTimesVector();
+
     Application* mApplication;  // TODO make this a unique pointer
-    const std::string mName;
-    const int mCommID;
+    std::string mName;
+    int mCommID;
 
 private:
     Performer(const Performer& aRhs);

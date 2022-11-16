@@ -52,7 +52,6 @@
 #include <mpi.h>
 
 #include "Plato_OptimizerInterface.hpp"
-#include "Plato_DiagnosticsInterface.hpp"
 #include "Plato_ParticleSwarmEngineBCPSO.hpp"
 #include "Plato_ParticleSwarmEngineALPSO.hpp"
 #include "Plato_SOParameterStudiesInterface.hpp"
@@ -63,9 +62,7 @@
 #include "Plato_GloballyConvergentMethodMovingAsymptotesInterface.hpp"
 
 #ifdef ENABLE_ROL
-#include "Plato_ROLAugmentedLagrangianInterface.hpp"
-#include "Plato_ROLBoundConstrainedInterface.hpp"
-#include "Plato_ROLLinearConstraintInterface.hpp"
+#include "Plato_ROLInterface.hpp"
 #endif
 
 namespace Plato
@@ -232,12 +229,6 @@ public:
             tOptimizer = new Plato::ParticleSwarmEngineALPSO<ScalarType, OrdinalType>(aInterface, aLocalComm);
           } catch(...){aInterface->Catch();}
         }
-        else if( tOptPackage == "DerivativeChecker" )
-        {
-          try {
-            tOptimizer = new Plato::DiagnosticsInterface<ScalarType, OrdinalType>(aInterface, aLocalComm);
-          } catch(...){aInterface->Catch();}
-        }
         else if( tOptPackage == "SOParameterStudies" )
         {
           try {
@@ -248,19 +239,24 @@ public:
        else if( tOptPackage == "ROL AugmentedLagrangian" )
        {
          try {
-           tOptimizer = new Plato::ROLAugmentedLagrangianInterface<ScalarType, OrdinalType>(aInterface, aLocalComm);
+          Plato::optimizer::algorithm_t tType = Plato::optimizer::algorithm_t::ROL_AUGMENTED_LAGRANGIAN;
+           tOptimizer = new Plato::ROLInterface<ScalarType, OrdinalType>(aInterface, aLocalComm,tType);
+           
          } catch(...){aInterface->Catch();}
        }
        else if( tOptPackage == "ROL BoundConstrained" )
        {
          try {
-           tOptimizer = new Plato::ROLBoundConstrainedInterface<ScalarType, OrdinalType>(aInterface, aLocalComm);
+           Plato::optimizer::algorithm_t tType = Plato::optimizer::algorithm_t::ROL_BOUND_CONSTRAINED;
+           tOptimizer = new Plato::ROLInterface<ScalarType, OrdinalType>(aInterface, aLocalComm,tType);
+           
          } catch(...){aInterface->Catch();}
        }
        else if( tOptPackage == "ROL LinearConstraint" )
        {
          try {
-           tOptimizer = new Plato::ROLLinearConstraintInterface<ScalarType, OrdinalType>(aInterface, aLocalComm);
+           Plato::optimizer::algorithm_t tType = Plato::optimizer::algorithm_t::ROL_LINEAR_CONSTRAINT;
+           tOptimizer = new Plato::ROLInterface<ScalarType, OrdinalType>(aInterface, aLocalComm,tType);
          } catch(...){aInterface->Catch();}
        }
 #endif
@@ -279,7 +275,6 @@ public:
             << "\t KSAL ... Kelley Sachs Augmented Lagrangian\n"
             << "\t BCPSO ... Bound Constrained Particle Swarm Optimization\n"
             << "\t ALPSO ... Augmented Lagrangian Particle Swarm Optimization\n"
-            << "\t DerivativeChecker ... Derivative Checker Toolkit\n"
             << "\t SOParameterStudies ... Shape Optimization Parameter Study Toolkit\n"
 #ifdef ENABLE_ROL
             << "\t ROL AugmentedLagrangian... Rapid Optimization Library Augmented Lagrangian\n"
@@ -326,6 +321,13 @@ public:
         // Store the index of the current optimizer block so to be
         // able to read additional serial optimizer blocks.
         mOptimizerIndex = aOptimizerIndex;
+
+        const bool tSaveToXML = std::getenv("PLATO_SAVE_TO_XML") != nullptr;
+      
+        if(tSaveToXML)
+        {
+          Plato::saveToXML(*tOptimizer, Plato::XMLFileName{"save_optimizer.xml"}, Plato::XMLNodeName{"Optimizer"});
+        }
       }
 
       catch(...)

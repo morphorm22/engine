@@ -58,26 +58,11 @@
 #include "Plato_Utils.hpp"
 #include "Plato_OperationInputDataMng.hpp"
 
+#include <boost/archive/xml_oarchive.hpp>
+#include <boost/archive/xml_iarchive.hpp>
+BOOST_CLASS_EXPORT_IMPLEMENT(Plato::Operation::Parameter)
+
 namespace Plato {
-
-/******************************************************************************/
-Operation::
-Operation(const ::Plato::OperationInputDataMng & aOperationDataMng,
-              const std::shared_ptr<::Plato::Performer> aPerformer,
-              const std::vector<::Plato::SharedData*>& aSharedData) :
-        m_performer(nullptr),
-        m_operationName(),
-        m_inputData(),
-        m_outputData()
-/******************************************************************************/
-{
-}
-
-/******************************************************************************/
-Operation::~Operation()
-/******************************************************************************/
-{
-}
 
 /******************************************************************************/
 void
@@ -168,8 +153,17 @@ compute()
      {
        m_performer->importData(p.first, *(p.second));
      }
-     m_performer->compute(m_operationName);
+     computeImpl();
   }
+}
+
+/******************************************************************************/
+void
+Operation::
+computeImpl()
+/******************************************************************************/
+{
+  m_performer->compute(m_operationName);
 }
 
 /******************************************************************************/
@@ -206,7 +200,11 @@ Operation::
 getPerformerName() const
 /******************************************************************************/
 {
-    return m_performer->myName();
+    if(m_performer){
+        return m_performer->myName();
+    } else {
+        return "NO PERFORMER SET!";
+    }
 }
 
 /******************************************************************************/
@@ -216,6 +214,18 @@ getOperationName() const
 /******************************************************************************/
 {
     return m_operationName;
+}
+
+/******************************************************************************/
+void Operation::setPerformer(std::shared_ptr<Performer> aPerformer)
+/******************************************************************************/
+{ 
+    assert(aPerformer);
+    if(m_performerName == aPerformer->myName())
+    {
+        m_performer = std::move(aPerformer);
+        setComputeFunctionOnNewPerformer();
+    }
 }
 
 } // End namespace Plato

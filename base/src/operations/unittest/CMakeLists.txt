@@ -4,7 +4,9 @@
 SET(Plato_Operations_UnitTester_SRCS ../Plato_InitializeValues.cpp
                                      ../Plato_HarvestDataFromFile.cpp
                                         Plato_Test_Operations.cpp
-                                        Operations_UnitMain.cpp)
+                                        Plato_Test_Operations_Boost.cpp
+                                        Operations_UnitMain.cpp
+                                        )
 
 #SET(Plato_Operations_UnitTester_HDRS XMLGenerator_UnitTester.hpp)
 
@@ -20,12 +22,16 @@ INCLUDE_DIRECTORIES(${PLATOUNIT_INCLUDES})
 set(Plato_Operations_UnitTester_LIBS GTest::GTest 
                                      PlatoApp
                                      ${PLATO_LIBRARIES}
-                                     ${Trilinos_LIBRARIES})
+                                     ${Trilinos_LIBRARIES}
+                                     ${Trilinos_TPL_LIBRARIES}
+                                     Boost::serialization
+                                     )
+                                     
  
 add_executable(Plato_Operations_UnitTester ${Plato_Operations_UnitTester_SRCS})
 target_link_libraries(Plato_Operations_UnitTester ${Plato_Operations_UnitTester_LIBS} ${Plato_Operations_UnitTester_LIBS})
 add_test(NAME Plato_Operations_UnitTester COMMAND ${CMAKE_BINARY_DIR}/base/src/operations/unittest/Plato_Operations_UnitTester)
-
+set_property(TEST Plato_Operations_UnitTester PROPERTY LABELS "small")
 
 if( CMAKE_INSTALL_PREFIX )
   install( TARGETS Plato_Operations_UnitTester DESTINATION ${CMAKE_INSTALL_PREFIX}/bin )

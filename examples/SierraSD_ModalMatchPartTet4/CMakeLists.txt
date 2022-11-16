@@ -8,23 +8,16 @@ Plato_add_test_files("${testFiles}")
 # write out the path info in the plato input deck
 Plato_add_text_to_file_after_keyword("plato_input_deck.i" "platomain" "path ${PLATOMAIN_BINARY}\n")
 
-# Specify which comm will provide the output for comparison
-set( IO_COMM_INDEX 0 )
-
-# Set number of processors for PlatoMain comm 
-set( PLATOMAIN_NP 1 )
-
-# Set number of processors for Performer comms
-set( SD_NP 1 )
-
-# Create list of comm sizes 
-set( NUM_PROCS "${PLATOMAIN_NP} ${SD_NP}" )
-
-# set mesh for epu at end
-set(OUTPUT_MESH "Iteration14.exo")
+# Set xml generator command
 set(XMLGEN_COMMAND "../../base/src/input_generator/XMLGenerator plato_input_deck.i")
 
-set( SKIP_EXODIFF 0 )
+# Set file names for diff
+set( OUT_FILE "part_brick_opt.csm")
+set( GOLD_FILE "solution.csm.gold")
 
-# Run test
-Plato_add_xmlgen_test(${TEST_NAME} ${XMLGEN_COMMAND} ${NUM_PROCS} ${IO_COMM_INDEX} ${OUTPUT_MESH} ${SKIP_EXODIFF})
+# set relative tolerance for diff test
+set( NUMDIFF_USE_ABSOLUTE FALSE)
+set( NUMDIFF_RELATIVE_TOLERANCE 1e-2 )
+
+# Add the test
+Plato_add_xmlgen_numdiff_test(${TEST_NAME} ${XMLGEN_COMMAND} ${NUMDIFF_COMMAND} ${NUMDIFF_USE_ABSOLUTE} ${NUMDIFF_RELATIVE_TOLERANCE})

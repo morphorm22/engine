@@ -100,8 +100,10 @@ opt.set_min_objective(dfdx)
 #opt.add_inequality_constraint(g, 1e-6)
 opt.set_lower_bounds([0.6, 4.0])
 opt.set_upper_bounds([0.9, 6.0])
-opt.set_xtol_rel(1e-6)
-opt.set_maxeval(10)
+
+opt.set_maxeval(20)
+opt.set_ftol_rel(1e-3)
+opt.set_xtol_rel(1e-3)
 
 print( "xinit", xinit)
 xopt = opt.optimize(xinit)

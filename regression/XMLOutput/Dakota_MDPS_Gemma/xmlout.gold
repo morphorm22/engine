@@ -108,21 +108,21 @@ PlatoEngineServices plato_main_input_deck.xml \
 <Operation>
   <Function>SystemCall</Function>
   <Name>wait_0</Name>
-  <Command>while lsof -u $USER | grep ./gemma_matched_power_balance_input_deck_power_balance.dat; do sleep 1; done</Command>
+  <Command>while lsof -u `id -u -n` | grep ./gemma_matched_power_balance_input_deck_power_balance.dat; do sleep 1; done</Command>
   <ChDir>evaluations_0</ChDir>
   <OnChange>false</OnChange>
 </Operation>
 <Operation>
   <Function>SystemCall</Function>
   <Name>wait_1</Name>
-  <Command>while lsof -u $USER | grep ./gemma_matched_power_balance_input_deck_power_balance.dat; do sleep 1; done</Command>
+  <Command>while lsof -u `id -u -n` | grep ./gemma_matched_power_balance_input_deck_power_balance.dat; do sleep 1; done</Command>
   <ChDir>evaluations_1</ChDir>
   <OnChange>false</OnChange>
 </Operation>
 <Operation>
   <Function>SystemCall</Function>
   <Name>wait_2</Name>
-  <Command>while lsof -u $USER | grep ./gemma_matched_power_balance_input_deck_power_balance.dat; do sleep 1; done</Command>
+  <Command>while lsof -u `id -u -n` | grep ./gemma_matched_power_balance_input_deck_power_balance.dat; do sleep 1; done</Command>
   <ChDir>evaluations_2</ChDir>
   <OnChange>false</OnChange>
 </Operation>
