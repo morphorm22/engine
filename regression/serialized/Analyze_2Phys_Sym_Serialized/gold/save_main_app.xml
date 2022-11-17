@@ -254,7 +254,7 @@
 					</item>
 				</OutputData>
 				<OutputFrequency>1000</OutputFrequency>
-				<MaxIterations>100</MaxIterations>
+				<MaxIterations>5</MaxIterations>
 				<OutputMethod>2</OutputMethod>
 				<Discretization>density</Discretization>
 				<WriteRestart>0</WriteRestart>

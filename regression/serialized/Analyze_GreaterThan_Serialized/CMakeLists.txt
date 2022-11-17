@@ -4,7 +4,7 @@ if(ANALYZE)
 # Name the test with the directory name
 Plato_new_test(TEST_NAME)
 
-set( testFolder "examples/MMA_replacements/${TEST_NAME}/")
+set( testFolder "regression/serialized/${TEST_NAME}/")
 
 # Copy Input files from source to binary dir
 set( testFiles "plato_input_deck.i;design_vol.exo;xml_comparison_files.txt;serialize_comparison_files.txt;numdiff_comparison_files.txt;")

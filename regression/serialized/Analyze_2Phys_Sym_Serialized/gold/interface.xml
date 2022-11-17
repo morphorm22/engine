@@ -542,7 +542,7 @@
 <Optimizer>
   <Package>ROL AugmentedLagrangian</Package>
   <Options>
-    <MaxNumOuterIterations>100</MaxNumOuterIterations>
+    <MaxNumOuterIterations>5</MaxNumOuterIterations>
     <KSMaxTrustRegionIterations>5</KSMaxTrustRegionIterations>
     <HessianType>zero</HessianType>
     <LimitedMemoryStorage>8</LimitedMemoryStorage>
@@ -552,7 +552,7 @@
     <InputFileName>rol_inputs.xml</InputFileName>
   </Options>
   <Convergence>
-    <MaxIterations>100</MaxIterations>
+    <MaxIterations>5</MaxIterations>
   </Convergence>
   <Output>
     <OutputStage>Output To File</OutputStage>

@@ -1,0 +1,20 @@
+
+  ROL::Problem::finalize
+    Problem Summary:
+      Has Bound Constraint? .............. yes
+      Has Equality Constraint? ........... yes
+        Names: ........................... Equality Constraint
+        Total: ........................... 1
+      Has Inequality Constraint? ......... no
+
+
+Augmented Lagrangian Solver (Type G, General Constraints)
+Subproblem Solver: Trust Region
+  iter  fval           cnorm          gLnorm         snorm          penalty   feasTol   optTol    #fval   #grad   #cval   subIter 
+  0     1.000000e+00   7.938095e-15   3.148958e-01   ---            1.00e+01  1.26e-01  3.15e-03  1       1       1       ---     
+  1     3.524496e-01   2.469066e-02   2.706573e-03   2.812730e+01   1.00e+01  1.00e-01  3.15e-04  21      11      21      10      
+  2     3.453945e-01   1.424064e-02   1.026384e-03   7.246673e+00   1.00e+01  1.00e-01  3.15e-04  42      22      42      10      
+  3     3.472468e-01   8.034252e-04   9.602175e-04   5.132733e+00   1.00e+01  1.00e-01  3.15e-04  83      43      83      10      
+  4     3.417417e-01   1.398940e-02   6.623615e-04   2.653775e+00   1.00e+01  1.00e-01  3.15e-04  136     66      136     10      
+  5     3.442966e-01   4.716940e-03   4.336035e-04   1.936638e+00   1.00e+01  1.00e-01  3.15e-04  200     91      200     9       
+Optimization Terminated with Status: Iteration Limit Exceeded

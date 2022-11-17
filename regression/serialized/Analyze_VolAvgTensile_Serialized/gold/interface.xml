@@ -497,7 +497,7 @@
 <Optimizer>
   <Package>ROL LinearConstraint</Package>
   <Options>
-    <MaxNumOuterIterations>100</MaxNumOuterIterations>
+    <MaxNumOuterIterations>20</MaxNumOuterIterations>
     <KSMaxTrustRegionIterations>5</KSMaxTrustRegionIterations>
     <HessianType>zero</HessianType>
     <LimitedMemoryStorage>8</LimitedMemoryStorage>
@@ -507,7 +507,7 @@
     <InputFileName>rol_inputs.xml</InputFileName>
   </Options>
   <Convergence>
-    <MaxIterations>100</MaxIterations>
+    <MaxIterations>20</MaxIterations>
   </Convergence>
   <UpdateProblemStage>
     <Name>Update Problem</Name>

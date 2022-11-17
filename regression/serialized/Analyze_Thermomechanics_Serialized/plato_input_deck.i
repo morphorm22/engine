@@ -115,7 +115,7 @@ end output
 
 begin optimization_parameters
    filter_radius_scale 2.5
-   max_iterations 100
+   max_iterations 20
    output_frequency 1000
    optimization_algorithm rol_linear_constraint
    discretization density 

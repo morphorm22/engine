@@ -130,7 +130,7 @@ IF( ANALYZE )
       add_subdirectory(serialized/Analyze_VolAvgTensile_Serialized)
       add_subdirectory(serialized/Analyze_2Phys_Sym_Serialized)
       add_subdirectory(serialized/Analyze_CompMin3D_2Load1Perfomer_Serialized)
-      add_subdirectory(serialized/Analyze_Thermomechanics_Serialized)
+      #DISABLE add_subdirectory(serialized/Analyze_Thermomechanics_Serialized) # Disabled until thermomechanics is back on
       add_subdirectory(serialized/Analyze_CompMin3D_MassProp_Serialized)
       add_subdirectory(serialized/Analyze_CompMin3D_MultiBlock_Serialized)
       add_subdirectory(serialized/Analyze_DisplacementCriterion_Serialized)

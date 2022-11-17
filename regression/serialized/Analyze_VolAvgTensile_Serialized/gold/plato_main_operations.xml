@@ -15,7 +15,7 @@
   <Name>PlatoMainOutput</Name>
   <WriteRestart>false</WriteRestart>
   <OutputFrequency>1000</OutputFrequency>
-  <MaxIterations>100</MaxIterations>
+  <MaxIterations>20</MaxIterations>
   <Input>
     <ArgumentName>topology</ArgumentName>
     <Layout>Nodal Field</Layout>

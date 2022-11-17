@@ -4,7 +4,7 @@ if(ANALYZE)
 # Name the test with the directory name
 Plato_new_test(TEST_NAME)
 
-set( testFolder "examples/MMA_replacements/${TEST_NAME}/")
+set( testFolder "regression/serialized/${TEST_NAME}/")
 
 # Copy Input files from source to binary dir
 set( testFiles "plato_input_deck.i;bb_2block.exo;xml_comparison_files.txt;serialize_comparison_files.txt;numdiff_comparison_files.txt;")
@@ -31,5 +31,7 @@ SET(CUSTOM_COMMAND "python ${PYTHON_FILE} ${NUMDIFF_TOLERANCE} ${IN_FILE}")
 # Add the test
 Plato_add_xmlgen_custom_command_test(${TEST_NAME} ${XMLGEN_COMMAND} ${CUSTOM_COMMAND})
 set_property(TEST ${TEST_NAME} PROPERTY ENVIRONMENT "PLATO_SAVE_TO_XML=1")
+
+set_property(TEST ${TEST_NAME} PROPERTY LABELS "medium")
 
 endif()
