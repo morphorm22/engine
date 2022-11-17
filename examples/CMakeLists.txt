@@ -92,7 +92,7 @@ IF( ANALYZE )
 
     add_subdirectory(Analyze_2Phys_Sym)
     add_subdirectory(Analyze_CompMin3D_2Loads_1Performer)
-    add_subdirectory(Analyze_Thermomechanics)
+    # DISABLED add_subdirectory(Analyze_Thermomechanics) # Disabled until steady_state_thermomechanics is enabled
     add_subdirectory(Analyze_CompMin3D_MassProp)
     add_subdirectory(Analyze_CompMin3D_MultiBlock)
     add_subdirectory(Analyze_DisplacementCriterion)

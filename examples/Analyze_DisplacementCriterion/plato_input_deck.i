@@ -79,7 +79,7 @@ begin block 1
 end block
 
 begin optimization_parameters
-   max_iterations 10
+   max_iterations 1
    verbose false
    write_restart_file true
    number_buffer_layers 0
