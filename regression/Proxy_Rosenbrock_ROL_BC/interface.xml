@@ -145,13 +145,14 @@
 
 <!---SET OPTIMIZER'S OPTIONS-->
 <Optimizer>
-  <Package>KSBC</Package>
+  <Package>ROL BoundConstrained</Package>
   <Options>
-    <HessianType>analytical</HessianType>
+    <HessianType>finite_difference</HessianType>
     <OutputControlToFile>true</OutputControlToFile>
     <OutputDiagnosticsToFile>true</OutputDiagnosticsToFile>
     <KSOuterStagnationTolerance>1e-8</KSOuterStagnationTolerance>
     <KSTrustRegionExpansionFactor>4</KSTrustRegionExpansionFactor>
+    <InputFileName>rol_inputs.xml</InputFileName>
   </Options>
   <OptimizationVariables>
     <ValueName>Control</ValueName> <!---NEEDS TO MATCH THE SARED DATA NAME DEFINED BY THE USER FOR THE DESIGN VARIABLES-->
