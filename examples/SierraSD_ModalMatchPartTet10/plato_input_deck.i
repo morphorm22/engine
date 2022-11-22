@@ -73,7 +73,9 @@ end material
 begin optimization_parameters
    max_iterations 50
    output_frequency 1
-   optimization_algorithm ksbc
+   optimization_algorithm rol_bound_constrained
+   rol_subproblem_model lin_more
+   hessian_type zero
    normalize_in_aggregator false
    csm_file part_brick.csm
    num_shape_design_variables 1
