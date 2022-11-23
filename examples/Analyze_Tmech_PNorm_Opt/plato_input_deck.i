@@ -150,11 +150,10 @@ begin optimization_parameters
    filter_radius_scale 2.98
    max_iterations 30 
    output_frequency 1000 
-   optimization_algorithm ksal
+   // Gold will have to be updated when this is enabled
+   optimization_algorithm rol_linear_constraint
    discretization density 
    initial_density_value .2
-   al_penalty_parameter 1
-   al_penalty_scale_factor 1.05
    fixed_block_ids 2
 end optimization_parameters
 
