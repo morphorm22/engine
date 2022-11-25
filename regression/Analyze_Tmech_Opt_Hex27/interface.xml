@@ -461,14 +461,19 @@
 </Stage>
 
 <Optimizer>
-  <Package>KSAL</Package>
+  <Package>ROL LinearConstraint</Package>
   <Output>
     <OutputStage>Output To File</OutputStage>
   </Output>
   <Options>
+    <MaxNumOuterIterations>30</MaxNumOuterIterations>
     <KSMaxTrustRegionIterations>5</KSMaxTrustRegionIterations>
-    <AugLagPenaltyParam>1</AugLagPenaltyParam>
-    <AugLagPenaltyParamScaleFactor>1.05</AugLagPenaltyParamScaleFactor>
+    <HessianType>zero</HessianType>
+    <LimitedMemoryStorage>8</LimitedMemoryStorage>
+    <ProblemUpdateFrequency>5</ProblemUpdateFrequency>
+    <DisablePostSmoothing>true</DisablePostSmoothing>
+    <ResetAlgorithmOnUpdate>false</ResetAlgorithmOnUpdate>
+    <InputFileName>rol_inputs.xml</InputFileName>
   </Options>
   <OptimizationVariables>
     <ValueName>Optimization DOFs</ValueName>
