@@ -42,11 +42,6 @@ Plato_add_performer(PLATO_NEW_TEST ${PLATOSTATICS_BINARY} ${PLATOSTATICS_NP} ${L
 
 # Add the test
 set(INPUT_MESH unsmesh.gen)
-#set(OUTPUT_MESH platomain.exo)
-#Plato_add_test(${PLATO_NEW_TEST} ${TEST_NAME} ${NUM_PROCS} ${IO_COMM_INDEX} ${INPUT_MESH} ${OUTPUT_MESH})
-#set_property(TEST ${TEST_NAME} PROPERTY LABELS "medium")
-
-# Files and tolerances
 set( OUT_FILE "ROL_output.txt")
 set( GOLD_FILE "ROL_output.txt.gold")
 set( NUMDIFF_USE_ABSOLUTE FALSE)
@@ -55,8 +50,6 @@ message(STATUS "Run command: ${PLATO_TEST_COMMAND}")
 # Add the test
 Plato_add_parallel_numdiff_test(
     ${PLATO_NEW_TEST} ${TEST_NAME} ${NUMDIFF_COMMAND} ${NUMDIFF_USE_ABSOLUTE} ${NUMDIFF_RELATIVE_TOLERANCE} ${NUM_PROCS} ${IO_COMM_INDEX} ${INPUT_MESH})
-set_property(TEST ${TEST_NAME} PROPERTY LABELS "medium")
-
-# Note: The ROL_output.txt.gold was generated with AMGX and may need to be updated when this test is enabled
+set_property(TEST ${TEST_NAME} PROPERTY LABELS "small")
 
 endif()
