@@ -433,22 +433,24 @@
   </Output>
 </Stage>
 
-
-
 <Optimizer>
-  <Package>OC</Package>
+  <Package>ROL LinearConstraint</Package>
+  <Options>
+     <MaxNumOuterIterations>10</MaxNumOuterIterations>
+     <KSMaxTrustRegionIterations>5</KSMaxTrustRegionIterations>
+     <HessianType>zero</HessianType>
+     <LimitedMemoryStorage>8</LimitedMemoryStorage>
+     <ProblemUpdateFrequency>5</ProblemUpdateFrequency>
+     <DisablePostSmoothing>true</DisablePostSmoothing>
+     <ResetAlgorithmOnUpdate>false</ResetAlgorithmOnUpdate>
+     <InputFileName>rol_inputs.xml</InputFileName>
+  </Options>
   <Output>
     <OutputStage>Output To File</OutputStage>
   </Output>
   <CacheStage>
     <Name>Cache State</Name>
   </CacheStage>
-  <OC>
-    <MoveLimiter>1.0</MoveLimiter>
-    <StabilizationParameter>0.5</StabilizationParameter>
-    <UseNewtonSearch>True</UseNewtonSearch>
-    <ConstraintMaxIterations>25</ConstraintMaxIterations>
-  </OC>
   <OptimizationVariables>
     <ValueName>Optimization DOFs</ValueName>
     <InitializationStage>Initialize Optimization DOFs</InitializationStage>
