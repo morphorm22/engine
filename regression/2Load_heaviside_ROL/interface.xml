@@ -518,7 +518,17 @@
 </Stage>
 
 <Optimizer>
-  <Package>OC</Package>
+  <Package>ROL LinearConstraint</Package>
+  <Options>
+     <MaxNumOuterIterations>10</MaxNumOuterIterations>
+     <KSMaxTrustRegionIterations>5</KSMaxTrustRegionIterations>
+     <HessianType>zero</HessianType>
+     <LimitedMemoryStorage>8</LimitedMemoryStorage>
+     <ProblemUpdateFrequency>5</ProblemUpdateFrequency>
+     <DisablePostSmoothing>true</DisablePostSmoothing>
+     <ResetAlgorithmOnUpdate>false</ResetAlgorithmOnUpdate>
+     <InputFileName>rol_inputs.xml</InputFileName>
+  </Options>
   <Output>
     <OutputStage>Output To File</OutputStage>
   </Output>
@@ -541,14 +551,36 @@
     <Lower>0.0</Lower>
   </BoundConstraint>
   <Constraint>
+    <Equality>True</Equality>
+    <Linear>True</Linear>
     <ValueStageName>Volume</ValueStageName> <!---NEEDS TO MATCH USER-DEFINED STAGE NAME FOR THE CONSTRAINT VALUE STAGE-->
     <ValueName>Volume</ValueName>
     <GradientStageName>Volume Gradient</GradientStageName> <!---NEEDS TO MATCH USER-DEFINED STAGE NAME FOR THE CONSTRAINT GRADIENT STAGE-->
     <GradientName>Volume Gradient</GradientName>
     <ReferenceValueName>Design Volume</ReferenceValueName>
     <NormalizedTargetValue>0.2</NormalizedTargetValue>
+    <Tolerance>1e-3</Tolerance>
   </Constraint>
   <Convergence>
     <MaxIterations>10</MaxIterations>
   </Convergence>
 </Optimizer>
+
+<mesh>
+  <type>unstructured</type>
+  <format>exodus</format>
+  <mesh>unsmesh.gen</mesh>
+  <block>
+    <index>1</index>
+    <integration>
+      <type>gauss</type>
+      <order>2</order>
+    </integration>
+    <material>1</material>
+  </block>
+</mesh>
+
+<output>
+  <file>plato</file>
+  <format>exodus</format>
+</output>
