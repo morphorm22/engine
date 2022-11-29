@@ -5,7 +5,7 @@ if(PLATOSTATICS)
 Plato_new_test(TEST_NAME)
 
 # Copy Input files from source to binary dir
-set( testFiles "interface.xml;lightmp1.xml;lightmp2.xml;localApp1.xml;localApp2.xml;platoApp.xml;platomain.xml;unsmesh.gen;initialguess.exo")
+set( testFiles "interface.xml;lightmp1.xml;lightmp2.xml;localApp1.xml;localApp2.xml;platoApp.xml;platomain.xml;unsmesh.gen;initialguess.exo;rol_inputs.xml;ROL_output.txt.gold")
 Plato_add_test_files("${testFiles}")
 
 # Set number of processors for PlatoMain comm
@@ -42,9 +42,13 @@ Plato_add_performer(PLATO_NEW_TEST ${PLATOSTATICS_BINARY} ${PLATOSTATICS_NP} ${L
 
 # Add the test
 set(INPUT_MESH unsmesh.gen)
-set(OUTPUT_MESH platomain.exo)
 set(RESTART_MESH initialguess.exo)
-Plato_add_test(${PLATO_NEW_TEST} ${TEST_NAME} ${NUM_PROCS} ${IO_COMM_INDEX} ${INPUT_MESH} ${OUTPUT_MESH} ${RESTART_MESH})
+set( OUT_FILE "ROL_output.txt")
+set( GOLD_FILE "ROL_output.txt.gold")
+set( NUMDIFF_USE_ABSOLUTE FALSE)
+set( NUMDIFF_RELATIVE_TOLERANCE 1e-4 )
+Plato_add_parallel_numdiff_test(
+    ${PLATO_NEW_TEST} ${TEST_NAME} ${NUMDIFF_COMMAND} ${NUMDIFF_USE_ABSOLUTE} ${NUMDIFF_RELATIVE_TOLERANCE} ${NUM_PROCS} ${IO_COMM_INDEX} ${INPUT_MESH} ${RESTART_MESH})
 set_property(TEST ${TEST_NAME} PROPERTY LABELS "small")
 
 endif()
