@@ -39,7 +39,6 @@ set( OUT_FILE "ROL_output.txt")
 set( GOLD_FILE "ROL_output.txt.gold")
 set( NUMDIFF_USE_ABSOLUTE FALSE)
 set( NUMDIFF_RELATIVE_TOLERANCE 1e-4 )
-message(STATUS "Run command: ${PLATO_TEST_COMMAND}")
 # Add the test
 Plato_add_numdiff_test(${PLATO_TEST_COMMAND} ${TEST_NAME} ${NUMDIFF_COMMAND} ${NUMDIFF_USE_ABSOLUTE} ${NUMDIFF_RELATIVE_TOLERANCE})
 set_property(TEST ${TEST_NAME} PROPERTY LABELS "large")

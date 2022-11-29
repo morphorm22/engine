@@ -46,7 +46,6 @@ set( OUT_FILE "ROL_output.txt")
 set( GOLD_FILE "ROL_output.txt.gold")
 set( NUMDIFF_USE_ABSOLUTE FALSE)
 set( NUMDIFF_RELATIVE_TOLERANCE 1e-4 )
-message(STATUS "Run command: ${PLATO_TEST_COMMAND}")
 # Add the test
 Plato_add_parallel_numdiff_test(
     ${PLATO_NEW_TEST} ${TEST_NAME} ${NUMDIFF_COMMAND} ${NUMDIFF_USE_ABSOLUTE} ${NUMDIFF_RELATIVE_TOLERANCE} ${NUM_PROCS} ${IO_COMM_INDEX} ${INPUT_MESH})
