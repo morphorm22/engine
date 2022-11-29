@@ -516,7 +516,17 @@
 </Stage>
 
 <Optimizer>
-  <Package>OC</Package>
+  <Package>ROL LinearConstraint</Package>
+  <Options>
+     <MaxNumOuterIterations>10</MaxNumOuterIterations>
+     <KSMaxTrustRegionIterations>5</KSMaxTrustRegionIterations>
+     <HessianType>zero</HessianType>
+     <LimitedMemoryStorage>8</LimitedMemoryStorage>
+     <DisablePostSmoothing>true</DisablePostSmoothing>
+     <ResetAlgorithmOnUpdate>false</ResetAlgorithmOnUpdate>
+     <InputFileName>rol_inputs.xml</InputFileName>
+  </Options>
+
   <Output>
     <OutputStage>Output To File</OutputStage>
   </Output>

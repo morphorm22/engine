@@ -85,8 +85,6 @@ IF( ANALYZE )
   add_subdirectory(Analyze_CompMin2D_MultiPerf)
   add_subdirectory(Analyze_LBracket3D_Inqlty)
   add_subdirectory(Analyze_LBracket3D_Eqlty)
-  add_subdirectory(Analyze_CompMin2D)
-  add_subdirectory(Analyze_CompMin3D)
   ## until PA Custom Materials are re-enabled
   # add_subdirectory(Analyze_CompMin3D_GPSR)
 #  add_subdirectory(Analyze_CompMin3D_MMA)
@@ -102,6 +100,9 @@ IF( ANALYZE )
     # add_subdirectory(Analyze_Tmech_Opt_Tet10)
     # add_subdirectory(Analyze_Tmech_Opt_Hex8)
     # add_subdirectory(Analyze_Tmech_Opt_Hex27)
+
+    add_subdirectory(Analyze_CompMin2D)
+    add_subdirectory(Analyze_CompMin3D)
 
     add_subdirectory(Analyze_CompMin3D_BodyLoads)
 	  add_subdirectory(GradientCheck/GC_Analyze_BodyLoads)
