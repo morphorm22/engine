@@ -228,7 +228,6 @@ IF( PLATO_ENABLE_SERVICES_PYTHON AND EXPY AND GEOMETRY )
   ENDIF()
 ENDIF()
 
-add_subdirectory(Albany_2Load_OC)
 add_subdirectory(Periodic_BCs)
 add_subdirectory(ErrorHandling/AggregatorOutput)
 add_subdirectory(ErrorHandling/BogusComm)
