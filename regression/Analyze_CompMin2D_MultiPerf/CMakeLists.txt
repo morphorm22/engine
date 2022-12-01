@@ -5,7 +5,7 @@ if(ANALYZE)
 Plato_new_test(TEST_NAME)
 
 # Copy Input files from source to binary dir
-set( testFiles "defines.xml;interface.xml;mitchell_tri.xml;analyzeApp.xml;platoApp.xml;platoMain.xml;amgx.json;mitchell_tri.exo")
+set( testFiles "defines.xml;interface.xml;mitchell_tri.xml;analyzeApp.xml;platoApp.xml;platoMain.xml;amgx.json;mitchell_tri.exo;rol_inputs.xml;ROL_output.txt.gold")
 Plato_add_test_files("${testFiles}")
 
 
@@ -36,9 +36,14 @@ set(INPUT_FILE --input-config=mitchell_tri.xml)
 Plato_add_performer(PLATO_NEW_TEST ${ANALYZE_BINARY} ${ANALYZE_NP} ${LOCAL_COMM_ID} ${INTERFACE_FILE} ${APP_FILE} ${INPUT_FILE})
 
 # Add the test
-set(INPUT_MESH mitchell_tri.exo)
-set(OUTPUT_MESH platomain.exo.1.0)
-Plato_add_test(${PLATO_NEW_TEST} ${TEST_NAME} ${NUM_PROCS} ${IO_COMM_INDEX} ${INPUT_MESH} ${OUTPUT_MESH})
+set(INPUT_MESH unsmesh.gen)
+set( OUT_FILE "ROL_output.txt")
+set( GOLD_FILE "ROL_output.txt.gold")
+set( NUMDIFF_USE_ABSOLUTE FALSE)
+set( NUMDIFF_RELATIVE_TOLERANCE 1e-4 )
+Plato_add_numdiff_test(${PLATO_NEW_TEST} ${TEST_NAME} ${NUMDIFF_COMMAND} ${NUMDIFF_USE_ABSOLUTE} ${NUMDIFF_RELATIVE_TOLERANCE})
+#Plato_add_numdiff_test(
+#    ${PLATO_NEW_TEST} ${TEST_NAME} ${NUMDIFF_COMMAND} ${NUMDIFF_USE_ABSOLUTE} ${NUMDIFF_RELATIVE_TOLERANCE} ${NUM_PROCS} ${IO_COMM_INDEX} ${INPUT_MESH})
 set_property(TEST ${TEST_NAME} PROPERTY LABELS "medium")
 
 endif()
