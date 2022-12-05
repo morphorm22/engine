@@ -80,6 +80,7 @@ end material
 begin optimization_parameters
    verbose true
    filter_radius_scale 4.48
+   filter_power 2.0
    max_iterations 10 
    output_frequency 1000 
    optimization_algorithm rol_linear_constraint
