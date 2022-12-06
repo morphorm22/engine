@@ -43,6 +43,7 @@ set( NUMDIFF_RELATIVE_TOLERANCE 1e-4 )
 # Add the test
 Plato_add_numdiff_test(${PLATO_TEST_COMMAND} ${TEST_NAME} ${NUMDIFF_COMMAND} ${NUMDIFF_USE_ABSOLUTE} ${NUMDIFF_RELATIVE_TOLERANCE})
 set_property(TEST ${TEST_NAME} PROPERTY LABELS "large")
+Plato_disable_test(${TEST_NAME} "Until Tacho works with non-SPD problems")
 
 # Note: The ROL_output.txt.gold was generated with AMGX and may need to be updated when this test is enabled
 

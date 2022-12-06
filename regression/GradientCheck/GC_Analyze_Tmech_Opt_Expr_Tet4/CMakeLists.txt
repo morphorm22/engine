@@ -47,5 +47,6 @@ SET(CUSTOM_COMMAND "python ${PYTHON_FILE} ${INFNORM_IGNORE_ROWS} ${INFNORM_RELAT
 # Add the test
 Plato_add_custom_command_test(${PLATO_NEW_TEST} ${TEST_NAME} ${NUM_PROCS} ${IO_COMM_INDEX} ${CUSTOM_COMMAND})
 set_property(TEST ${TEST_NAME} PROPERTY LABELS "small")
+Plato_disable_test(${TEST_NAME} "Until Tacho works with non-SPD problems")
 
 endif()

@@ -37,5 +37,6 @@ Plato_add_simple_performer(PLATO_NEW_TEST ${TOPOPROXY_BINARY} ${PROXY_NP} ${LOCA
 
 # Add the test
 Plato_add_simple_test(${PLATO_NEW_TEST} ${TEST_NAME} ${NUM_PROCS} ${IO_COMM_INDEX})
+Plato_disable_test(${TEST_NAME} "MMA will be deprecated, switch to ROL if test is still needed")
 
 endif()

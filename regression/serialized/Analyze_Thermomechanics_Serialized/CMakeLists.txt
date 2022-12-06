@@ -31,5 +31,7 @@ SET(CUSTOM_COMMAND "python ${PYTHON_FILE} ${NUMDIFF_TOLERANCE} ${IN_FILE}")
 # Add the test
 Plato_add_xmlgen_custom_command_test(${TEST_NAME} ${XMLGEN_COMMAND} ${CUSTOM_COMMAND})
 set_property(TEST ${TEST_NAME} PROPERTY ENVIRONMENT "PLATO_SAVE_TO_XML=1")
+set_property(TEST ${TEST_NAME} PROPERTY LABELS "large")
+Plato_disable_test(${TEST_NAME} "Until Tacho works with non-SPD problems")
 
 endif()

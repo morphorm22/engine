@@ -53,5 +53,6 @@ set(INPUT_MESH SKIP_DECOMP)
 set(OUTPUT_MESH platomain.exo.1.0)
 Plato_add_test("${PLATO_NEW_TEST}" ${TEST_NAME} ${NUM_PROCS} ${IO_COMM_INDEX} ${INPUT_MESH} ${OUTPUT_MESH})
 set_property(TEST ${TEST_NAME} PROPERTY LABELS "small")
+Plato_disable_test(${TEST_NAME} "MMA will be deprecated, test must pass with ROL")
 
 endif()

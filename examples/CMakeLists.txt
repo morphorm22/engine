@@ -50,19 +50,16 @@ IF( ANALYZE )
   add_subdirectory(Analyze_Helmholtz3D_SurfaceLengthScale)
   add_subdirectory(Analyze_Helmholtz3D_SurfaceLengthScale_SymmPlane)
   add_subdirectory(Analyze_MPCs_Helmholtz)
-  ## until PA plasticity is re-enabled
-  # add_subdirectory(Analyze_Thermoplasticity)
-  # add_subdirectory(Analyze_CompMin3D_2_constraints) # DISABLED until ROL interface supports >1 constraint
+  add_subdirectory(Analyze_Thermoplasticity)
   add_subdirectory(Analyze_Tmech_Opt)
   add_subdirectory(Analyze_Tmech_PNorm_Opt)
   add_subdirectory(Analyze_Thermal_Opt)
-  ## until PA fluids is re-enabled
-  # add_subdirectory(Analyze_LaminarFlowRe100)
+  add_subdirectory(Analyze_LaminarFlowRe100)
   if( ESP_ENABLED )
     add_subdirectory(Analyze_ParallelESP)
     if(EXPY)
-#     add_subdirectory(GradientCheck/GC_Analyze_ParallelESP)
-#     add_subdirectory(GradientCheck/GC_Analyze_ESP_Stress_ROL_BC)
+      add_subdirectory(GradientCheck/GC_Analyze_ParallelESP)
+      add_subdirectory(GradientCheck/GC_Analyze_ESP_Stress_ROL_BC)
 	endif()
     IF( ENABLE_PLATO_SERVICES AND DAKOTADRIVER )
         add_subdirectory(Dakota_MDPS)
@@ -92,12 +89,12 @@ IF( ANALYZE )
 
     add_subdirectory(Analyze_2Phys_Sym)
     add_subdirectory(Analyze_CompMin3D_2Loads_1Performer)
-    # DISABLED add_subdirectory(Analyze_Thermomechanics) # Disabled until steady_state_thermomechanics is enabled
+    add_subdirectory(Analyze_Thermomechanics)
     add_subdirectory(Analyze_CompMin3D_MassProp)
     add_subdirectory(Analyze_CompMin3D_MultiBlock)
     add_subdirectory(Analyze_DisplacementCriterion)
     add_subdirectory(Analyze_VolAvgTensile)
-    #add_subdirectory(Analyze_CompMin3D_2_constraints) # DISABLED until ROL interface supports multiple constraints
+    add_subdirectory(Analyze_CompMin3D_2_constraints)
 
 	  if( EXPY )
 	    add_subdirectory(GradientCheck/GC_Analyze_CompMin2D_ROL_LC)
