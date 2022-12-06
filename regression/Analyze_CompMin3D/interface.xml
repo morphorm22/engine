@@ -277,6 +277,18 @@
 </Stage>
 
 <Stage>
+  <Name>Write Final Output</Name>
+  <Operation>
+    <Name>FinalPlatoMainOutput</Name>
+    <PerformerName>PlatoMain</PerformerName>
+    <Input>
+      <ArgumentName>Topology</ArgumentName>
+      <SharedDataName>Topology</SharedDataName>
+    </Input>
+  </Operation>
+</Stage>
+
+<Stage>
   <Name>Initialize Optimization DOFs</Name>
   <Output>
     <SharedDataName>Optimization DOFs</SharedDataName>
@@ -533,6 +545,7 @@
   <OptimizationVariables>
     <ValueName>Optimization DOFs</ValueName>
     <InitializationStage>Initialize Optimization DOFs</InitializationStage>
+    <FinalizationStage>Write Final Output</FinalizationStage>
     <FilteredName>Topology</FilteredName>
     <LowerBoundValueName>Lower Bound Value</LowerBoundValueName>
     <LowerBoundVectorName>Lower Bound Vector</LowerBoundVectorName>

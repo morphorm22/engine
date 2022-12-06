@@ -43,4 +43,7 @@ set( NUMDIFF_RELATIVE_TOLERANCE 1e-4 )
 Plato_add_numdiff_test(${PLATO_NEW_TEST} ${TEST_NAME} ${NUMDIFF_COMMAND} ${NUMDIFF_USE_ABSOLUTE} ${NUMDIFF_RELATIVE_TOLERANCE})
 set_property(TEST ${TEST_NAME} PROPERTY LABELS "small")
 
+# Test if final_design.stl exists
+Plato_add_output_exists_test( ${TEST_NAME} "final_design.stl" )
+
 endif()
