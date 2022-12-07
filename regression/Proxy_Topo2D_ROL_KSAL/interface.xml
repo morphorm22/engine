@@ -189,15 +189,7 @@
   <Package>ROL AugmentedLagrangian</Package>
   <Options>
     <InputFileName>rol_inputs.xml</InputFileName>
-    <OutputDiagnosticsToFile>true</OutputDiagnosticsToFile>
-<!--
-    <HessianType>disabled</HessianType>
--->
     <HessianType>zero</HessianType>
-    <OutputControlToFile>false</OutputControlToFile>
-    <OutputDiagnosticsToFile>true</OutputDiagnosticsToFile>
-    <KSOuterStagnationTolerance>1e-8</KSOuterStagnationTolerance>
-    <KSTrustRegionExpansionFactor>4</KSTrustRegionExpansionFactor>
   </Options>
   <OptimizationVariables>
     <ValueName>Control</ValueName> <!---NEEDS TO MATCH THE SARED DATA NAME DEFINED BY THE USER FOR THE DESIGN VARIABLES-->

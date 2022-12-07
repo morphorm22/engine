@@ -250,12 +250,8 @@
 <Optimizer>
   <Package>ROL AugmentedLagrangian</Package>
   <Options>
-    <MaxNumOuterIterations>30</MaxNumOuterIterations>
     <InputFileName>rol_inputs.xml</InputFileName>
-    <OutputDiagnosticsToFile>true</OutputDiagnosticsToFile>
     <HessianType>zero</HessianType>
-    <OutputControlToFile>false</OutputControlToFile>
-    <OutputDiagnosticsToFile>true</OutputDiagnosticsToFile>
   </Options>
   <OptimizationVariables>
     <ValueName>Control</ValueName> <!---NEEDS TO MATCH THE SARED DATA NAME DEFINED BY THE USER FOR THE DESIGN VARIABLES-->
