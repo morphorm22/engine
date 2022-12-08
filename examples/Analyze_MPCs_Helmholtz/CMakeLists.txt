@@ -14,7 +14,7 @@ set( GOLD_FILE "ROL_output.txt.gold")
 set(XMLGEN_COMMAND "XMLGenerator plato_input_deck.i")
 
 set( NUMDIFF_USE_ABSOLUTE FALSE)
-set( NUMDIFF_RELATIVE_TOLERANCE 1e-4 )
+set( NUMDIFF_RELATIVE_TOLERANCE 1e-2 )
 
 # Run test
 Plato_add_xmlgen_numdiff_test(${TEST_NAME} ${XMLGEN_COMMAND} ${NUMDIFF_COMMAND} ${NUMDIFF_USE_ABSOLUTE} ${NUMDIFF_RELATIVE_TOLERANCE})
