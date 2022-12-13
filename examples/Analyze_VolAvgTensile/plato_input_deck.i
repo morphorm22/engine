@@ -120,7 +120,7 @@ begin optimization_parameters
    normalize_in_aggregator false
    enforce_bounds false
    problem_update_frequency 1
-   optimization_algorithm mma
+   optimization_algorithm rol_linear_constraint
    mma_move_limit 0.1
 end optimization_parameters
 

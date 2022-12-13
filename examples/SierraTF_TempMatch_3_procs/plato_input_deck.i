@@ -43,13 +43,14 @@ end output
 begin optimization_parameters
    max_iterations 100 
    output_frequency 1
-   optimization_algorithm ksbc
+   optimization_algorithm rol_bound_constrained
+   rol_subproblem_model lin_more
+   hessian_type zero
    normalize_in_aggregator false
    csm_file aria1.csm
    num_shape_design_variables 1
    optimization_type shape
    verbose true
-   hessian_type lbfgs
    limited_memory_storage 8
 end optimization_parameters
 

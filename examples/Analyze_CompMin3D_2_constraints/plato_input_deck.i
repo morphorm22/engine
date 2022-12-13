@@ -79,7 +79,7 @@ end output
 begin boundary_condition 1
     type fixed_value
     location_type sideset
-    location_name ss_nox
+    location_name ss_1
     degree_of_freedom dispx
     value 0
 end boundary_condition
@@ -87,7 +87,7 @@ end boundary_condition
 begin boundary_condition 2
     type fixed_value
     location_type sideset
-    location_name ss_top
+    location_name ss_1
     degree_of_freedom dispy
     value 0
 end boundary_condition
@@ -95,7 +95,7 @@ end boundary_condition
 begin boundary_condition 3
     type fixed_value
     location_type sideset
-    location_name ss_zsym
+    location_name ss_1
     degree_of_freedom dispz
     value 0
 end boundary_condition
@@ -103,20 +103,20 @@ end boundary_condition
 begin load 1
     type traction
     location_type sideset
-    location_name ss_load
+    location_name ss_2
     value 0 -5e4 0
 end load
 
 begin load 2
     type traction
     location_type sideset
-    location_name ss_load
-    value -1e4 0 0
+    location_name ss_2
+    value 0 0 -1e4
 end load
 
 begin constraint 1
   criterion 2
-  relative_target 0.4
+  relative_target 0.25
   type less_than
   service 1
   scenario 1
@@ -124,8 +124,8 @@ end constraint
 
 begin constraint 2
   criterion 3
-  absolute_target 50.0
-  type less_than
+  absolute_target 5.0e-2
+  type greater_than
   service 3
   scenario 2
 end constraint
@@ -141,18 +141,15 @@ begin material 1
 end material
 
 begin optimization_parameters
-   filter_type kernel_then_tanh
-   filter_use_additive_continuation true
-   filter_projection_start_iteration 150
-   filter_projection_update_interval 10
-   filter_heaviside_max 10.0
-   filter_heaviside_min 1.0
-   filter_heaviside_update 0.5
-   filter_radius_scale 4.0
-   filter_in_engine true
+
+   symmetry_plane_normal 1 0 0
+   symmetry_plane_origin 0 0 0
+   mesh_map_filter_radius .15
+   filter_before_symmetry_enforcement false
+   filter_in_engine false
 
    optimization_type topology
-   max_iterations 2 
+   max_iterations 10
    output_frequency 1000 
    discretization density 
    initial_density_value 0.4
@@ -161,26 +158,13 @@ begin optimization_parameters
    problem_update_frequency 1
    verbose false
 
-   optimization_algorithm ksal
-   mma_move_limit 0.2
-   mma_output_subproblem_diagnostics true
-   mma_use_ipopt_sub_problem_solver true
-   mma_max_sub_problem_iterations 200
+   optimization_algorithm rol_augmented_lagrangian
 
    write_restart_file false
-   filter_power 1.0
    output_method epu
-   mma_asymptote_expansion 1.2
-   mma_asymptote_contraction 0.7
-   mma_control_stagnation_tolerance -1e-6
-   mma_objective_stagnation_tolerance -1e-8
-   mma_sub_problem_initial_penalty 0.05
-   mma_sub_problem_penalty_multiplier 1.025
-   mma_sub_problem_feasibility_tolerance 1e-4
-   ks_max_trust_region_iterations 10
 end optimization_parameters
 
 begin mesh
-   name lbracket3D.exo
+   name design_vol.exo
 end mesh
 

@@ -457,7 +457,12 @@
 <!-- DEFINE OPTIMIZATION OPTIONS -->
 
 <Optimizer>
-  <Package>OC</Package>
+  <Package>ROL LinearConstraint</Package>
+  <Options>
+     <HessianType>zero</HessianType>
+     <InputFileName>rol_inputs.xml</InputFileName>
+  </Options>
+
   <Output>
     <OutputStage>Output To File</OutputStage>
   </Output>

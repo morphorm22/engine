@@ -92,7 +92,7 @@ begin optimization_parameters
    symmetry_plane_location_names sym
    max_iterations 15 
    output_frequency 1000 
-   optimization_algorithm oc
+   optimization_algorithm rol_linear_constraint
    discretization density 
    initial_density_value .5
    normalize_in_aggregator false

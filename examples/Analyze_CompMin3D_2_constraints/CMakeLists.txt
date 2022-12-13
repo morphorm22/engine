@@ -5,7 +5,7 @@ if(ANALYZE)
 Plato_new_test(TEST_NAME)
 
 # Copy Input files from source to binary dir
-set( testFiles "plato_input_deck.i;lbracket3D.exo")
+set( testFiles "plato_input_deck.i;design_vol.exo")
 Plato_add_test_files("${testFiles}")
 
 # write out the path info in the plato input deck
@@ -32,5 +32,6 @@ set( SKIP_EXODIFF 0 )
 # Run test
 Plato_add_xmlgen_test(${TEST_NAME} ${XMLGEN_COMMAND} ${NUM_PROCS} ${IO_COMM_INDEX} ${OUTPUT_MESH} ${SKIP_EXODIFF})
 set_property(TEST ${TEST_NAME} PROPERTY LABELS "medium")
+Plato_disable_test(${TEST_NAME} "Until ROL interface supports >1 constraint")
 
 endif()

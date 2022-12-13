@@ -495,7 +495,10 @@
 </Stage>
 
 <Optimizer>
-  <Package>GCMMA</Package>
+  <Package>ROL LinearConstraint</Package>
+  <Options>
+    <InputFileName>rol_inputs.xml</InputFileName>
+  </Options>
   <Output>
     <OutputStage>Output To File</OutputStage>
   </Output>

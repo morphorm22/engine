@@ -27,5 +27,6 @@ SET(CUSTOM_COMMAND "python ${PYTHON_FILE} ${INFNORM_IGNORE_ROWS} ${INFNORM_RELAT
 
 # Add the test
 Plato_add_xmlgen_custom_command_test(${TEST_NAME} ${XMLGEN_COMMAND} ${CUSTOM_COMMAND})
+Plato_disable_test(${TEST_NAME} "Until ROL interface is supported with shape optimization.")
 
 endif()

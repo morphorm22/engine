@@ -504,15 +504,16 @@
 </Stage>
 
 <Optimizer>
-  <Package>MMA</Package>
+  <Package>ROL LinearConstraint</Package>
   <Options>
-    <MaxNumOuterIterations>5</MaxNumOuterIterations>
-    <MoveLimit>0.1</MoveLimit>
-    <AsymptoteExpansion>1.2</AsymptoteExpansion>
-    <AsymptoteContraction>0.7</AsymptoteContraction>
-    <MaxNumSubProblemIter>50</MaxNumSubProblemIter>
-    <ControlStagnationTolerance>1e-6</ControlStagnationTolerance>
-    <ObjectiveStagnationTolerance>1e-8</ObjectiveStagnationTolerance>
+    <MaxNumOuterIterations>100</MaxNumOuterIterations>
+    <KSMaxTrustRegionIterations>5</KSMaxTrustRegionIterations>
+    <HessianType>zero</HessianType>
+    <LimitedMemoryStorage>8</LimitedMemoryStorage>
+    <ProblemUpdateFrequency>5</ProblemUpdateFrequency>
+    <DisablePostSmoothing>true</DisablePostSmoothing>
+    <ResetAlgorithmOnUpdate>false</ResetAlgorithmOnUpdate>
+    <InputFileName>rol_inputs.xml</InputFileName>
   </Options>
   <Output>
     <OutputStage>Output To File</OutputStage>

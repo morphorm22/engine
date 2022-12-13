@@ -35,7 +35,6 @@ begin scenario 1
   dimensions 3
   material 1
   tolerance 1e-8
-  //convert_to_tet10 true
 end scenario
 
 begin objective
@@ -55,12 +54,10 @@ end output
 
 begin block 1
    material 1
-   //element_type tet10
 end block
 
 begin block 2
    material 1
-   //element_type tet10
 end block
 
 begin material 1
@@ -73,7 +70,9 @@ end material
 begin optimization_parameters
    max_iterations 50
    output_frequency 1
-   optimization_algorithm ksbc
+   optimization_algorithm rol_bound_constrained
+   rol_subproblem_model lin_more
+   hessian_type zero
    normalize_in_aggregator false
    csm_file part_brick.csm
    num_shape_design_variables 1

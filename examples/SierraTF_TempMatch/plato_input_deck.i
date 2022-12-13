@@ -6,7 +6,6 @@ end service
 begin service 2
   code sierra_tf
   number_processors 1
-//  path /fgs/bwclark/sierra/bin/linux-gcc-7.2.0-openmpi-4.0.5/release/plato_tf_main 
 end service
 
 begin service 3
@@ -25,9 +24,6 @@ end criterion
 begin scenario 1
   physics transient_thermal
   existing_input_deck aria1.i
-//  dimensions 3
-//  material 1
-//  tolerance 1e-8
 end scenario
 
 begin objective
@@ -44,27 +40,17 @@ begin output
    data temperature
 end output
 
-//begin block 1
-//   material 1
-//end block
-
-//begin material 1
-//   material_model isotropic_linear_elastic 
-//   poissons_ratio .42
-//   youngs_modulus 2.274e9
-//   mass_density 2.59e-4
-//end material
-
 begin optimization_parameters
    max_iterations 100 
    output_frequency 1
-   optimization_algorithm ksbc
+   optimization_algorithm rol_bound_constrained
+   rol_subproblem_model lin_more
+   hessian_type zero
    normalize_in_aggregator false
    csm_file aria1.csm
    num_shape_design_variables 1
    optimization_type shape
    verbose true
-   hessian_type lbfgs
    limited_memory_storage 8
 end optimization_parameters
 

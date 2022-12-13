@@ -129,7 +129,7 @@ begin optimization_parameters
    filter_radius_scale 4.48
    max_iterations 1 
    output_frequency 1000 
-   optimization_algorithm mma
+   optimization_algorithm rol_linear_constraint
    discretization density 
    initial_density_value .4
    normalize_in_aggregator true

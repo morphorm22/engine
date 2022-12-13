@@ -1,0 +1,273 @@
+<App class_id="0" tracking_level="0" version="0">
+	<Application class_id="1" tracking_level="0" version="0"></Application>
+	<OperationMap class_id="2" tracking_level="0" version="0">
+		<count>8</count>
+		<item_version>0</item_version>
+		<item class_id="3" tracking_level="0" version="0">
+			<first>Aggregate Data</first>
+			<second class_id="4" class_name="Aggregator" tracking_level="1" version="0" object_id="_0">
+				<LocalOp class_id="5" tracking_level="0" version="0"></LocalOp>
+				<LimitWeight>1.00000000000000000e+09</LimitWeight>
+				<WeightBases class_id="6" tracking_level="0" version="0">
+					<count>0</count>
+					<item_version>0</item_version>
+				</WeightBases>
+				<WeightNormals>
+					<count>2</count>
+					<item_version>0</item_version>
+					<item>Normal 1</item>
+					<item>Normal 2</item>
+				</WeightNormals>
+				<WeightMethod></WeightMethod>
+				<Weights>
+					<count>2</count>
+					<item_version>0</item_version>
+					<item>2.50000000000000000e-01</item>
+					<item>7.50000000000000000e-01</item>
+				</Weights>
+				<AggStruct class_id="8" tracking_level="0" version="0">
+					<count>2</count>
+					<item_version>0</item_version>
+					<item class_id="9" tracking_level="0" version="0">
+						<Layout>0</Layout>
+						<OutputName>Value</OutputName>
+						<InputNames>
+							<count>2</count>
+							<item_version>0</item_version>
+							<item>Value 1</item>
+							<item>Value 2</item>
+						</InputNames>
+					</item>
+					<item>
+						<Layout>1</Layout>
+						<OutputName>Field</OutputName>
+						<InputNames>
+							<count>2</count>
+							<item_version>0</item_version>
+							<item>Field 1</item>
+							<item>Field 2</item>
+						</InputNames>
+					</item>
+				</AggStruct>
+			</second>
+		</item>
+		<item>
+			<first>Compute Lower Bounds</first>
+			<second class_id="10" class_name="SetLowerBounds" tracking_level="1" version="0" object_id="_1">
+				<LocalOp></LocalOp>
+				<OutputSize>0</OutputSize>
+				<LowerBoundVectorLength>0</LowerBoundVectorLength>
+				<InputArgumentName>Lower Bound Value</InputArgumentName>
+				<OutputArgumentName>Lower Bound Vector</OutputArgumentName>
+				<Discretization>density</Discretization>
+				<MaterialUseCase>solid</MaterialUseCase>
+				<OutputLayout>1</OutputLayout>
+				<FixedBlockMetadata class_id="11" tracking_level="0" version="0">
+					<OptimizationBlockValue>0.00000000000000000e+00</OptimizationBlockValue>
+					<BlockIDs>
+						<count>0</count>
+						<item_version>0</item_version>
+					</BlockIDs>
+					<SidesetIDs>
+						<count>0</count>
+						<item_version>0</item_version>
+					</SidesetIDs>
+					<NodesetIDs>
+						<count>0</count>
+						<item_version>0</item_version>
+					</NodesetIDs>
+					<DomainValues>
+						<count>0</count>
+						<item_version>0</item_version>
+					</DomainValues>
+					<BoundaryValues>
+						<count>0</count>
+						<item_version>0</item_version>
+					</BoundaryValues>
+					<MaterialStates>
+						<count>0</count>
+						<item_version>0</item_version>
+					</MaterialStates>
+				</FixedBlockMetadata>
+			</second>
+		</item>
+		<item>
+			<first>Compute Upper Bounds</first>
+			<second class_id="13" class_name="SetUpperBounds" tracking_level="1" version="0" object_id="_2">
+				<LocalOp></LocalOp>
+				<OutputSize>0</OutputSize>
+				<UpperBoundVectorLength>0</UpperBoundVectorLength>
+				<InputArgumentName>Upper Bound Value</InputArgumentName>
+				<OutputArgumentName>Upper Bound Vector</OutputArgumentName>
+				<Discretization>density</Discretization>
+				<MaterialUseCase>solid</MaterialUseCase>
+				<OutputLayout>1</OutputLayout>
+				<FixedBlockMetadata>
+					<OptimizationBlockValue>0.00000000000000000e+00</OptimizationBlockValue>
+					<BlockIDs>
+						<count>0</count>
+						<item_version>0</item_version>
+					</BlockIDs>
+					<SidesetIDs>
+						<count>0</count>
+						<item_version>0</item_version>
+					</SidesetIDs>
+					<NodesetIDs>
+						<count>0</count>
+						<item_version>0</item_version>
+					</NodesetIDs>
+					<DomainValues>
+						<count>0</count>
+						<item_version>0</item_version>
+					</DomainValues>
+					<BoundaryValues>
+						<count>0</count>
+						<item_version>0</item_version>
+					</BoundaryValues>
+					<MaterialStates>
+						<count>0</count>
+						<item_version>0</item_version>
+					</MaterialStates>
+				</FixedBlockMetadata>
+			</second>
+		</item>
+		<item>
+			<first>Copy Field</first>
+			<second class_id="14" class_name="CopyField" tracking_level="1" version="0" object_id="_3">
+				<LocalOp></LocalOp>
+				<InputName>InputField</InputName>
+				<OutputName>OutputField</OutputName>
+			</second>
+		</item>
+		<item>
+			<first>Copy Value</first>
+			<second class_id="15" class_name="CopyValue" tracking_level="1" version="0" object_id="_4">
+				<LocalOp></LocalOp>
+				<InputName>InputValue</InputName>
+				<OutputName>OutputValue</OutputName>
+			</second>
+		</item>
+		<item>
+			<first>Design Volume</first>
+			<second class_id="16" class_name="DesignVolume" tracking_level="1" version="0" object_id="_5">
+				<LocalOp></LocalOp>
+				<LocalArguments class_id="17" tracking_level="0" version="0">
+					<count>1</count>
+					<item_version>0</item_version>
+					<item class_id="18" tracking_level="0" version="0">
+						<Layout>0</Layout>
+						<Name>Design Volume</Name>
+						<Length>1</Length>
+						<Write>0</Write>
+					</item>
+				</LocalArguments>
+			</second>
+		</item>
+		<item>
+			<first>Initialize Field</first>
+			<second class_id="19" class_name="InitializeField" tracking_level="1" version="0" object_id="_6">
+				<LocalOp></LocalOp>
+				<CreateSpheres>0</CreateSpheres>
+				<Iteration>0</Iteration>
+				<UniformValue>4.00000000000000022e-01</UniformValue>
+				<MinCoords class_id="20" tracking_level="0" version="0">
+					<elems>
+						<count>3</count>
+						<item>0.00000000000000000e+00</item>
+						<item>0.00000000000000000e+00</item>
+						<item>0.00000000000000000e+00</item>
+					</elems>
+				</MinCoords>
+				<MaxCoords>
+					<elems>
+						<count>3</count>
+						<item>0.00000000000000000e+00</item>
+						<item>0.00000000000000000e+00</item>
+						<item>0.00000000000000000e+00</item>
+					</elems>
+				</MaxCoords>
+				<OutputLayout>1</OutputLayout>
+				<FileName></FileName>
+				<OutputFile></OutputFile>
+				<StringMethod>Uniform</StringMethod>
+				<SphereRadius></SphereRadius>
+				<OutputFieldName>Initialized Field</OutputFieldName>
+				<SpherePackingFactor></SpherePackingFactor>
+				<SphereSpacingX></SphereSpacingX>
+				<SphereSpacingY></SphereSpacingY>
+				<SphereSpacingZ></SphereSpacingZ>
+				<VariableName></VariableName>
+				<LevelSetNodesets>
+					<count>0</count>
+					<item_version>0</item_version>
+				</LevelSetNodesets>
+			</second>
+		</item>
+		<item>
+			<first>PlatoMainOutput</first>
+			<second class_id="21" class_name="PlatoMainOutput" tracking_level="1" version="0" object_id="_7">
+				<LocalOp></LocalOp>
+				<OutputData>
+					<count>7</count>
+					<item_version>0</item_version>
+					<item>
+						<Layout>1</Layout>
+						<Name>topology</Name>
+						<Length>0</Length>
+						<Write>1</Write>
+					</item>
+					<item>
+						<Layout>1</Layout>
+						<Name>control</Name>
+						<Length>0</Length>
+						<Write>1</Write>
+					</item>
+					<item>
+						<Layout>1</Layout>
+						<Name>objective gradient</Name>
+						<Length>0</Length>
+						<Write>1</Write>
+					</item>
+					<item>
+						<Layout>1</Layout>
+						<Name>constraint gradient 1</Name>
+						<Length>0</Length>
+						<Write>1</Write>
+					</item>
+					<item>
+						<Layout>1</Layout>
+						<Name>dispx_plato_analyze_2</Name>
+						<Length>0</Length>
+						<Write>1</Write>
+					</item>
+					<item>
+						<Layout>1</Layout>
+						<Name>dispy_plato_analyze_2</Name>
+						<Length>0</Length>
+						<Write>1</Write>
+					</item>
+					<item>
+						<Layout>1</Layout>
+						<Name>dispz_plato_analyze_2</Name>
+						<Length>0</Length>
+						<Write>1</Write>
+					</item>
+				</OutputData>
+				<OutputFrequency>1000</OutputFrequency>
+				<MaxIterations>5</MaxIterations>
+				<OutputMethod>2</OutputMethod>
+				<Discretization>density</Discretization>
+				<WriteRestart>0</WriteRestart>
+				<RestartFieldName>control</RestartFieldName>
+				<BaseName>Iteration</BaseName>
+				<AppendIterationCount>1</AppendIterationCount>
+				<RequestedFormats>
+					<count>1</count>
+					<item_version>0</item_version>
+					<item>EXODUS</item>
+				</RequestedFormats>
+			</second>
+		</item>
+	</OperationMap>
+</App>
+

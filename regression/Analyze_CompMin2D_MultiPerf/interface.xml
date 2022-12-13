@@ -460,19 +460,17 @@
 </Stage>
 
 <Optimizer>
-  <Package>OC</Package>
+  <Package>ROL LinearConstraint</Package>
+  <Options>
+     <HessianType>zero</HessianType>
+     <InputFileName>rol_inputs.xml</InputFileName>
+  </Options>
   <NLopt>
     <Method>MMA</Method>
   </NLopt>
   <Output>
     <OutputStage>Output To File</OutputStage>
   </Output>
-  <OC>
-    <MoveLimiter>1.0</MoveLimiter>
-    <StabilizationParameter>0.5</StabilizationParameter>
-    <UseNewtonSearch>True</UseNewtonSearch>
-    <ConstraintMaxIterations>20</ConstraintMaxIterations>
-  </OC>
   <OptimizationVariables>
     <ValueName>Optimization DOFs</ValueName>
     <InitializationStage>Initialize Optimization DOFs</InitializationStage>
