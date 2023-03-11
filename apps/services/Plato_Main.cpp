@@ -227,34 +227,23 @@ int main(int aArgc, char *aArgv[])
 
 void writeSplashScreen()
 {
-
-  std::stringstream splash;
-  splash << "################################################################################" << std::endl;
-  splash << "#                                                                              #" << std::endl;
-  splash << "#                    @@@@@                                                     #" << std::endl;
-  splash << "#                    @@@@@                                                     #" << std::endl;
-  splash << "#                    @@@@@                                                     #" << std::endl;
-  splash << "#                    @@@@@                       ,*****                        #" << std::endl;
-  splash << "#                    @@@@@                       %@@@@@                        #" << std::endl;
-  splash << "#                    @@@@@                       %@@@@@                        #" << std::endl;
-  splash << "#                    @@@@@                       %@@@@@                        #" << std::endl;
-  splash << "#  @@@@@@@@@@@@@@@   @@@@@    @@@@@@@@@@@@@@   @@@@@@@@@@@   @@@@@@@@@@@@@@@,  #" << std::endl;
-  splash << "#  @@@@@@@@@@@@@@@   @@@@@   ,@@@@@@@@@@@@@@   @@@@@@@@@@@   @@@@@@@@@@@@@@@@  #" << std::endl;
-  splash << "#  @@@@@     @@@@@   @@@@@   ,@@@@     @@@@@     %@@@@@      @@@@@.    %@@@@@  #" << std::endl;
-  splash << "#  @@@@@     @@@@@   @@@@@             @@@@@     %@@@@@      @@@@@.    %@@@@@  #" << std::endl;
-  splash << "#  @@@@@     @@@@@   @@@@@    *@@@@@@@@@@@@@     %@@@@@      @@@@@.    %@@@@@  #" << std::endl;
-  splash << "#  @@@@@     @@@@@   @@@@@   @@@@@@@@@@@@@@@     %@@@@@      @@@@@.    %@@@@@  #" << std::endl;
-  splash << "#  @@@@@     @@@@@   @@@@@   @@@@@     @@@@@     %@@@@@      @@@@@.    %@@@@@  #" << std::endl;
-  splash << "#  @@@@@     @@@@@   @@@@@   @@@@@     @@@@@     %@@@@@      @@@@@.    %@@@@@  #" << std::endl;
-  splash << "#  @@@@@     @@@@@   @@@@@   @@@@@     @@@@@     %@@@@@      @@@@@.    %@@@@@  #" << std::endl;
-  splash << "#  @@@@@@@@@@@@@@@   @@@@@   @@@@@@@@@@@@@@@     %@@@@@@@@   @@@@@@@@@@@@@@@@  #" << std::endl;
-  splash << "#  @@@@@@@@@@@@@@#   @@@@@   &@@@@@@@@@@@@@@      @@@@@@@@   @@@@@@@@@@@@@@@*  #" << std::endl;
-  splash << "#  @@@@@                                                                       #" << std::endl;
-  splash << "#  @@@@@                                                                       #" << std::endl;
-  splash << "#  @@@@@   OPTIMIZATION-BASED DESIGN                                           #" << std::endl;
-  splash << "#  @@@@@                                                                       #" << std::endl;
-  splash << "#  @@@@@   Questions? contact Plato3d-help@sandia.gov                          #" << std::endl;
-  splash << "#                                                                              #" << std::endl;
-  splash << "################################################################################" << std::endl;
-  Plato::Console::Alert(splash.str());
+  std::stringstream tSplash;
+  tSplash << "####################################################################################" << std::endl;
+  tSplash << "#                                                                                  #" << std::endl;
+  tSplash << "#                                                                                  #" << std::endl;
+  tSplash << "#  888b     d888                           888                                     #" << std::endl;
+  tSplash << "#  8888b   d8888                           888                                     #" << std::endl;
+  tSplash << "#  88888b.d88888                           888                                     #" << std::endl;
+  tSplash << "#  888Y88888P888  .d88b.  888d888 88888b.  88888b.   .d88b.  888d888 88888b.d88b.  #" << std::endl;
+  tSplash << "#  888 Y888P 888 d88''88b 888P'   888 '88b 888 '88b d88''88b 888P'   888 '888 '88b #" << std::endl;
+  tSplash << "#  888  Y8P  888 888  888 888     888  888 888  888 888  888 888     888  888  888 #" << std::endl;
+  tSplash << "#  888   '   888 Y88..88P 888     888 d88P 888  888 Y88..88P 888     888  888  888 #" << std::endl;
+  tSplash << "#  888       888  'Y88P'  888     88888P'  888  888  'Y88P'  888     888  888  888 #" << std::endl;
+  tSplash << "#                                 888                                              #" << std::endl;
+  tSplash << "#                                 888  DIGITAL ENGINEERING INNOVATORS              #" << std::endl;
+  tSplash << "#                                 888                                              #" << std::endl;
+  tSplash << "#                                      Questions? contact info@morphorm.com        #" << std::endl;
+  tSplash << "#                                                                                  #" << std::endl;
+  tSplash << "####################################################################################" << std::endl;
+  Plato::Console::Alert(tSplash.str());
 }

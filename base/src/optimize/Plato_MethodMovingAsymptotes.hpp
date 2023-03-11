@@ -838,7 +838,7 @@ private:
             mStoppingCriterion = Plato::algorithm::CONTROL_STAGNATION;
             tStop = true;
         }
-        else if(tObjectiveStagnation <= mObjectiveStagnationTolerance)
+        /*else if(tObjectiveStagnation <= mObjectiveStagnationTolerance)
         {
             mStoppingCriterion = Plato::algorithm::OBJECTIVE_STAGNATION;
             tStop = true;
@@ -847,7 +847,7 @@ private:
         {
             mStoppingCriterion = Plato::algorithm::OPTIMALITY_AND_FEASIBILITY;
             tStop = true;
-        }
+        }*/
 
         return (tStop);
     }
