@@ -931,23 +931,25 @@ void append_loads_to_plato_analyze_input_deck
 // essential boundary conditions.
 std::unordered_map<std::string, std::vector<XMLGen::EssentialBoundaryCondition>>
 get_map_from_essential_bcs_block_name_to_essential_bcs_list(
-    const XMLGen::InputData &tXMLMetaData,
-    const XMLGen::Scenario &tScenario)
+    const XMLGen::InputData &aXMLMetaData,
+    const XMLGen::Scenario &aScenario)
 {
     XMLGen::ValidEssentialBoundaryConditionBlockNames tMap;
     std::unordered_map<std::string, std::vector<XMLGen::EssentialBoundaryCondition>> tEssBCsBlockNameToEssBCs;
 
-    auto tPhysics = tScenario.physics();
+    auto tPhysics = aScenario.physics();
+    auto tDimensions = aScenario.dimensions();
 
-    for (auto &tbcID : tScenario.bcIDs())
+    for (auto &tbcID : aScenario.bcIDs())
     {
-        for (auto &tEBC : tXMLMetaData.ebcs)
+        for (auto &tEBC : aXMLMetaData.ebcs)
         {
             if (tEBC.value("id") == tbcID)
             {
                 auto tDofName = tEBC.degree_of_freedom();
                 auto tBlockName = tMap.blockName(tPhysics, tDofName);
                 tEssBCsBlockNameToEssBCs[tBlockName].push_back(tEBC);
+                tEssBCsBlockNameToEssBCs[tBlockName].back().property("dimensions", tDimensions);
                 break;
             }
         }

@@ -1189,6 +1189,7 @@ TEST(PlatoTestXMLGenerator, AppendEssentialBoundaryConditionsToPlatoAnalyzeInput
     tXMLMetaData.ebcs.push_back(tBC);
     XMLGen::Scenario tScenario;
     tScenario.id("1");
+    tScenario.dimensions("3");
     tScenario.physics("steady_state_incompressible_fluids");
     std::vector<std::string> bcIDs = {{"1"},{"2"},{"3"},{"4"},{"5"},{"6"},{"7"}};
     tScenario.setBCIDs(bcIDs);
@@ -1340,6 +1341,7 @@ TEST(PlatoTestXMLGenerator, AppendEssentialBoundaryConditionsToPlatoAnalyzeInput
     tXMLMetaData.ebcs.push_back(tBC);
     XMLGen::Scenario tScenario;
     tScenario.id("1");
+    tScenario.dimensions("3");
     tScenario.physics("steady_state_mechanics");
     std::vector<std::string> bcIDs = {{"1"},{"2"},{"3"}};
     tScenario.setBCIDs(bcIDs);

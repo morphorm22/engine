@@ -27,6 +27,16 @@ private:
 
 public:
     /******************************************************************************//**
+     * \fn dimensions
+     * \brief Return number of spatial dimensions
+     * \return number of spatial dimensions (string)
+    **********************************************************************************/
+    std::string dimensions() const
+    {
+        return value("dimensions");
+    }
+
+    /******************************************************************************//**
      * \fn id
      * \brief Return essential boundary condition identification number.
      * \return identification number
@@ -162,9 +172,9 @@ public:
     **********************************************************************************/
     void property(const std::string& aTag, const std::string& aValue, std::string aAttribute = "homogeneous")
     {
-        if(aTag.empty()) { THROWERR("XML Generator EssentialBoundaryCondition: EssentialBoundaryCondition property tag is empty.") }
-        if(aValue.empty()) { THROWERR("XML Generator EssentialBoundaryCondition: EssentialBoundaryCondition property value is empty.") }
-        if(aAttribute.empty()) { THROWERR("XML Generator EssentialBoundaryCondition: EssentialBoundaryCondition property attribute is empty.") }
+        if(aTag.empty()) { THROWERR("XML Generator EssentialBoundaryCondition: input property tag is empty.") }
+        if(aValue.empty()) { THROWERR(std::string("XML Generator EssentialBoundaryCondition: input property value with tag '") + aTag + "' is empty.") }
+        if(aAttribute.empty()) { THROWERR(std::string("XML Generator EssentialBoundaryCondition: input property attribute with tag '") + aTag + "' is empty.") }
         auto tTag = Plato::tolower(aTag);
         mProperties[aTag] = std::make_pair(aAttribute, aValue);
     }
