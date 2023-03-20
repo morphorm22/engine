@@ -154,7 +154,7 @@ struct ValidBoolKeys
 {
 private:
     /*!<
-     * \brief Valid plato xml generator parser boolean keys.
+     * \brief Valid xml generator parser boolean keys.
      **/
     std::vector<std::string> mKeys = {"true", "false"};
 
@@ -175,7 +175,7 @@ public:
 struct ValidPlatoInputFileMetaDataBlockKeys
 {
     /*!<
-     * \brief plato input file metadata block names
+     * \brief input file metadata block names
      **/
     std::vector<std::string> mKeys =
     {
@@ -194,7 +194,7 @@ struct ValidPlatoInputFileMetaDataBlockKeys
 struct ValidObjectiveTypeKeys
 {
     /*!<
-     * \brief Valid plato input deck criterion keywords.
+     * \brief Valid input deck criterion keywords.
      **/
     std::vector<std::string> mKeys = {"single_criterion", "weighted_sum", "multi_objective"};
 };
@@ -297,7 +297,7 @@ struct ValidPNormMeasureKeyMap
 {
     /*!<
      * valid p-norm measure key map \n
-     * \brief map from p-norm measure keyword to identification keyword for Plato Analyze input deck, i.e. map<measure_key, identification_key>.
+     * \brief map from p-norm measure keyword to identification keyword for the analysis code input deck, i.e. map<measure_key, identification_key>.
      *
      **/
     std::unordered_map<std::string, std::string> mKeys = { { "vonmises", "Von Mises" } };
@@ -308,7 +308,7 @@ struct ValidRandomCategoryKeys
 {
 private:
     /*!<
-     * \brief Valid plato input deck random categories keywords.
+     * \brief Valid input deck random categories keywords.
      **/
     std::vector<std::string> mKeys = {"load", "material"};
 
@@ -377,7 +377,7 @@ struct ValidRandomAttributeKeys
 {
 private:
     /*!<
-     * \brief Valid plato input deck random attributes keywords.
+     * \brief Valid input deck random attributes keywords.
      **/
     std::vector<std::string> mKeys = {"x", "y", "z", "homogeneous"};
 
@@ -399,7 +399,7 @@ struct ValidRandomIdentificationKeys
 {
 private:
     /*!<
-     * \brief Valid plato input deck identification keywords.
+     * \brief Valid input deck identification keywords.
      * Map from random 'category' keyword to identification keyword, i.e. map<category_key, identification_key>.
      **/
     std::unordered_map<std::string, std::string> mKeys = { { "load", "load_id" }, { "material", "material_id" } };
@@ -422,7 +422,7 @@ struct ValidStatisticalDistributionKeys
 {
 private:
     /*!<
-     * \brief Valid plato input deck statistical distribution keywords.
+     * \brief Valid input deck statistical distribution keywords.
      **/
     std::vector<std::string> mKeys = {"normal", "beta", "uniform"};
 
@@ -443,7 +443,7 @@ public:
 struct ValidLoadKeys
 {
     /*!<
-     * \brief Valid plato input deck load keywords.
+     * \brief Valid input deck load keywords.
      **/
     std::vector<std::string> mKeys = {"traction", "uniform_surface_flux", "force", "pressure", "uniform_thermal_source"};
 };
@@ -453,7 +453,7 @@ struct ValidEssentialBoundaryConditionsKeys
 {
 private:
     /*!<
-     * \brief Valid plato input deck essential boundary condition keywords.
+     * \brief Valid input deck essential boundary condition keywords.
      **/
     std::vector<std::string> mKeys = {"rigid", "fixed", "zero_value", "fixed_value", "insulated"};
 
@@ -476,7 +476,7 @@ struct ValidEssentialBoundaryConditionBlockTitleKeys
 {
 private:
     /*!<
-     * \brief Valid plato input deck essential boundary condition block keyword/title map.
+     * \brief Valid input deck essential boundary condition block keyword/title map.
      **/
     std::unordered_map<std::string, std::string> mKeys =
     {
@@ -509,7 +509,7 @@ struct ValidOutputToLayoutKeys
 {
 private:
     /*!<
-     * \brief Valid plato main output keywords. \n
+     * \brief Valid main output keywords. \n
      *  Map from output keyword to data layout, i.e. map<output_key,data_layout>.
      **/
     std::unordered_map<std::string, std::string> mKeys =
@@ -632,7 +632,7 @@ struct ValidMaterialModelKeys
 {
 private:
     /*!<
-     * \brief Valid plato input deck material model keywords \n
+     * \brief Valid input deck material model keywords \n
      **/
     std::vector<std::string> mKeys = 
     { 
@@ -667,7 +667,7 @@ struct ValidConstraintTargetAbsoluteKeys
 {
 private:
     /*!<
-     * \brief Valid plato input deck constraint absolute target keywords.
+     * \brief Valid input deck constraint absolute target keywords.
      **/
     std::vector<std::string> mKeys = {"volume absolute", "target absolute", "surface_area"};
 
@@ -688,7 +688,7 @@ struct ValidConstraintTargetNormalizedKeys
 {
 private:
     /*!<
-     * \brief Valid plato deck constraint normalized target keywords.
+     * \brief Valid deck constraint normalized target keywords.
      **/
     std::vector<std::string> mKeys = {"volume fraction", "target normalized"};
 
@@ -733,12 +733,12 @@ public:
 struct ValidCodeKeys
 {
 private:
-    /*!< valid plato input deck code keywords supported in plato */
+    /*!< valid input deck code keywords supported in */
 
 public:
     /******************************************************************************//**
      * \fn value
-     * \brief Return code keyword supported by Plato Engine.
+     * \brief Return code keyword supported by Engine.
      * \param [in] aKey input file keyword
      * \return supported code keyword. If key is not supported, return an empty string.
     **********************************************************************************/
@@ -759,7 +759,7 @@ private:
 public:
     /******************************************************************************//**
      * \fn value
-     * \brief Return topology discretization keyword supported by Plato Engine.
+     * \brief Return topology discretization keyword supported by Engine.
      * \param [in] aKey input file keyword
      * \return supported topology discretization keyword. If key is not supported, return an empty string.
     **********************************************************************************/
@@ -782,7 +782,7 @@ struct ValidLayoutKeys
 private:
     /*!<
      * valid operation field layouts \n
-     * \brief map from light-input file key to Plato layout, i.e. map<light_input_file_key, plato_layout_key>
+     * \brief map from light-input file key to layout, i.e. map<light_input_file_key, plato_layout_key>
      **/
     std::unordered_map<std::string, std::string> mKeys =
         { {"element field", "Element Field"}, {"nodal field", "Nodal Field"}, {"global", "Global"} };
@@ -790,7 +790,7 @@ private:
 public:
     /******************************************************************************//**
      * \fn value
-     * \brief Return data layout keyword supported by Plato Engine.
+     * \brief Return data layout keyword supported by Engine.
      * \param [in] aKey input file keyword
      * \return supported data layout keyword. If key is not supported, return an empty string.
     **********************************************************************************/
@@ -806,7 +806,7 @@ struct ValidFilterKeys
 private:
     /*!<
      * valid filters \n
-     * \brief map from light-input file key to Plato main operation XML file key, i.e. map<light_input_file_key,plato_main_operation_file_key>
+     * \brief map from light-input file key to main operation XML file key, i.e. map<light_input_file_key,plato_main_operation_file_key>
      **/
     std::unordered_map<std::string, std::string> mKeys = 
     { 
@@ -819,7 +819,7 @@ private:
 public:
     /******************************************************************************//**
      * \fn value
-     * \brief Return filter keyword supported by Plato Engine.
+     * \brief Return filter keyword supported by Engine.
      * \param [in] aKey input file keyword
      * \return supported filter keyword. If key is not supported, return an empty string.
     **********************************************************************************/
@@ -835,7 +835,7 @@ struct ValidProjectionKeys
 private:
     /*!<
      * valid filters \n
-     * \brief map from light-input file key to Plato main operation XML file key, i.e. map<light_input_file_key,plato_main_operation_file_key>
+     * \brief map from light-input file key to main operation XML file key, i.e. map<light_input_file_key,plato_main_operation_file_key>
      **/
     std::unordered_map<std::string, std::string> mKeys = 
     { 
@@ -846,7 +846,7 @@ private:
 public:
     /******************************************************************************//**
      * \fn value
-     * \brief Return projection keyword supported by Plato Engine.
+     * \brief Return projection keyword supported by Engine.
      * \param [in] aKey input file keyword
      * \return supported projection keyword. If key is not supported, return an empty string.
     **********************************************************************************/
@@ -861,12 +861,12 @@ struct ValidAnalyzeOutputKeys
 {
 private:
     /*!<
-     * \brief Map from Plato Main input file output keywords to Plato Analyze plottable option output keywords. \n
-     * The plottable feature is used by Plato Analyze to write output data into its global metadata map. Metadata \n
-     * saved in Plato Analyze's metadata map can be accessed by Plato Main through the Plato Analyze application \n
-     * layer during Multiple Program, Multiple Data (MPMD) runs. Similarly, plottable data can be saved by Plato \n
-     * Analyze into an exodus file, foregoing output through Plato Engine, by invoking the Visualization operation \n
-     * in Plato Analyze.
+     * \brief Map from Main input file output keywords to Analyze plottable option output keywords. \n
+     * The plottable feature is used by Analyze to write output data into its global metadata map. Metadata \n
+     * saved in Analyze's metadata map can be accessed by Main through the Analyze application \n
+     * layer during Multiple Program, Multiple Data (MPMD) runs. Similarly, plottable data can be saved by \n
+     * Analyze into an exodus file, foregoing output through Engine, by invoking the Visualization operation \n
+     * in Analyze.
      **/
     std::unordered_map<std::string, std::string> mKeys =
     {
@@ -885,7 +885,7 @@ private:
 public:
     /******************************************************************************//**
      * \fn value
-     * \brief Return output quantity of interest (QoI) keyword supported by Plato Analyze.
+     * \brief Return output quantity of interest (QoI) keyword supported by Analyze.
      * \param [in] aKey input file keyword
      * \return supported output QoI keyword. If key is not supported, return an empty string.
     **********************************************************************************/
@@ -900,10 +900,10 @@ struct ValidPerformerOutputKeys
 {
 private:
     /*!<
-     * \brief Map from Plato Main input file output keywords to performer codes output argument keywords. These \n
+     * \brief Map from Main input file output keywords to performer codes output argument keywords. These \n
      * output argument keywords are recognized by the Plato::Application interface of the performer and are used \n
-     * to extract data from the performer. Thus, Plato Main relies on these output argument names to extract data \n
-     * from the performer, e.g. Plato Analyze. Plato Main relies on these output argument keywords to output the \n
+     * to extract data from the performer. Thus, Main relies on these output argument names to extract data \n
+     * from the performer, e.g. Analyze. Main relies on these output argument keywords to output the \n
      * quantities of interests associated with these keywords in the platomain.exo file.
      *
      *      i.e. map<code_keyword, pair<plato_main_output_keyword, code_output_keyword>. \n
@@ -1055,9 +1055,9 @@ struct ValidMaterialPropertyKeys
 {
 private:
     /*!<
-     * valid plato analyze material models and corresponding material property keywords \n
-     * \brief map from material model to map from material property tag in plato input file to \n
-     * pair of plato analyze input file material property key and its corresponding value type, i.e. \n
+     * valid analyze material models and corresponding material property keywords \n
+     * \brief map from material model to map from material property tag in input file to \n
+     * pair of analyze input file material property key and its corresponding value type, i.e. \n
      *
      * map< material_model, map<plato_input_file_material_property_tag, pair<plato_analyze_input_file_material_property_tag, value_type>>>.
      *
@@ -1199,10 +1199,10 @@ private:
 public:
     /******************************************************************************//**
      * \fn tag
-     * \brief Return valid Plato Analyze material property tag.
+     * \brief Return valid Analyze material property tag.
      * \param [in] aMaterialModelTag material model tag
      * \param [in] aPropertyTag      material property tag
-     * \return material property tag recognized by Plato Analyze
+     * \return material property tag recognized by Analyze
     **********************************************************************************/
     std::string tag(const std::string& aMaterialModelTag, const std::string& aPropertyTag) const
     {
@@ -1210,15 +1210,15 @@ public:
         auto tMaterialModelItr = mKeys.find(tLowerMaterialModelTag);
         if (tMaterialModelItr == mKeys.end())
         {
-            THROWERR("Valid Analyze Material Property Keys: Material model '" + tLowerMaterialModelTag + "' is not supported in Plato Analyze.")
+            THROWERR("Valid Analyze Material Property Keys: Material model '" + tLowerMaterialModelTag + "' is not supported in Analyze.")
         }
 
         auto tLowerPropertyTag = XMLGen::to_lower(aPropertyTag);
         auto tItr = tMaterialModelItr->second.find(tLowerPropertyTag);
         if (tItr == tMaterialModelItr->second.end())
         {
-            THROWERR(std::string("Append Material Properties To Plato Analyze Material Model: Material property with tag '")
-                + tLowerPropertyTag + "' is not supported in Plato Analyze by '" + tLowerMaterialModelTag + "' material model.")
+            THROWERR(std::string("Append Material Properties To Analyze Material Model: Material property with tag '")
+                + tLowerPropertyTag + "' is not supported in Analyze by '" + tLowerMaterialModelTag + "' material model.")
         }
 
         return tItr->second.first;
@@ -1237,15 +1237,15 @@ public:
         auto tMaterialModelItr = mKeys.find(tLowerMaterialModelTag);
         if (tMaterialModelItr == mKeys.end())
         {
-            THROWERR("Valid Analyze Material Property Keys: Material model '" + tLowerMaterialModelTag + "' is not supported in Plato Analyze.")
+            THROWERR("Valid Analyze Material Property Keys: Material model '" + tLowerMaterialModelTag + "' is not supported in Analyze.")
         }
 
         auto tLowerPropertyTag = XMLGen::to_lower(aPropertyTag);
         auto tItr = tMaterialModelItr->second.find(tLowerPropertyTag);
         if (tItr == tMaterialModelItr->second.end())
         {
-            THROWERR(std::string("Append Material Properties To Plato Analyze Material Model: Material property with tag '")
-                + tLowerPropertyTag + "' is not supported in Plato Analyze by '" + tLowerMaterialModelTag + "' material model.")
+            THROWERR(std::string("Append Material Properties To Analyze Material Model: Material property with tag '")
+                + tLowerPropertyTag + "' is not supported in Analyze by '" + tLowerMaterialModelTag + "' material model.")
         }
 
         return tItr->second.second;
@@ -1265,15 +1265,15 @@ public:
         auto tMaterialModelItr = mKeys.find(tLowerMaterialModelTag);
         if (tMaterialModelItr == mKeys.end())
         {
-            THROWERR("Valid Analyze Material Property Keys: Material model '" + tLowerMaterialModelTag + "' is not supported in Plato Analyze.")
+            THROWERR("Valid Analyze Material Property Keys: Material model '" + tLowerMaterialModelTag + "' is not supported in Analyze.")
         }
 
         auto tLowerPropertyTag = XMLGen::to_lower(aPropertyTag);
         auto tItr = tMaterialModelItr->second.find(tLowerPropertyTag);
         if (tItr == tMaterialModelItr->second.end())
         {
-            THROWERR(std::string("Append Material Properties To Plato Analyze Material Model: Material property with tag '")
-                + tLowerPropertyTag + "' is not supported in Plato Analyze by '" + tLowerMaterialModelTag + "' material model.")
+            THROWERR(std::string("Append Material Properties To Analyze Material Model: Material property with tag '")
+                + tLowerPropertyTag + "' is not supported in Analyze by '" + tLowerMaterialModelTag + "' material model.")
         }
 
         return tItr->second;
@@ -1291,7 +1291,7 @@ public:
         auto tMaterialModelItr = mKeys.find(tLowerMaterialModelTag);
         if (tMaterialModelItr == mKeys.end())
         {
-            THROWERR("Valid Analyze Material Property Keys: Material model '" + tLowerMaterialModelTag + "' is not supported in Plato Analyze.")
+            THROWERR("Valid Analyze Material Property Keys: Material model '" + tLowerMaterialModelTag + "' is not supported in Analyze.")
         }
 
         std::vector<std::string> tOutput;
@@ -1308,8 +1308,8 @@ struct ValidAnalyzePhysicsKeys
 {
 private:
     /*!<
-     * valid plato analyze physics and corresponding PDE keywords \n
-     * \brief map from physics keyword to pair of plato analyze physics and \n
+     * valid analyze physics and corresponding PDE keywords \n
+     * \brief map from physics keyword to pair of analyze physics and \n
      * partial differential equations (PDE) keywords, i.e. \n
      *
      * map< plato_main_physics_key, pair<plato_analyze_physics_key, plato_analyze_pde_key> >.
@@ -1338,7 +1338,7 @@ public:
         auto tPhysicsItr = mKeys.find(tLowerPhysics);
         if (tPhysicsItr == mKeys.end())
         {
-            THROWERR(std::string("Valid Analyze Physics Keys: Physics '") + tLowerPhysics + "' is not supported in Plato Analyze.")
+            THROWERR(std::string("Valid Analyze Physics Keys: Physics '") + tLowerPhysics + "' is not supported in Analyze.")
         }
         return (tPhysicsItr->second.second);
     }
@@ -1349,7 +1349,7 @@ public:
         auto tPhysicsItr = mKeys.find(tLowerPhysics);
         if (tPhysicsItr == mKeys.end())
         {
-            THROWERR(std::string("Valid Analyze Physics Keys: Physics '") + tLowerPhysics + "' is not supported in Plato Analyze.")
+            THROWERR(std::string("Valid Analyze Physics Keys: Physics '") + tLowerPhysics + "' is not supported in Analyze.")
         }
         return (tPhysicsItr->second.first);
     }
@@ -1359,8 +1359,8 @@ public:
 struct ValidAnalyzeCriteriaKeys
 {
     /*!<
-     * valid plato analyze optimization criteria \n
-     * \brief map from plato main objective type key to pair of plato analyze criterion \n
+     * valid analyze optimization criteria \n
+     * \brief map from main objective type key to pair of analyze criterion \n
      * key and self-adjoint flag, i.e. \n
      *
      * map< plato_main_objective_type_key, pair<plato_analyze_criterion_key, plato_analyze_self_adjoint_key> >.
@@ -1401,8 +1401,8 @@ struct ValidAnalyzeCriteriaKeys
 struct ValidAnalyzeCriteriaIsLinearKeys
 {
     /*!<
-     * valid plato analyze optimization criteria \n
-     * \brief map from plato main objective type key to bool saying whether the criteria is linear \n
+     * valid analyze optimization criteria \n
+     * \brief map from main objective type key to bool saying whether the criteria is linear \n
      *
      **/
     std::unordered_map<std::string, std::string> mKeys =
@@ -1416,7 +1416,7 @@ struct ValidAnalyzeCriteriaIsLinearKeys
 struct ValidSpatialDimsKeys
 {
     /*!<
-     * \brief Valid plato problem spatial dimensions.
+     * \brief Valid problem spatial dimensions.
      **/
     std::vector<std::string> mKeys = { "3", "2" };
 };
@@ -1424,13 +1424,13 @@ struct ValidSpatialDimsKeys
 
 /******************************************************************************/ /**
 * \struct ValidEssentialBoundaryConditionBlockNames
-* \brief Maps Plato Analyze physics to the corresponding Essential Boundary Condition
+* \brief Maps Analyze physics to the corresponding Essential Boundary Condition
 *        block name based on the degree of freedom key.
 **********************************************************************************/
 struct ValidEssentialBoundaryConditionBlockNames
 {
 private:
-    /*!< map from physics to the essential boundary condition block name used in the Plato Analyze input deck */
+    /*!< map from physics to the essential boundary condition block name used in the Analyze input deck */
     std::unordered_map<std::string, std::unordered_map<std::string, std::string>> mMap =
         {
             {"steady_state_incompressible_fluids", {{"velx", "Velocity Essential Boundary Conditions"}, {"vely", "Velocity Essential Boundary Conditions"}, {"velz", "Velocity Essential Boundary Conditions"}, {"press", "Pressure Essential Boundary Conditions"}, {"temp", "Temperature Essential Boundary Conditions"}}},
@@ -1476,23 +1476,78 @@ public:
 struct ValidDofsKeys
 {
 private:
-    /*!< map from physics to map from degree of freedom name to degree of freedom index, i.e. \n
+    /*!< map from physics to <map from dimension to <map from degree of freedom name to degree of freedom index> > >, i.e. \n
      *
-     * map<physics, map<dof_name, dof_index>>
+     * map<physics, map<dimension, map<dof_name, dof_index> > >
      * */
-    std::unordered_map<std::string, std::unordered_map<std::string,std::string>> mKeys =
+    std::unordered_map<std::string, std::unordered_map<std::string, std::unordered_map<std::string,std::string> > > mKeys =
         {
-            {"steady_state_mechanics", { {"dispx", "0"}, {"dispy", "1"}, {"dispz", "2"} } },
-            {"transient_mechanics", { {"dispx", "0"}, {"dispy", "1"}, {"dispz", "2"} } },
-            {"steady_state_thermal", { {"temp", "0"} } }, 
-            {"transient_thermal", { {"temp", "0"} } }, 
-            {"steady_state_electrical", { {"potential", "0"} } },
-            {"steady_state_thermomechanics", { {"dispx", "0"}, {"dispy", "1"}, {"dispz", "2"}, {"temp", "3"} } },
-            {"transient_thermomechanics", { {"dispx", "0"}, {"dispy", "1"}, {"dispz", "2"}, {"temp", "3"} } },
-            {"steady_state_electromechanics", { {"dispx", "0"}, {"dispy", "1"}, {"dispz", "2"}, {"potential", "3"} } },
-            {"steady_state_incompressible_fluids", { {"velx", "0"}, {"vely", "1"}, {"velz", "2"}, {"press", "0"}, {"temp", "0"} } },
-            {"plasticity", { {"dispx", "0"}, {"dispy", "1"}, {"dispz", "2"} } },
-            {"thermoplasticity", { {"dispx", "0"}, {"dispy", "1"}, {"dispz", "2"}, {"temp", "3"} } }
+            {"steady_state_thermal",
+                    {
+                        { "3", { {"temp", "0"} } },
+                        { "2", { {"temp", "0"} } }
+                    }
+            },
+            {"transient_thermal",
+                    {
+                        { "3", { {"temp", "0"} } },
+                        { "2", { {"temp", "0"} } }
+                    }
+            },
+            {"steady_state_electrical",
+                    {
+                        { "3", { {"potential", "0"} } },
+                        { "2", { {"potential", "0"} } }
+                    }
+            },
+            {"steady_state_mechanics",
+                    {
+                        { "3", { {"dispx", "0"}, {"dispy", "1"}, {"dispz", "2"} } },
+                        { "2", { {"dispx", "0"}, {"dispy", "1"} } }
+                    }
+            },
+            {"transient_mechanics",
+                    {
+                        { "3", { {"dispx", "0"}, {"dispy", "1"}, {"dispz", "2"} } },
+                        { "2", { {"dispx", "0"}, {"dispy", "1"} } }
+                    }
+            },
+            {"steady_state_thermomechanics",
+                    {
+                        { "3", { {"dispx", "0"}, {"dispy", "1"}, {"dispz", "2"}, {"temp", "3"} } },
+                        { "2", { {"dispx", "0"}, {"dispy", "1"}, {"temp", "2"} } }
+                    }
+            },
+            {"transient_thermomechanics",
+                    {
+                        { "3", { {"dispx", "0"}, {"dispy", "1"}, {"dispz", "2"}, {"temp", "3"} } },
+                        { "2", { {"dispx", "0"}, {"dispy", "1"}, {"temp", "2"} } }
+                    }
+            },
+            {"steady_state_electromechanics",
+                    {
+                        { "3", { {"dispx", "0"}, {"dispy", "1"}, {"dispz", "2"}, {"potential", "3"} } },
+                        { "2", { {"dispx", "0"}, {"dispy", "1"}, {"potential", "2"} } }
+                    }
+            },
+            {"steady_state_incompressible_fluids",
+                    {
+                        { "3", { {"velx", "0"}, {"vely", "1"}, {"velz", "2"}, {"press", "0"}, {"temp", "0"} } },
+                        { "2", { {"velx", "0"}, {"vely", "1"}, {"press", "0"}, {"temp", "0"} } }
+                    }
+            },
+            {"plasticity",
+                    {
+                        { "3", { {"dispx", "0"}, {"dispy", "1"}, {"dispz", "2"} } },
+                        { "2", { {"dispx", "0"}, {"dispy", "1"} } }
+                    }
+            },
+            {"thermoplasticity",
+                    {
+                        { "3", { {"dispx", "0"}, {"dispy", "1"}, {"dispz", "2"}, {"temp", "3"} } },
+                        { "2", { {"dispx", "0"}, {"dispy", "1"}, {"temp", "2"} } }
+                    }
+            },
         };
 
 public:
@@ -1501,22 +1556,30 @@ public:
      * \brief Return degree of freedom integer.
      * \param [in] aPhysics physics name
      * \param [in] aDofName degree of freedom name
+     * \param [in] aDims    spatial dimensions
      * \return degree of freedom integer
     **********************************************************************************/
-    std::string dof(const std::string& aPhysics, const std::string& aDofName) const
+    std::string dof(const std::string& aPhysics, const std::string& aDims, const std::string& aDofName) const
     {
         auto tLowerPhysics = XMLGen::to_lower(aPhysics);
         auto tDofsKeysItr = mKeys.find(tLowerPhysics);
         if(tDofsKeysItr == mKeys.end())
         {
-            THROWERR(std::string("Valid Dofs Keys: ") + "Physics '" + tLowerPhysics + "' is not supported in Plato Analyze.")
+            THROWERR(std::string("Supported Degrees of Freedom Keys: '") + tLowerPhysics + "' physics is not a supported analysis.")
+        }
+
+        auto tDimsKeysItr = tDofsKeysItr->second.find(aDims);
+        if(tDimsKeysItr == tDofsKeysItr->second.end())
+        {
+            THROWERR(std::string("Supported Degrees of Freedom Keys: ") + "Analyses of '" + aDims + "' dimensions are not supported.")
         }
 
         auto tLowerDof = XMLGen::to_lower(aDofName);
-        auto tDofNameItr = tDofsKeysItr->second.find(tLowerDof);
-        if(tDofNameItr == tDofsKeysItr->second.end())
+        auto tDofNameItr = tDimsKeysItr->second.find(tLowerDof);
+        if(tDofNameItr == tDimsKeysItr->second.end())
         {
-            THROWERR(std::string("Valid Dofs Keys: ") + "Degree of Freedom tag/key '" + tLowerDof + "' is not supported for physics '" + tLowerPhysics + "'.")
+            THROWERR(std::string("Supported Degrees of Freedom Keys: ") + "Degree of Freedom key '" + tLowerDof
+                     + "' is not supported by '" + aDims + "' dimensional '" + tLowerPhysics + "' physics.")
         }
 
         return tDofNameItr->second;
@@ -1526,19 +1589,26 @@ public:
      * \fn names
      * \brief Return list of supported degrees of freedom names.
      * \param [in] aPhysics physics name
+     * \param [in] aDims    spatial dimensions
      * \return degree of freedom names
     **********************************************************************************/
-    std::vector<std::string> names(const std::string& aPhysics) const
+    std::vector<std::string> names(const std::string& aPhysics,const std::string& aDims) const
     {
         auto tLowerPhysics = XMLGen::to_lower(aPhysics);
         auto tDofsKeysItr = mKeys.find(tLowerPhysics);
         if(tDofsKeysItr == mKeys.end())
         {
-            THROWERR(std::string("Valid Dofs Keys: ") + "Physics '" + tLowerPhysics + "' is not supported in Plato Analyze.")
+            THROWERR(std::string("Supported Degrees of Freedom Keys: '") + tLowerPhysics + "' physics is not a supported analysis.")
+        }
+
+        auto tDimsKeysItr = tDofsKeysItr->second.find(aDims);
+        if(tDimsKeysItr == tDofsKeysItr->second.end())
+        {
+            THROWERR(std::string("Supported Degrees of Freedom Keys: ") + "Analyses of '" + aDims + "' dimensions are not supported.")
         }
 
         std::vector<std::string> tOutput;
-        for(auto& tPair : tDofsKeysItr->second)
+        for(auto& tPair : tDimsKeysItr->second)
         {
             tOutput.push_back(tPair.first);
         }
@@ -1551,7 +1621,7 @@ public:
 struct ValidOptimizationParameterKeys
 {
     /*!<
-     * valid plato optimization parameters \n
+     * valid optimization parameters \n
      * \brief vector of valid optimization parameters \n
      **/
     std::unordered_set<std::string> mKeys =
@@ -1685,7 +1755,7 @@ struct ValidOptimizationParameterKeys
 
 /******************************************************************************/ /**
 * \struct ValidHeatTransferMechanisms
-* \brief Set of valid Plato Analyze's heat transfer mechanisms.
+* \brief Set of valid heat transfer mechanisms.
 **********************************************************************************/
 struct ValidHeatTransferMechanisms
 {

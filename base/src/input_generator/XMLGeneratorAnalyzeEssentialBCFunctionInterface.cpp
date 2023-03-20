@@ -45,7 +45,8 @@ void append_rigid_essential_boundary_condition_to_plato_problem
  pugi::xml_node &aParentNode)
 {
     XMLGen::ValidDofsKeys tValidDofs;
-    auto tDofNames = tValidDofs.names(aPhysics);
+    const std::string tDims = aBC.dimensions();
+    auto tDofNames = tValidDofs.names(aPhysics, tDims);
     std::vector<std::string> tKeys = {"name", "type", "value"};
     auto tSetName = XMLGen::Private::check_essential_boundary_condition_application_name_keyword(aBC);
     for(auto& tDofName : tDofNames)
@@ -55,7 +56,7 @@ void append_rigid_essential_boundary_condition_to_plato_problem
         XMLGen::append_attributes({"name"}, {tBCName}, tEssentialBoundaryCondParentNode);
         std::vector<std::string> tValues = {"Type", "string", "Zero Value"};
         XMLGen::append_parameter_plus_attributes(tKeys, tValues, tEssentialBoundaryCondParentNode);
-        auto tDof = tValidDofs.dof(aPhysics, tDofName);
+        auto tDof = tValidDofs.dof(aPhysics, tDims, tDofName);
         tValues = {"Index", "int", tDof};
         XMLGen::append_parameter_plus_attributes(tKeys, tValues, tEssentialBoundaryCondParentNode);
         tValues = {"Sides", "string", tSetName};
@@ -79,7 +80,8 @@ void append_zero_value_essential_boundary_condition_to_plato_problem
     XMLGen::append_parameter_plus_attributes(tKeys, tValues, tEssentialBoundaryCondParentNode);
 
     XMLGen::ValidDofsKeys tValidDofs;
-    auto tDofInteger = tValidDofs.dof(aPhysics, aBC.value("degree_of_freedom"));
+    const auto tDims = aBC.dimensions();
+    auto tDofInteger = tValidDofs.dof(aPhysics, tDims, aBC.value("degree_of_freedom"));
     tValues = {"Index", "int", tDofInteger};
     XMLGen::append_parameter_plus_attributes(tKeys, tValues, tEssentialBoundaryCondParentNode);
 
@@ -104,7 +106,8 @@ void append_fixed_value_essential_boundary_condition_to_plato_problem
     XMLGen::append_parameter_plus_attributes(tKeys, tValues, tEssentialBoundaryCondParentNode);
 
     XMLGen::ValidDofsKeys tValidDofs;
-    auto tDofInteger = tValidDofs.dof(aPhysics, aBC.value("degree_of_freedom"));
+    const auto tDims = aBC.dimensions();
+    auto tDofInteger = tValidDofs.dof(aPhysics, tDims, aBC.value("degree_of_freedom"));
     tValues = {"Index", "int", tDofInteger};
     XMLGen::append_parameter_plus_attributes(tKeys, tValues, tEssentialBoundaryCondParentNode);
 
@@ -133,7 +136,8 @@ void append_time_function_essential_boundary_condition_to_plato_problem
     XMLGen::append_parameter_plus_attributes(tKeys, tValues, tEssentialBoundaryCondParentNode);
 
     XMLGen::ValidDofsKeys tValidDofs;
-    auto tDofInteger = tValidDofs.dof(aPhysics, aBC.value("degree_of_freedom"));
+    const auto tDims = aBC.dimensions();
+    auto tDofInteger = tValidDofs.dof(aPhysics, tDims, aBC.value("degree_of_freedom"));
     tValues = {"Index", "int", tDofInteger};
     XMLGen::append_parameter_plus_attributes(tKeys, tValues, tEssentialBoundaryCondParentNode);
 

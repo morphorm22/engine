@@ -25,6 +25,223 @@
 namespace PlatoTestXMLGenerator
 {
 
+TEST(PlatoTestXMLGenerator, ValidDofsKeys)
+{
+    XMLGen::ValidDofsKeys tValidDofsKeys;
+
+    // ************** dof function **************
+
+    // test dof function - steady_state_thermal
+    ASSERT_STREQ("0",tValidDofsKeys.dof("steady_state_thermal","2","temp").c_str());
+    ASSERT_THROW(tValidDofsKeys.dof("steady_state_thermal","2","potential"), std::runtime_error);
+    ASSERT_THROW(tValidDofsKeys.dof("steady_state_thermal","2","dispx"), std::runtime_error);
+
+    ASSERT_STREQ("0",tValidDofsKeys.dof("steady_state_thermal","3","temp").c_str());
+    ASSERT_THROW(tValidDofsKeys.dof("steady_state_thermal","3","potential"), std::runtime_error);
+    ASSERT_THROW(tValidDofsKeys.dof("steady_state_thermal","3","dispx"), std::runtime_error);
+
+    // test dof function - transient_thermal
+    ASSERT_STREQ("0",tValidDofsKeys.dof("transient_thermal","2","temp").c_str());
+    ASSERT_THROW(tValidDofsKeys.dof("transient_thermal","2","potential"), std::runtime_error);
+    ASSERT_THROW(tValidDofsKeys.dof("transient_thermal","2","dispx"), std::runtime_error);
+
+    ASSERT_STREQ("0",tValidDofsKeys.dof("transient_thermal","3","temp").c_str());
+    ASSERT_THROW(tValidDofsKeys.dof("transient_thermal","3","potential"), std::runtime_error);
+    ASSERT_THROW(tValidDofsKeys.dof("transient_thermal","3","dispx"), std::runtime_error);
+
+    // test dof function - steady_state_electrical
+    ASSERT_STREQ("0",tValidDofsKeys.dof("steady_state_electrical","2","potential").c_str());
+    ASSERT_THROW(tValidDofsKeys.dof("steady_state_electrical","2","temp"), std::runtime_error);
+    ASSERT_THROW(tValidDofsKeys.dof("steady_state_electrical","2","dispx"), std::runtime_error);
+
+    ASSERT_STREQ("0",tValidDofsKeys.dof("steady_state_electrical","3","potential").c_str());
+    ASSERT_THROW(tValidDofsKeys.dof("steady_state_electrical","3","temp"), std::runtime_error);
+    ASSERT_THROW(tValidDofsKeys.dof("steady_state_electrical","3","dispx"), std::runtime_error);
+
+    // test dof function - steady_state_mechanics
+    ASSERT_STREQ("0",tValidDofsKeys.dof("steady_state_mechanics","2","dispx").c_str());
+    ASSERT_STREQ("1",tValidDofsKeys.dof("steady_state_mechanics","2","dispy").c_str());
+    ASSERT_THROW(tValidDofsKeys.dof("steady_state_mechanics","2","dispz"), std::runtime_error);
+
+    ASSERT_STREQ("0",tValidDofsKeys.dof("steady_state_mechanics","3","dispx").c_str());
+    ASSERT_STREQ("1",tValidDofsKeys.dof("steady_state_mechanics","3","dispy").c_str());
+    ASSERT_STREQ("2",tValidDofsKeys.dof("steady_state_mechanics","3","dispz").c_str());
+    ASSERT_THROW(tValidDofsKeys.dof("steady_state_mechanics","3","temp"), std::runtime_error);
+
+    // test dof function - transient_mechanics
+    ASSERT_STREQ("0",tValidDofsKeys.dof("transient_mechanics","2","dispx").c_str());
+    ASSERT_STREQ("1",tValidDofsKeys.dof("transient_mechanics","2","dispy").c_str());
+    ASSERT_THROW(tValidDofsKeys.dof("transient_mechanics","2","dispz"), std::runtime_error);
+
+    ASSERT_STREQ("0",tValidDofsKeys.dof("transient_mechanics","3","dispx").c_str());
+    ASSERT_STREQ("1",tValidDofsKeys.dof("transient_mechanics","3","dispy").c_str());
+    ASSERT_STREQ("2",tValidDofsKeys.dof("transient_mechanics","3","dispz").c_str());
+    ASSERT_THROW(tValidDofsKeys.dof("transient_mechanics","3","temp"), std::runtime_error);
+
+    // test dof function - steady_state_thermomechanics
+    ASSERT_STREQ("0",tValidDofsKeys.dof("steady_state_thermomechanics","2","dispx").c_str());
+    ASSERT_STREQ("1",tValidDofsKeys.dof("steady_state_thermomechanics","2","dispy").c_str());
+    ASSERT_STREQ("2",tValidDofsKeys.dof("steady_state_thermomechanics","2","temp").c_str());
+    ASSERT_THROW(tValidDofsKeys.dof("steady_state_thermomechanics","2","dispz"), std::runtime_error);
+
+    ASSERT_STREQ("0",tValidDofsKeys.dof("steady_state_thermomechanics","3","dispx").c_str());
+    ASSERT_STREQ("1",tValidDofsKeys.dof("steady_state_thermomechanics","3","dispy").c_str());
+    ASSERT_STREQ("2",tValidDofsKeys.dof("steady_state_thermomechanics","3","dispz").c_str());
+    ASSERT_STREQ("3",tValidDofsKeys.dof("steady_state_thermomechanics","3","temp").c_str());
+    ASSERT_THROW(tValidDofsKeys.dof("steady_state_thermomechanics","3","potential"), std::runtime_error);
+
+    // test dof function - transient_thermomechanics
+    ASSERT_STREQ("0",tValidDofsKeys.dof("transient_thermomechanics","2","dispx").c_str());
+    ASSERT_STREQ("1",tValidDofsKeys.dof("transient_thermomechanics","2","dispy").c_str());
+    ASSERT_STREQ("2",tValidDofsKeys.dof("transient_thermomechanics","2","temp").c_str());
+    ASSERT_THROW(tValidDofsKeys.dof("transient_thermomechanics","2","dispz"), std::runtime_error);
+
+    ASSERT_STREQ("0",tValidDofsKeys.dof("transient_thermomechanics","3","dispx").c_str());
+    ASSERT_STREQ("1",tValidDofsKeys.dof("transient_thermomechanics","3","dispy").c_str());
+    ASSERT_STREQ("2",tValidDofsKeys.dof("transient_thermomechanics","3","dispz").c_str());
+    ASSERT_STREQ("3",tValidDofsKeys.dof("transient_thermomechanics","3","temp").c_str());
+    ASSERT_THROW(tValidDofsKeys.dof("transient_thermomechanics","3","potential"), std::runtime_error);
+
+    // test dof function - steady_state_electromechanics
+    ASSERT_STREQ("0",tValidDofsKeys.dof("steady_state_electromechanics","2","dispx").c_str());
+    ASSERT_STREQ("1",tValidDofsKeys.dof("steady_state_electromechanics","2","dispy").c_str());
+    ASSERT_STREQ("2",tValidDofsKeys.dof("steady_state_electromechanics","2","potential").c_str());
+    ASSERT_THROW(tValidDofsKeys.dof("steady_state_electromechanics","2","dispz"), std::runtime_error);
+
+    ASSERT_STREQ("0",tValidDofsKeys.dof("steady_state_electromechanics","3","dispx").c_str());
+    ASSERT_STREQ("1",tValidDofsKeys.dof("steady_state_electromechanics","3","dispy").c_str());
+    ASSERT_STREQ("2",tValidDofsKeys.dof("steady_state_electromechanics","3","dispz").c_str());
+    ASSERT_STREQ("3",tValidDofsKeys.dof("steady_state_electromechanics","3","potential").c_str());
+    ASSERT_THROW(tValidDofsKeys.dof("steady_state_electromechanics","3","temp"), std::runtime_error);
+
+    // test dof function - steady_state_incompressible_fluids
+    ASSERT_STREQ("0",tValidDofsKeys.dof("steady_state_incompressible_fluids","2","velx").c_str());
+    ASSERT_STREQ("1",tValidDofsKeys.dof("steady_state_incompressible_fluids","2","vely").c_str());
+    ASSERT_STREQ("0",tValidDofsKeys.dof("steady_state_incompressible_fluids","2","press").c_str());
+    ASSERT_STREQ("0",tValidDofsKeys.dof("steady_state_incompressible_fluids","2","temp").c_str());
+    ASSERT_THROW(tValidDofsKeys.dof("steady_state_incompressible_fluids","2","velz"), std::runtime_error);
+
+    ASSERT_STREQ("0",tValidDofsKeys.dof("steady_state_incompressible_fluids","3","velx").c_str());
+    ASSERT_STREQ("1",tValidDofsKeys.dof("steady_state_incompressible_fluids","3","vely").c_str());
+    ASSERT_STREQ("2",tValidDofsKeys.dof("steady_state_incompressible_fluids","3","velz").c_str());
+    ASSERT_STREQ("0",tValidDofsKeys.dof("steady_state_incompressible_fluids","3","press").c_str());
+    ASSERT_STREQ("0",tValidDofsKeys.dof("steady_state_incompressible_fluids","3","temp").c_str());
+    ASSERT_THROW(tValidDofsKeys.dof("steady_state_incompressible_fluids","3","dispx"), std::runtime_error);
+
+    // test dof function - plasticity
+    ASSERT_STREQ("0",tValidDofsKeys.dof("plasticity","2","dispx").c_str());
+    ASSERT_STREQ("1",tValidDofsKeys.dof("plasticity","2","dispy").c_str());
+    ASSERT_THROW(tValidDofsKeys.dof("plasticity","2","dispz"), std::runtime_error);
+
+    ASSERT_STREQ("0",tValidDofsKeys.dof("plasticity","3","dispx").c_str());
+    ASSERT_STREQ("1",tValidDofsKeys.dof("plasticity","3","dispy").c_str());
+    ASSERT_STREQ("2",tValidDofsKeys.dof("plasticity","3","dispz").c_str());
+    ASSERT_THROW(tValidDofsKeys.dof("plasticity","3","temp"), std::runtime_error);
+
+    // test dof function - thermoplasticity
+    ASSERT_STREQ("0",tValidDofsKeys.dof("thermoplasticity","2","dispx").c_str());
+    ASSERT_STREQ("1",tValidDofsKeys.dof("thermoplasticity","2","dispy").c_str());
+    ASSERT_STREQ("2",tValidDofsKeys.dof("thermoplasticity","2","temp").c_str());
+    ASSERT_THROW(tValidDofsKeys.dof("thermoplasticity","2","dispz"), std::runtime_error);
+
+    ASSERT_STREQ("0",tValidDofsKeys.dof("thermoplasticity","3","dispx").c_str());
+    ASSERT_STREQ("1",tValidDofsKeys.dof("thermoplasticity","3","dispy").c_str());
+    ASSERT_STREQ("2",tValidDofsKeys.dof("thermoplasticity","3","dispz").c_str());
+    ASSERT_STREQ("3",tValidDofsKeys.dof("thermoplasticity","3","temp").c_str());
+
+    // ************** names function **************
+    auto tNames = tValidDofsKeys.names("steady_state_thermal","2");
+    ASSERT_STREQ("temp",tNames[0].c_str());
+    tNames = tValidDofsKeys.names("steady_state_thermal","3");
+    ASSERT_STREQ("temp",tNames[0].c_str());
+
+    tNames = tValidDofsKeys.names("transient_thermal","2");
+    ASSERT_STREQ("temp",tNames[0].c_str());
+    tNames = tValidDofsKeys.names("transient_thermal","3");
+    ASSERT_STREQ("temp",tNames[0].c_str());
+
+    tNames = tValidDofsKeys.names("steady_state_electrical","2");
+    ASSERT_STREQ("potential",tNames[0].c_str());
+    tNames = tValidDofsKeys.names("steady_state_electrical","3");
+    ASSERT_STREQ("potential",tNames[0].c_str());
+
+    tNames = tValidDofsKeys.names("steady_state_mechanics","2");
+    ASSERT_TRUE(std::find(tNames.begin(),tNames.end(),"dispx") != tNames.end());
+    ASSERT_TRUE(std::find(tNames.begin(),tNames.end(),"dispy") != tNames.end());
+    tNames = tValidDofsKeys.names("steady_state_mechanics","3");
+    ASSERT_TRUE(std::find(tNames.begin(),tNames.end(),"dispx") != tNames.end());
+    ASSERT_TRUE(std::find(tNames.begin(),tNames.end(),"dispy") != tNames.end());
+    ASSERT_TRUE(std::find(tNames.begin(),tNames.end(),"dispz") != tNames.end());
+
+    tNames = tValidDofsKeys.names("transient_mechanics","2");
+    ASSERT_TRUE(std::find(tNames.begin(),tNames.end(),"dispx") != tNames.end());
+    ASSERT_TRUE(std::find(tNames.begin(),tNames.end(),"dispy") != tNames.end());
+    tNames = tValidDofsKeys.names("transient_mechanics","3");
+    ASSERT_TRUE(std::find(tNames.begin(),tNames.end(),"dispx") != tNames.end());
+    ASSERT_TRUE(std::find(tNames.begin(),tNames.end(),"dispy") != tNames.end());
+    ASSERT_TRUE(std::find(tNames.begin(),tNames.end(),"dispz") != tNames.end());
+
+    tNames = tValidDofsKeys.names("steady_state_thermomechanics","2");
+    ASSERT_TRUE(std::find(tNames.begin(),tNames.end(),"dispx") != tNames.end());
+    ASSERT_TRUE(std::find(tNames.begin(),tNames.end(),"dispy") != tNames.end());
+    ASSERT_TRUE(std::find(tNames.begin(),tNames.end(),"temp") != tNames.end());
+    tNames = tValidDofsKeys.names("steady_state_thermomechanics","3");
+    ASSERT_TRUE(std::find(tNames.begin(),tNames.end(),"dispx") != tNames.end());
+    ASSERT_TRUE(std::find(tNames.begin(),tNames.end(),"dispy") != tNames.end());
+    ASSERT_TRUE(std::find(tNames.begin(),tNames.end(),"dispz") != tNames.end());
+    ASSERT_TRUE(std::find(tNames.begin(),tNames.end(),"temp") != tNames.end());
+
+    tNames = tValidDofsKeys.names("transient_thermomechanics","2");
+    ASSERT_TRUE(std::find(tNames.begin(),tNames.end(),"dispx") != tNames.end());
+    ASSERT_TRUE(std::find(tNames.begin(),tNames.end(),"dispy") != tNames.end());
+    ASSERT_TRUE(std::find(tNames.begin(),tNames.end(),"temp") != tNames.end());
+    tNames = tValidDofsKeys.names("transient_thermomechanics","3");
+    ASSERT_TRUE(std::find(tNames.begin(),tNames.end(),"dispx") != tNames.end());
+    ASSERT_TRUE(std::find(tNames.begin(),tNames.end(),"dispy") != tNames.end());
+    ASSERT_TRUE(std::find(tNames.begin(),tNames.end(),"dispz") != tNames.end());
+    ASSERT_TRUE(std::find(tNames.begin(),tNames.end(),"temp") != tNames.end());
+
+    tNames = tValidDofsKeys.names("steady_state_electromechanics","2");
+    ASSERT_TRUE(std::find(tNames.begin(),tNames.end(),"dispx") != tNames.end());
+    ASSERT_TRUE(std::find(tNames.begin(),tNames.end(),"dispy") != tNames.end());
+    ASSERT_TRUE(std::find(tNames.begin(),tNames.end(),"potential") != tNames.end());
+    tNames = tValidDofsKeys.names("steady_state_electromechanics","3");
+    ASSERT_TRUE(std::find(tNames.begin(),tNames.end(),"dispx") != tNames.end());
+    ASSERT_TRUE(std::find(tNames.begin(),tNames.end(),"dispy") != tNames.end());
+    ASSERT_TRUE(std::find(tNames.begin(),tNames.end(),"dispz") != tNames.end());
+    ASSERT_TRUE(std::find(tNames.begin(),tNames.end(),"potential") != tNames.end());
+
+    tNames = tValidDofsKeys.names("steady_state_incompressible_fluids","2");
+    ASSERT_TRUE(std::find(tNames.begin(),tNames.end(),"velx") != tNames.end());
+    ASSERT_TRUE(std::find(tNames.begin(),tNames.end(),"vely") != tNames.end());
+    ASSERT_TRUE(std::find(tNames.begin(),tNames.end(),"temp") != tNames.end());
+    ASSERT_TRUE(std::find(tNames.begin(),tNames.end(),"press") != tNames.end());
+    tNames = tValidDofsKeys.names("steady_state_incompressible_fluids","3");
+    ASSERT_TRUE(std::find(tNames.begin(),tNames.end(),"velx") != tNames.end());
+    ASSERT_TRUE(std::find(tNames.begin(),tNames.end(),"vely") != tNames.end());
+    ASSERT_TRUE(std::find(tNames.begin(),tNames.end(),"velz") != tNames.end());
+    ASSERT_TRUE(std::find(tNames.begin(),tNames.end(),"temp") != tNames.end());
+    ASSERT_TRUE(std::find(tNames.begin(),tNames.end(),"press") != tNames.end());
+
+    tNames = tValidDofsKeys.names("plasticity","2");
+    ASSERT_TRUE(std::find(tNames.begin(),tNames.end(),"dispx") != tNames.end());
+    ASSERT_TRUE(std::find(tNames.begin(),tNames.end(),"dispy") != tNames.end());
+    tNames = tValidDofsKeys.names("plasticity","3");
+    ASSERT_TRUE(std::find(tNames.begin(),tNames.end(),"dispx") != tNames.end());
+    ASSERT_TRUE(std::find(tNames.begin(),tNames.end(),"dispy") != tNames.end());
+    ASSERT_TRUE(std::find(tNames.begin(),tNames.end(),"dispz") != tNames.end());
+
+    tNames = tValidDofsKeys.names("thermoplasticity","2");
+    ASSERT_TRUE(std::find(tNames.begin(),tNames.end(),"dispx") != tNames.end());
+    ASSERT_TRUE(std::find(tNames.begin(),tNames.end(),"dispy") != tNames.end());
+    ASSERT_TRUE(std::find(tNames.begin(),tNames.end(),"temp") != tNames.end());
+    tNames = tValidDofsKeys.names("thermoplasticity","3");
+    ASSERT_TRUE(std::find(tNames.begin(),tNames.end(),"dispx") != tNames.end());
+    ASSERT_TRUE(std::find(tNames.begin(),tNames.end(),"dispy") != tNames.end());
+    ASSERT_TRUE(std::find(tNames.begin(),tNames.end(),"dispz") != tNames.end());
+    ASSERT_TRUE(std::find(tNames.begin(),tNames.end(),"temp") != tNames.end());
+}
+
 TEST(PlatoTestXMLGenerator, AppendPhysics_IncompressibleFluids)
 {
     std::vector<XMLGen::Output> tOutput;
@@ -834,6 +1051,7 @@ TEST(PlatoTestXMLGenerator, AppendEssentialBoundaryCondition_CategoryRigid)
 {
     XMLGen::EssentialBoundaryCondition tBC;
     tBC.property("id", "1");
+    tBC.property("dimensions", "3");
     tBC.property("location_name", "ss_1");
     tBC.property("type", "rigid");
     pugi::xml_document tDocument;
@@ -879,6 +1097,7 @@ TEST(PlatoTestXMLGenerator, AppendEssentialBoundaryCondition_CategoryFixed)
     XMLGen::EssentialBoundaryCondition tBC;
     tBC.property("id", "1");
     tBC.property("type", "fixed");
+    tBC.property("dimensions", "3");
     tBC.property("location_name", "ns_1");
     pugi::xml_document tDocument;
 
@@ -922,6 +1141,7 @@ TEST(PlatoTestXMLGenerator, AppendEssentialBoundaryCondition_CategoryZeroValue)
 {
     XMLGen::EssentialBoundaryCondition tBC;
     tBC.property("id", "1");
+    tBC.property("dimensions", "3");
     tBC.property("degree_of_freedom", "temp");
     tBC.property("location_name", "ss_2");
     tBC.property("type", "zero_value");
@@ -955,6 +1175,7 @@ TEST(PlatoTestXMLGenerator, AppendEssentialBoundaryCondition_CategoryTimeFunctio
 {
     XMLGen::EssentialBoundaryCondition tBC;
     tBC.property("id", "1");
+    tBC.property("dimensions", "3");
     tBC.property("degree_of_freedom", "temp");
     tBC.property("location_name", "ss_2");
     tBC.property("type", "time_function");
@@ -989,6 +1210,7 @@ TEST(PlatoTestXMLGenerator, AppendEssentialBoundaryCondition_CategoryFixedValue_
 {
     XMLGen::EssentialBoundaryCondition tBC;
     tBC.property("id", "1");
+    tBC.property("dimensions", "3");
     tBC.property("location_name", "ss_1");
     tBC.property("type", "fixed_value");
     pugi::xml_document tDocument;
@@ -1001,6 +1223,7 @@ TEST(PlatoTestXMLGenerator, AppendEssentialBoundaryCondition_CategoryFixedValue_
 {
     XMLGen::EssentialBoundaryCondition tBC;
     tBC.property("id", "1");
+    tBC.property("dimensions", "3");
     tBC.property("location_name", "ss_1");
     tBC.property("type", "fixed_value");
     pugi::xml_document tDocument;
@@ -1013,6 +1236,7 @@ TEST(PlatoTestXMLGenerator, AppendEssentialBoundaryCondition_CategoryFixedValue_
 {
     XMLGen::EssentialBoundaryCondition tBC;
     tBC.property("id", "1");
+    tBC.property("dimensions", "3");
     tBC.property("degree_of_freedom", "dispx");
     tBC.property("location_name", "ss_1");
     tBC.property("type", "fixed_value");
@@ -1026,6 +1250,7 @@ TEST(PlatoTestXMLGenerator, AppendEssentialBoundaryCondition_CategoryFixedValue_
 {
     XMLGen::EssentialBoundaryCondition tBC;
     tBC.property("id", "1");
+    tBC.property("dimensions", "3");
     tBC.property("degree_of_freedom", "temp");
     tBC.property("location_name", "ss_1");
     tBC.property("type", "fixed_value");
@@ -1039,6 +1264,7 @@ TEST(PlatoTestXMLGenerator, AppendEssentialBoundaryCondition_CategoryFixedValue)
 {
     XMLGen::EssentialBoundaryCondition tBC;
     tBC.property("id", "1");
+    tBC.property("dimensions", "3");
     tBC.property("degree_of_freedom", "temp");
     tBC.property("value", "10.0");
     tBC.property("location_name", "ss_2");
@@ -1073,6 +1299,7 @@ TEST(PlatoTestXMLGenerator, AppendEssentialBoundaryCondition_CategoryInsulated_E
 {
     XMLGen::EssentialBoundaryCondition tBC;
     tBC.property("id", "1");
+    tBC.property("dimensions", "3");
     tBC.property("degree_of_freedom", "temp");
     tBC.property("location_name", "ss_1");
     tBC.property("type", "insulated");
@@ -1086,6 +1313,7 @@ TEST(PlatoTestXMLGenerator, AppendEssentialBoundaryCondition_CategoryInsulated_E
 {
     XMLGen::EssentialBoundaryCondition tBC;
     tBC.property("id", "1");
+    tBC.property("dimensions", "3");
     tBC.property("location_name", "ss_1");
     tBC.property("type", "insulated");
     pugi::xml_document tDocument;
@@ -1098,6 +1326,7 @@ TEST(PlatoTestXMLGenerator, AppendEssentialBoundaryCondition_CategoryInsulated_E
 {
     XMLGen::EssentialBoundaryCondition tBC;
     tBC.property("id", "1");
+    tBC.property("dimensions", "3");
     tBC.property("degree_of_freedom", "dispx");
     tBC.property("location_name", "ss_1");
     tBC.property("type", "insulated");
@@ -1111,6 +1340,7 @@ TEST(PlatoTestXMLGenerator, AppendEssentialBoundaryCondition_CategoryInsulated)
 {
     XMLGen::EssentialBoundaryCondition tBC;
     tBC.property("id", "1");
+    tBC.property("dimensions", "3");
     tBC.property("degree_of_freedom", "temp");
     tBC.property("location_name", "ss_11");
     tBC.property("type", "insulated");
