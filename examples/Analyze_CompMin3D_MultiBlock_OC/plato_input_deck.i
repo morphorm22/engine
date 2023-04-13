@@ -94,7 +94,7 @@ end material
 begin optimization_parameters
    discretization density 
    initial_density_value .5
-   optimization_algorithm rol_linear_constraint
+   optimization_algorithm oc
    max_iterations 10 
    filter_radius_scale 1.75
    output_frequency 1000 

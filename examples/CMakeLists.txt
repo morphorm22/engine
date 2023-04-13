@@ -44,8 +44,10 @@ IF( ANALYZE )
   IF( STK_ENABLED )
     add_subdirectory(Analyze_CompMin3D_Restart)
   ENDIF()
+
   add_subdirectory(Analyze_CompMin2D_OC)
   add_subdirectory(Analyze_CompMin3D_2Load_OC)
+  add_subdirectory(Analyze_CompMin3D_MultiBlock_OC)
   add_subdirectory(Analyze_CompMin3D_2_constraints_KSAL)
   add_subdirectory(Analyze_CompMin3D_2Loads_1Performer_OC)
   add_subdirectory(Analyze_MassProp3D_MMA)
@@ -82,7 +84,6 @@ IF( ANALYZE )
 
     add_subdirectory(Analyze_2Phys_Sym)
     add_subdirectory(Analyze_Thermomechanics)
-    add_subdirectory(Analyze_CompMin3D_MultiBlock)
     add_subdirectory(Analyze_DisplacementCriterion)
     add_subdirectory(Analyze_VolAvgTensile)
 
