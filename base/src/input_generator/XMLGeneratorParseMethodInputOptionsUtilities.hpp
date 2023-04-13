@@ -39,15 +39,6 @@ void insert_shape_optimization_input_options(XMLGen::MetaDataTags &aTags);
 void insert_general_optimization_input_options(XMLGen::MetaDataTags &aTags);
 
 /******************************************************************************//**
- * \fn insert_rol_input_options
- * \brief Insert input options and corresponding defaults for Rapid Optimization \n
- *        Library's (ROL) algorithms into the map from plato input deck keywords \n
- *        to the input value and default value pairs.
- * \param [in] aTags Plato input deck key-value map
-**********************************************************************************/
-void insert_rol_input_options(XMLGen::MetaDataTags &aTags);
-
-/******************************************************************************//**
  * \fn insert_restart_input_options
  * \brief Insert input options and corresponding defaults for Plato's restart \n
  *        feature into the map from the plato input deck keyword to the input \n

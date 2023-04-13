@@ -176,24 +176,10 @@ set(${LIB_NAME}_HEADERS Plato_BoundsBase.hpp
                         Plato_DeviceOptimalityCriteriaUpdate.hpp
                         Plato_SolveUncertaintyProblem.hpp
                         Plato_DistributionFactory.hpp
+                        Plato_DiagnosticsInterface.hpp
+                        Plato_Diagnostics.hpp
                         )
                         
-IF( ENABLE_ROL )
-SET(${LIB_NAME}_HEADERS ${${LIB_NAME}_HEADERS}
-  Plato_ROLInterface.hpp
-  Plato_ROLSPGInterface.hpp
-  Plato_SerialEpetraVectorROL.hpp
-  Plato_DistributedVectorROL.hpp
-  Plato_ReducedConstraintROL.hpp
-  Plato_ReducedObjectiveROL.hpp
-  Plato_ConstraintSimOptROL.hpp
-  Plato_ObjectiveSimOptROL.hpp
-  Plato_ProxyComplianceROL.hpp
-  Plato_SerialVectorROL.hpp
-  Plato_ProxyVolumeROL.hpp
-  )
-ENDIF()
-
 INCLUDE_DIRECTORIES(${PLATO_INCLUDES})
 
 FOREACH(PLATO_LIB ${LIB_NAMES})

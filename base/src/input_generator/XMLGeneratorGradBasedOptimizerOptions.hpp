@@ -94,63 +94,6 @@ void append_reset_algorithm_on_update_option
  pugi::xml_node& aParentNode);
 
 /******************************************************************************//**
- * \fn append_rol_gradient_check_options
- * \brief Append options related to the derivative checker
- * \param [in]  aMetaData  Plato problem input data
- * \param [out] aParentNode Parent to add data to
-**********************************************************************************/
-void append_rol_gradient_check_options
-(const XMLGen::InputData& aMetaData,
- pugi::xml_node& aParentNode);
-
-/******************************************************************************//**
- * \fn generate_rol_input_file
- * \brief Create the ROL input xml file
- * \param [in] aMetaData  Plato problem input data
-**********************************************************************************/
-void generate_rol_input_file
-(const XMLGen::InputData& aMetaData);
-
-/******************************************************************************//**
- * \fn append_rol_input_file
- * \brief Append the name of the ROL input xml file.
- * \param [in]  aMetaData  Plato problem input data
- * \param [out] aParentNode Parent to add data to
-**********************************************************************************/
-void append_rol_input_file
-(const XMLGen::InputData& aMetaData,
- pugi::xml_node& aParentNode);
-
-/******************************************************************************//**
- * \fn append_rol_step_block
- * \brief Append option specifying whether to reset the algorithm at the update frequency
- * \param [in]  aMetaData  Plato problem input data
- * \param [out] aParentNode Parent to add data to
-**********************************************************************************/
-void append_rol_step_block
-(const XMLGen::InputData& aMetaData,
- pugi::xml_node &aParent);
-
-/******************************************************************************//**
- * \fn get_subproblem_model
- * \brief Map plato input deck keyword for the subproblem model to the \n 
-          corresponding rol input deck keyword
- * \param [in]  aSubproblemModelString  Plato problem input data
- * return rol's keyword for subproblem model
-**********************************************************************************/
- std::string get_subproblem_model(const std::string &aSubproblemModelString);
-
-/******************************************************************************//**
- * \fn append_derivative_checker_options
- * \brief Append derivative checker options to interface xml file.
- * \param [in]  aMetaData  Plato problem input data
- * \param [out] aParentNode Parent to add data to
-**********************************************************************************/
-void append_rol_gradient_check_flags
-(const XMLGen::InputData& aMetaData,
- pugi::xml_node& aParentNode);
-
-/******************************************************************************//**
  * \fn append_optimizer_cache_stage_options
  * \brief Append cache state options to optimization block in the interface xml file.
  * \param [in]  aMetaData  Plato problem input data

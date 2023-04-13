@@ -105,11 +105,6 @@ namespace XMLGen
                     THROWERR("If using more than one processor in the service that is calculating the shape sensitivities you must use the same number of processors as num_shape_design_variables specified in the optimization_parameters block.");
                 }
             }
-            // Check optimization algorithm, ROL LC does not work with shape optimization
-            if (aInputData.optimization_parameters().optimization_algorithm() == "rol_linear_constraint")
-            {
-                THROWERR("The ROL LC algorithm does not work with shape optimization. Choose another optimization algorithm.");
-            }
         }
     }
 

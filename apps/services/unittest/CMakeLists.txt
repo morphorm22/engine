@@ -76,10 +76,6 @@ if( AMFILTER_ENABLED )
     SET(PlatoMainUnitTester_SRCS ${PlatoMainUnitTester_SRCS} PSL_Test_TetMeshUtilities.cpp PSL_Test_AMFilterUtilities.cpp)
 endif()
 
-IF( ENABLE_ROL )
-    SET(PlatoMainUnitTester_SRCS ${PlatoMainUnitTester_SRCS} Plato_Test_ROL.cpp)
-ENDIF()
-
 IF( DAKOTADRIVER )
     SET(PlatoMainUnitTester_SRCS ${PlatoMainUnitTester_SRCS} Plato_Test_PlatoDakotaDriver.cpp)
     add_compile_definitions(${Dakota_DEFINES})
@@ -135,11 +131,6 @@ set(PLATOUNIT_INCLUDES ${CMAKE_SOURCE_DIR}/apps/services
 if( DAKOTADRIVER )
     SET(PLATOUNIT_INCLUDES ${PLATOUNIT_INCLUDES} ${Dakota_INCLUDE_DIRS})
 endif()
-
-# Copy Input files from source to binary dir
-SET( testFiles "rol_unit_test_inputs.xml")
-Plato_add_test_files("${testFiles}")
-
 
 INCLUDE_DIRECTORIES(${PLATOUNIT_INCLUDES})
 

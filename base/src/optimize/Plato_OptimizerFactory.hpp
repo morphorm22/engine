@@ -10,6 +10,7 @@
 #include <mpi.h>
 
 #include "Plato_OptimizerInterface.hpp"
+#include "Plato_DiagnosticsInterface.hpp"
 #include "Plato_ParticleSwarmEngineBCPSO.hpp"
 #include "Plato_ParticleSwarmEngineALPSO.hpp"
 #include "Plato_SOParameterStudiesInterface.hpp"
@@ -128,55 +129,61 @@ public:
             }
         }
 
-        // For the optimizer block get the package which denotes the
-        // optimizer.
+        // For the optimizer block get the package which denotes the optimizer.
         std::string tOptPackage = Plato::Get::String(tOptimizerNode, "Package");
+        auto tLowerOptPackage   = Plato::tolower(tOptPackage);
 
-        if( tOptPackage == "OC" )
+        if( tLowerOptPackage == "oc" )
         {
           try {
             tOptimizer = new Plato::OptimalityCriteriaInterface<ScalarType, OrdinalType>(aInterface, aLocalComm);
           } catch(...){aInterface->Catch();}
         }
-        else if( tOptPackage == "MMA" )
+        else if( tLowerOptPackage == "mma" )
         {
           try {
             tOptimizer = new Plato::MethodMovingAsymptotesEngine<ScalarType, OrdinalType>(aInterface, aLocalComm);
           } catch(...){aInterface->Catch();}
         }
-        else if( tOptPackage == "KSUC" )
+        else if( tLowerOptPackage == "ksuc" )
         {
           try {
             Plato::optimizer::algorithm_t tType = Plato::optimizer::algorithm_t::KELLEY_SACHS_BOUND_CONSTRAINED;
             tOptimizer = new Plato::KelleySachsBoundConstrainedInterface<ScalarType, OrdinalType>(aInterface, aLocalComm, tType);
           } catch(...){aInterface->Catch();}
         }
-        else if( tOptPackage == "KSBC" )
+        else if( tLowerOptPackage == "ksbc" )
         {
           try {
             Plato::optimizer::algorithm_t tType = Plato::optimizer::algorithm_t::KELLEY_SACHS_BOUND_CONSTRAINED;
             tOptimizer = new Plato::KelleySachsBoundConstrainedInterface<ScalarType, OrdinalType>(aInterface, aLocalComm, tType);
           } catch(...){aInterface->Catch();}
         }
-        else if( tOptPackage == "KSAL" )
+        else if( tLowerOptPackage == "ksal" )
         {
           try {
             tOptimizer = new Plato::KelleySachsAugmentedLagrangianInterface<ScalarType, OrdinalType>(aInterface, aLocalComm);
           } catch(...){aInterface->Catch();}
         }
-        else if( tOptPackage == "BCPSO" )
+        else if( tLowerOptPackage == "bcpso" )
         {
           try {
             tOptimizer = new Plato::ParticleSwarmEngineBCPSO<ScalarType, OrdinalType>(aInterface, aLocalComm);
           } catch(...){aInterface->Catch();}
         }
-        else if( tOptPackage == "ALPSO" )
+        else if( tLowerOptPackage == "alpso" )
         {
           try {
             tOptimizer = new Plato::ParticleSwarmEngineALPSO<ScalarType, OrdinalType>(aInterface, aLocalComm);
           } catch(...){aInterface->Catch();}
         }
-        else if( tOptPackage == "SOParameterStudies" )
+        else if( tLowerOptPackage == "dc" )
+        {
+          try {
+            tOptimizer = new Plato::DiagnosticsInterface<ScalarType, OrdinalType>(aInterface, aLocalComm);
+          } catch(...){aInterface->Catch();}
+        }
+        else if( tLowerOptPackage == "soparameterstudies" )
         {
           try {
             tOptimizer = new Plato::SOParameterStudiesInterface<ScalarType, OrdinalType>(aInterface, aLocalComm);
@@ -190,6 +197,7 @@ public:
             << tOptPackage << " Unknown." << std::endl
             << "Valid options are\n"
             << "\t OC ... Optimality Criteria\n"
+            << "\t DC ... Derivative Checker\n"
             << "\t MMA ... Method of Moving Asymptotes\n"
             << "\t KSUC ... Kelley Sachs Unconstrained\n"
             << "\t KSBC ... Kelley Sachs Bound Constrained\n"

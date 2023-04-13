@@ -42,7 +42,6 @@ void ParseOptimizationParameters::setTags(XMLGen::OptimizationParameters &aOptim
 void ParseOptimizationParameters::allocate()
 {
     mTags.clear();
-    XMLGen::insert_rol_input_options(mTags);
     XMLGen::insert_amgx_input_options(mTags);
     XMLGen::insert_restart_input_options(mTags);
     XMLGen::insert_plato_mma_input_options(mTags);
@@ -184,94 +183,8 @@ void ParseOptimizationParameters::setMetaData(XMLGen::OptimizationParameters &aM
     this->setMeshMapData(aMetadata);
     this->setCSMParameters(aMetadata);
     this->autoFillRestartParameters(aMetadata);
-    this->checkROLSubProblemModel(aMetadata);
-    this->checkROLHessianType(aMetadata);
     this->setSymmetryPlaneLocationNames(aMetadata);
     this->setMMAStagnationDefaultsForShapeOptimizationProblems(aMetadata);
-}
-
-void ParseOptimizationParameters::checkROLSubProblemModel(XMLGen::OptimizationParameters &aMetadata)
-{
-    auto tSubproblemModel = aMetadata.rol_subproblem_model();
-    auto tOptimizationAlgorithm = aMetadata.optimization_algorithm();
-    if(tOptimizationAlgorithm == "rol_linear_constraint")
-    {
-        if(tSubproblemModel.empty())
-        {
-            // default value
-            aMetadata.append("rol_subproblem_model", "lin_more");
-        }
-        else if(tSubproblemModel != "lin_more" && tSubproblemModel != "spg")
-        {
-            THROWERR("Parse Optimization Parameters: Invalid rol_supbproblem value.");
-        }
-    }
-    else if(tOptimizationAlgorithm == "rol_bound_constrained")
-    {
-        if(tSubproblemModel.empty())
-        {
-            // default value
-            aMetadata.append("rol_subproblem_model", "kelley_sachs");
-        }
-        else if(tSubproblemModel != "kelley_sachs" && tSubproblemModel != "lin_more")
-        {
-            THROWERR("Parse Optimization Parameters: Invalid rol_supbproblem value.");
-        }
-    }
-    else if(tOptimizationAlgorithm == "rol_augmented_lagrangian")
-    {
-        if(tSubproblemModel.empty())
-        {
-            // default value
-            aMetadata.append("rol_subproblem_model", "kelley_sachs");
-        }
-        else if(tSubproblemModel != "kelley_sachs" && tSubproblemModel != "lin_more")
-        {
-            THROWERR("Parse Optimization Parameters: Invalid rol_supbproblem value.");
-        }
-    }
-}
-
-void ParseOptimizationParameters::checkROLHessianType(XMLGen::OptimizationParameters &aMetadata)
-{
-    auto tHessianType = aMetadata.hessian_type();
-    auto tOptimizationAlgorithm = aMetadata.optimization_algorithm();
-    if(tOptimizationAlgorithm == "rol_linear_constraint")
-    {
-        if(tHessianType.empty())
-        {
-            // default value
-            aMetadata.append("hessian_type", "zero");
-        }
-        else if(tHessianType != "zero" && tHessianType != "finite_difference")
-        {
-            THROWERR("Parse Optimization Parameters: Invalid hessian type.");
-        }
-    }
-    else if(tOptimizationAlgorithm == "rol_bound_constrained")
-    {
-        if(tHessianType.empty())
-        {
-            // default value
-            aMetadata.append("hessian_type", "zero");
-        }
-        else if(tHessianType != "zero" && tHessianType != "finite_difference")
-        {
-            THROWERR("Parse Optimization Parameters: Invalid hessian type.");
-        }
-    }
-    else if(tOptimizationAlgorithm == "rol_augmented_lagrangian")
-    {
-        if(tHessianType.empty())
-        {
-            // default value
-            aMetadata.append("hessian_type", "zero");
-        }
-        else if(tHessianType != "zero" && tHessianType != "finite_difference")
-        {
-            THROWERR("Parse Optimization Parameters: Invalid hessian type.");
-        }
-    }
 }
 
 void ParseOptimizationParameters::setNormalizeInAggregator(XMLGen::OptimizationParameters &aMetadata)

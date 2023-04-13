@@ -148,9 +148,7 @@ void append_internal_energy_hessian_operation
 {
     auto tAlgorithm = aMetaData.optimization_parameters().optimization_algorithm();
     if(tAlgorithm =="ksbc" ||
-       tAlgorithm == "ksal" ||
-       tAlgorithm == "rol ksal" ||
-       tAlgorithm == "rol ksbc")
+       tAlgorithm == "ksal")
     {
         auto tOperationNode = aDocument.append_child("Operation");
         append_children({"Function", "Name","PenaltyModel"}, {"Compute HessianTimesVector", "Compute HessianTimesVector", "SIMP"}, tOperationNode);

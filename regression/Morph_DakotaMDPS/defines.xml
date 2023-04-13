@@ -1,3 +1,0 @@
-<?xml version="1.0"?>
-<Define name="NumParameters" value="3" />
-<Array name="Parameters" type="int" from="0" to="{NumParameters-1}" />

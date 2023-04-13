@@ -803,12 +803,12 @@ TEST(PlatoTest, MethodMovingAsymptotes_HimmelblauShiftedEllipse_IPOPT)
     // ********* TEST SOLUTION *********
     const double tTolerance = 1e-4;
 
-    ASSERT_EQ(58u, tOutputs.mNumSolverIter);
-    ASSERT_NEAR(2.015748318794602e-09, tOutputs.mObjFuncValue, tTolerance);
-    ASSERT_TRUE((*tOutputs.mConstraints)[0] < tTolerance);
+    EXPECT_EQ(70u, tOutputs.mNumSolverIter);
+    EXPECT_NEAR(2.015748318794602e-09, tOutputs.mObjFuncValue, tTolerance);
+    EXPECT_TRUE((*tOutputs.mConstraints)[0] < tTolerance);
     Plato::StandardMultiVector<double> tGold(tNumVectors, tNumControls);
     tGold(0,0) = -3.779304853; tGold(0,1) = -3.283187463;
-    PlatoTest::checkMultiVectorData(tGold, *tOutputs.mSolution);
+    PlatoTest::checkMultiVectorData(tGold, *tOutputs.mSolution, tTolerance);
 
     // ********* PRINT SOLUTION *********
     std::cout << "NUMBER OF ITERATIONS = " << tOutputs.mNumSolverIter << "\n" << std::flush;

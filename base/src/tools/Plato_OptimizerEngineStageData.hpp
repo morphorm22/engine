@@ -116,6 +116,11 @@ public:
     size_t getMaxNumIterations() const;
     void setMaxNumIterations(const size_t & aInput);
 
+    int getDerivativeCheckerFinalSuperscript() const;
+    void setDerivativeCheckerFinalSuperscript(const int & aInput);
+    int getDerivativeCheckerInitialSuperscript() const;
+    void setDerivativeCheckerInitialSuperscript(const int & aInput);
+
     std::vector<double> getInitialGuess() const;
     void setInitialGuess(const std::vector<double> & aInput);
     void setInitialGuess(const std::vector<std::string> & aInput);
@@ -176,13 +181,6 @@ public:
 
     double getOCGradientTolerance() const;
     void setOCGradientTolerance(const double & aInput);
-
-    double getROLPerturbationScale() const;
-    void setROLPerturbationScale(const double & aInput);
-    int getROLCheckGradientSteps() const;
-    void setROLCheckGradientSteps(const int & aInput);
-    int getROLCheckGradientSeed() const;
-    void setROLCheckGradientSeed(const int & aInput);
 
     /******************************************************************************//**
      * @brief Return limited memory storage capacity for LBFG Hessian method
@@ -517,8 +515,6 @@ public:
 
       aArchive & boost::serialization::make_nvp("GCMMAMaxInnerIterations",mGCMMAMaxInnerIterations);
       aArchive & boost::serialization::make_nvp("KSMaxTrustRegionIterations",mKSMaxTrustRegionIterations);
-      aArchive & boost::serialization::make_nvp("ROLCheckGradientSteps",mROLCheckGradientSteps);
-      aArchive & boost::serialization::make_nvp("ROLCheckGradientSeed",mROLCheckGradientSeed);
 
       aArchive & boost::serialization::make_nvp("InitialMovingAsymptoteScaleFactor",mInitialMovingAsymptoteScaleFactor);
       aArchive & boost::serialization::make_nvp("GCMMAInnerKKTTolerance",mGCMMAInnerKKTTolerance);
@@ -547,7 +543,6 @@ public:
       aArchive & boost::serialization::make_nvp("OCControlStagnationTolerance",mOCControlStagnationTolerance);
       aArchive & boost::serialization::make_nvp("OCObjectiveStagnationTolerance",mOCObjectiveStagnationTolerance);
       aArchive & boost::serialization::make_nvp("OCGradientTolerance",mOCGradientTolerance);
-      aArchive & boost::serialization::make_nvp("ROLPerturbationScale",mROLPerturbationScale);
       
       aArchive & boost::serialization::make_nvp("Algebra",mAlgebra);
       aArchive & boost::serialization::make_nvp("StateName",mStateName);
@@ -611,8 +606,8 @@ private:
 
     int mGCMMAMaxInnerIterations;
     int mKSMaxTrustRegionIterations;
-    int mROLCheckGradientSteps;
-    int mROLCheckGradientSeed;
+    int mDerivativeCheckerFinalSuperscript;
+    int mDerivativeCheckerInitialSuperscript;
 
     double mInitialMovingAsymptoteScaleFactor;
     double mGCMMAInnerKKTTolerance;
@@ -641,8 +636,6 @@ private:
     double mOCControlStagnationTolerance;
     double mOCObjectiveStagnationTolerance;
     double mOCGradientTolerance;
-    double mROLPerturbationScale;
-
 
     std::string mAlgebra;
     std::string mStateName;

@@ -1,1 +1,0 @@
-mpirun -np 1 -x PLATO_PERFORMER_ID=0 -x PLATO_INTERFACE_FILE=interface.xml ../../apps/services/PlatoMain : -np 1 -x PLATO_PERFORMER_ID=1 -x PLATO_INTERFACE_FILE=interface.xml ../../apps/rosenbrock/RosenbrockProxy
