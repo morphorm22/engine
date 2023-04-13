@@ -1,46 +1,4 @@
 /*
-//@HEADER
-// *************************************************************************
-//   Plato Engine v.1.0: Copyright 2018, National Technology & Engineering
-//                    Solutions of Sandia, LLC (NTESS).
-//
-// Under the terms of Contract DE-NA0003525 with NTESS,
-// the U.S. Government retains certain rights in this software.
-//
-// Redistribution and use in source and binary forms, with or without
-// modification, are permitted provided that the following conditions are
-// met:
-//
-// 1. Redistributions of source code must retain the above copyright
-// notice, this list of conditions and the following disclaimer.
-//
-// 2. Redistributions in binary form must reproduce the above copyright
-// notice, this list of conditions and the following disclaimer in the
-// documentation and/or other materials provided with the distribution.
-//
-// 3. Neither the name of the Sandia Corporation nor the names of the
-// contributors may be used to endorse or promote products derived from
-// this software without specific prior written permission.
-//
-// THIS SOFTWARE IS PROVIDED BY SANDIA CORPORATION "AS IS" AND ANY
-// EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-// IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
-// PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL SANDIA CORPORATION OR THE
-// CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-// EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-// PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-// PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-// LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-// NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-// SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-//
-// Questions? Contact the Plato team (plato3D-help@sandia.gov)
-//
-// *************************************************************************
-//@HEADER
-*/
-
-/*
  * Plato_OptimizerFactory.hpp
  *
  *  Created on: April 19, 2017
@@ -59,11 +17,6 @@
 #include "Plato_MethodMovingAsymptotesEngine.hpp"
 #include "Plato_KelleySachsBoundConstrainedInterface.hpp"
 #include "Plato_KelleySachsAugmentedLagrangianInterface.hpp"
-#include "Plato_GloballyConvergentMethodMovingAsymptotesInterface.hpp"
-
-#ifdef ENABLE_ROL
-#include "Plato_ROLInterface.hpp"
-#endif
 
 namespace Plato
 {
@@ -185,12 +138,6 @@ public:
             tOptimizer = new Plato::OptimalityCriteriaInterface<ScalarType, OrdinalType>(aInterface, aLocalComm);
           } catch(...){aInterface->Catch();}
         }
-        else if( tOptPackage == "GCMMA" )
-        {
-          try {
-            tOptimizer = new Plato::GloballyConvergentMethodMovingAsymptotesInterface<ScalarType, OrdinalType>(aInterface, aLocalComm);
-          } catch(...){aInterface->Catch();}
-        }
         else if( tOptPackage == "MMA" )
         {
           try {
@@ -235,31 +182,6 @@ public:
             tOptimizer = new Plato::SOParameterStudiesInterface<ScalarType, OrdinalType>(aInterface, aLocalComm);
           } catch(...){aInterface->Catch();}
         }
-#ifdef ENABLE_ROL
-       else if( tOptPackage == "ROL AugmentedLagrangian" )
-       {
-         try {
-          Plato::optimizer::algorithm_t tType = Plato::optimizer::algorithm_t::ROL_AUGMENTED_LAGRANGIAN;
-           tOptimizer = new Plato::ROLInterface<ScalarType, OrdinalType>(aInterface, aLocalComm,tType);
-           
-         } catch(...){aInterface->Catch();}
-       }
-       else if( tOptPackage == "ROL BoundConstrained" )
-       {
-         try {
-           Plato::optimizer::algorithm_t tType = Plato::optimizer::algorithm_t::ROL_BOUND_CONSTRAINED;
-           tOptimizer = new Plato::ROLInterface<ScalarType, OrdinalType>(aInterface, aLocalComm,tType);
-           
-         } catch(...){aInterface->Catch();}
-       }
-       else if( tOptPackage == "ROL LinearConstraint" )
-       {
-         try {
-           Plato::optimizer::algorithm_t tType = Plato::optimizer::algorithm_t::ROL_LINEAR_CONSTRAINT;
-           tOptimizer = new Plato::ROLInterface<ScalarType, OrdinalType>(aInterface, aLocalComm,tType);
-         } catch(...){aInterface->Catch();}
-       }
-#endif
         else
         {
           std::stringstream tStringStream;
@@ -268,7 +190,6 @@ public:
             << tOptPackage << " Unknown." << std::endl
             << "Valid options are\n"
             << "\t OC ... Optimality Criteria\n"
-            << "\t GCMMA ... Globally Convergent Method of Moving Asymptotes\n"
             << "\t MMA ... Method of Moving Asymptotes\n"
             << "\t KSUC ... Kelley Sachs Unconstrained\n"
             << "\t KSBC ... Kelley Sachs Bound Constrained\n"
@@ -276,11 +197,6 @@ public:
             << "\t BCPSO ... Bound Constrained Particle Swarm Optimization\n"
             << "\t ALPSO ... Augmented Lagrangian Particle Swarm Optimization\n"
             << "\t SOParameterStudies ... Shape Optimization Parameter Study Toolkit\n"
-#ifdef ENABLE_ROL
-            << "\t ROL AugmentedLagrangian... Rapid Optimization Library Augmented Lagrangian\n"
-            << "\t ROL BoundConstrained... Rapid Optimization Library Bound Constrained\n"
-            << "\t ROL LinearConstraint... Rapid Optimization Library LinearConstraint\n"
-#endif
             << std::endl;
 
           // Dump a console message as exception handling cannot be
