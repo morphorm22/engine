@@ -41,8 +41,9 @@ if(ANALYZE)
 endif()
 
 IF( ANALYZE )
+
   IF( STK_ENABLED )
-    add_subdirectory(Analyze_CompMin3D_Restart)
+    add_subdirectory(Analyze_CompMin3D_Restart_OC)
   ENDIF()
 
   add_subdirectory(Analyze_CompMin2D_OC)
