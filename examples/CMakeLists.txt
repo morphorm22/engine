@@ -79,7 +79,6 @@ IF( ANALYZE )
   ENDIF()
 
   IF( ENABLE_ROL )
-    add_subdirectory(Analyze_Helmholtz3D_ROL_LC)
     add_subdirectory(Analyze_Helmholtz3D_Projection_ROL_LC)
     add_subdirectory(Analyze_Uncertain_Load_ROL_LC)
 
