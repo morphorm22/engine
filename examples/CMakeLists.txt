@@ -66,6 +66,7 @@ IF( ANALYZE )
   add_subdirectory(Analyze_Tmech_PNorm_Opt)
   add_subdirectory(Analyze_Thermal_Opt)
   add_subdirectory(Analyze_LaminarFlowRe100)
+  add_subdirectory(Analyze_Thermomechanics_MMA_IPOPT)
 
   if( ESP_ENABLED )
     add_subdirectory(Analyze_ParallelESP)
@@ -83,7 +84,6 @@ IF( ANALYZE )
   IF( ENABLE_ROL )
 
     add_subdirectory(Analyze_2Phys_Sym)
-    add_subdirectory(Analyze_Thermomechanics)
     add_subdirectory(Analyze_VolAvgTensile)
 
     IF( EXPY )

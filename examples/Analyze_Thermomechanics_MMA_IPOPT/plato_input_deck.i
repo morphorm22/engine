@@ -117,7 +117,8 @@ begin optimization_parameters
    filter_radius_scale 2.5
    max_iterations 10
    output_frequency 1000
-   optimization_algorithm rol_linear_constraint
+   optimization_algorithm mma
+   mma_use_ipopt_sub_problem_solver true
    discretization density 
    initial_density_value .5
 end optimization_parameters
