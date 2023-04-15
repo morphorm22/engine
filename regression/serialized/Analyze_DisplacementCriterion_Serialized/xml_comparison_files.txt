@@ -1,9 +1,0 @@
-defines.xml
-interface.xml
-plato_analyze_2_input_deck.xml
-plato_analyze_2_operations.xml
-plato_analyze_3_input_deck.xml
-plato_analyze_3_operations.xml
-plato_main_input_deck.xml
-plato_main_operations.xml
-rol_inputs.xml
