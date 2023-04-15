@@ -1,5 +1,6 @@
 begin service 1  
   code platomain
+  path /home/maguilo/Morphorm/code/gpu/engine/spack-build-457xn6g/apps/services/PlatoMain
   number_processors 1
 end service
 
@@ -89,12 +90,10 @@ begin material 1
 end material
 
 begin optimization_parameters
-//   filter_radius_scale 4.48
-   max_iterations 2 
+   max_iterations 5 
    output_frequency 1
    optimization_algorithm mma
-//   discretization density 
-//   initial_density_value .5
+   mma_use_ipopt_sub_problem_solver true
    normalize_in_aggregator false
    csm_file rocker.csm
    num_shape_design_variables 5

@@ -71,7 +71,7 @@ IF( ANALYZE )
   add_subdirectory(Analyze_Thermomechanics_MMA_IPOPT)
 
   if( ESP_ENABLED )
-    add_subdirectory(Analyze_ParallelESP)
+    add_subdirectory(Analyze_ParallelESP_MMA)
     if(EXPY)
       add_subdirectory(GradientCheck/GC_Analyze_ParallelESP)
       add_subdirectory(GradientCheck/GC_Analyze_ESP_Stress_ROL_BC)

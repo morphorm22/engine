@@ -1,11 +1,11 @@
 # v2.csm written by ocsmSave (v1.16)
 
 # Constant, Design, and Output Parameters:
-despmtr Py 2.0 lbound 2.0 ubound 3.0 initial 2.0
-despmtr Boffset 0.3403672805417917 lbound 0.05 ubound 0.38 initial 0.25
-despmtr Lx 5.150389542156037 lbound 5.0 ubound 8.0 initial 6.5
-despmtr Rx 7.01598645649872 lbound 5.0 ubound 8.0 initial 6.5
-despmtr Px 1.640739127911397 lbound 1.6 ubound 2.4 initial 2.0
+despmtr Py 2.0000001 lbound 2.0 ubound 3.0 initial 2.0
+despmtr Boffset 0.38 lbound 0.05 ubound 0.38 initial 0.25
+despmtr Lx 7.8607911 lbound 5.0 ubound 8.0 initial 6.5
+despmtr Rx 6.826021 lbound 5.0 ubound 8.0 initial 6.5
+despmtr Px 1.8108635 lbound 1.6 ubound 2.4 initial 2.0
 
 conpmtr Pz 2.0 # lbound 1.6 ubound 2.4
 conpmtr Rcap 1 # lbound 1.0 ubound 1.0
