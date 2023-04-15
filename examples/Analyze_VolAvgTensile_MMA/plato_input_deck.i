@@ -1,5 +1,7 @@
 begin service 1
   code platomain
+  path /home/maguilo/Morphorm/code/gpu/engine/spack-build-457xn6g/apps/services/PlatoMain
+  path /home/maguilo/Morphorm/code/gpu/engine/spack-build-457xn6g/apps/services/PlatoMain
   number_processors 1
   number_ranks 1
   update_problem true
@@ -113,14 +115,15 @@ begin optimization_parameters
    filter_in_engine true
 
    optimization_type topology
-   max_iterations 5
+   max_iterations 20
    output_frequency 1000 
    discretization density 
    initial_density_value 0.3
    normalize_in_aggregator false
    enforce_bounds false
    problem_update_frequency 1
-   optimization_algorithm rol_linear_constraint
+   optimization_algorithm mma
+   mma_use_ipopt_sub_problem_solver true
    mma_move_limit 0.1
 end optimization_parameters
 
