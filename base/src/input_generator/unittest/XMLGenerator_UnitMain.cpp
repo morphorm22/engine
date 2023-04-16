@@ -49,6 +49,9 @@ int main(int argc, char **argv)
 
     testing::InitGoogleTest(&argc, argv);
     int returnVal = RUN_ALL_TESTS();
+    int return_val = std::system("rm -f append* joined_mesh_*");
+    int temp = return_val;
+    return_val = temp;
 
     MPI_Finalize();
 
