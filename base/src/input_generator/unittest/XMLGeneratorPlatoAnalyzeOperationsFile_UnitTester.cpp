@@ -1184,6 +1184,8 @@ TEST(PlatoTestXMLGenerator, AppendMeshMapToPlatoAnalyzeOperation)
 
     auto tOperation = tMeshMap.next_sibling("Operation");
     ASSERT_TRUE(tOperation.empty());
+
+    Plato::system("rm -f test_ryan.xml");
 }
 
 TEST(PlatoTestXMLGenerator, AppendComputeObjectiveValueToPlatoAnalyzeOperation)
