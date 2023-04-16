@@ -20,7 +20,7 @@ namespace XMLGen
 /******************************************************************************//**
  * \struct Criterion
  * \brief Criterion metadata for Plato problems.
-**********************************************************************************/
+****************************************std::string measure_magnitude() const { return this->value("measure_magnitude"); }******************************************/
 struct Criterion
 {
 private:
@@ -31,14 +31,18 @@ private:
     std::vector<std::string> mCriterionIDs;
     std::vector<std::string> mDisplacementDirection;
     std::vector<std::string> mTargetSolutionVector;
-    std::vector<std::string> mModesToExclude;
-    std::vector<std::string> mMatchNodesetIDs;
-    std::vector<std::string> mSearchNodesetIDs;
     std::map<std::string, std::pair<double,double>> mMassProperties;
 
     std::string mReport;
 
 public:
+    std::string target() const { return this->value("target"); }
+    std::string target_magnitude() const { return this->value("target_magnitude"); }
+    std::string target_solution() const { return this->value("target_solution"); }
+    std::string measure_magnitude() const { return this->value("measure_magnitude"); }
+    std::string location_name() const { return this->value("location_name"); }
+    std::string location_type() const { return this->value("location_type"); }
+
     /******************************************************************************//**
      * \fn report
      * \brief Return accumulated report, which will be outputed in the plato report text file.
@@ -507,53 +511,6 @@ public:
     }
 
     /******************************************************************************//**
-     * \fn modesToExclude
-     * \brief Set list of modes to be excluded by modal inverse
-     * \param [in] aInput list of IDs
-     **********************************************************************************/
-    void modesToExclude(const std::vector<std::string>& aInput)
-    {
-        this->mModesToExclude = aInput;
-    }
-
-    /******************************************************************************//**
-     * \fn modesToExclude
-     * \brief Return list of modes to be excluded by modal inverse
-     * \return value
-     **********************************************************************************/
-    std::vector<std::string> modesToExclude() const
-    {
-        return this->mModesToExclude;
-    }
-
-    /******************************************************************************//**
-     * \fn shapeSideset
-     * \brief Set string value for Sierra/SD shape sideset
-     * \param [in] aInput string value
-    **********************************************************************************/
-    void shapeSideset(const std::string& aInput) {
-        this->append("shape_sideset", aInput);
-    }
-
-    /******************************************************************************//**
-     * \fn shapeSideset
-     * \brief Return string value Sierra/SD shape sideset
-     * \return value
-    **********************************************************************************/
-    std::string shapeSideset() const {
-        return (this->value("shape_sideset"));
-    }
-
-    /******************************************************************************//**
-     * \fn ref_data_file
-     * \brief Return string value ref_data_file
-     * \return value
-    **********************************************************************************/
-    std::string ref_data_file() const {
-        return this->value("ref_data_file");
-    }
-
-    /******************************************************************************//**
      * \fn block
      * \brief Set string value for block where criterion is computed
      * \param [in] aInput string value
@@ -571,34 +528,6 @@ public:
         return (this->value("block"));
     }
 
-    /******************************************************************************//**
-     * \fn matchNodesetIDs
-     * \brief Return nodeset ids for matching frfs or eigen
-     * \return mMatchNodesetIDs
-    **********************************************************************************/
-    std::vector<std::string> matchNodesetIDs() const {return mMatchNodesetIDs;};
-
-    /******************************************************************************//**
-     * \fn searchNodesetIDs
-     * \brief Return nodeset ids for searching when finding match nodesets at each iteration
-     * \return mSearchNodesetIDs
-    **********************************************************************************/
-    std::vector<std::string> searchNodesetIDs() const {return mSearchNodesetIDs;};
-
-    /******************************************************************************//**
-     * \fn setMatchNodesetIDs
-     * \brief Set nodeset ids for matching frfs or eigen
-     * \param [in] input nodeset IDs 
-    **********************************************************************************/
-    void setMatchNodesetIDs(std::vector<std::string>& aNodesetIDs) {mMatchNodesetIDs = aNodesetIDs;};
-
-    /******************************************************************************//**
-     * \fn setSearchNodesetIDs
-     * \brief Set nodeset ids for searching when finding match nodesets at each iteration
-     * \param [in] input nodeset IDs 
-    **********************************************************************************/
-    void setSearchNodesetIDs(std::vector<std::string>& aNodesetIDs) {mSearchNodesetIDs = aNodesetIDs;};
-
     void setMassProperty(std::string property, double goldValue, double weight) {
         mMassProperties[property] = std::make_pair(goldValue, weight);
     }
@@ -607,47 +536,6 @@ public:
     {
         return mMassProperties;
     }
-
-    /* These are all related to stress-constrained mass minimization problems with Sierra/SD */
-    std::string volume_misfit_target() const { return this->value("volume_misfit_target"); }
-    std::string scmm_constraint_exponent() const { return this->value("scmm_constraint_exponent"); }
-    std::string relative_stress_limit() const { return this->value("relative_stress_limit"); }
-    std::string relaxed_stress_ramp_factor() const { return this->value("relaxed_stress_ramp_factor"); }
-    std::string limit_power_min() const { return this->value("limit_power_min"); }
-    std::string limit_power_max() const { return this->value("limit_power_max"); }
-    std::string limit_power_feasible_bias() const { return this->value("limit_power_feasible_bias"); }
-    std::string limit_power_feasible_slope() const { return this->value("limit_power_feasible_slope"); }
-    std::string limit_power_infeasible_bias() const { return this->value("limit_power_infeasible_bias"); }
-    std::string limit_power_infeasible_slope() const { return this->value("limit_power_infeasible_slope"); }
-    std::string limit_reset_subfrequency() const { return this->value("limit_reset_subfrequency"); }
-    std::string limit_reset_count() const { return this->value("limit_reset_count"); }
-    std::string inequality_allowable_feasibility_upper() const { return this->value("inequality_allowable_feasibility_upper"); }
-    std::string inequality_feasibility_scale() const { return this->value("inequality_feasibility_scale"); }
-    std::string inequality_infeasibility_scale() const { return this->value("inequality_infeasibility_scale"); }
-    std::string stress_inequality_power() const { return this->value("stress_inequality_power"); }
-    std::string stress_favor_final() const { return this->value("stress_favor_final"); }
-    std::string stress_favor_updates() const { return this->value("stress_favor_updates"); }
-    std::string volume_penalty_power() const { return this->value("volume_penalty_power"); }
-    std::string volume_penalty_divisor() const { return this->value("volume_penalty_divisor"); }
-    std::string volume_penalty_bias() const { return this->value("volume_penalty_bias"); }
-    std::string surface_area_sideset_id() const { return this->value("surface_area_sideset_id"); }
-    std::string location_name() const { return this->value("location_name"); }
-    std::string location_type() const { return this->value("location_type"); }
-    std::string measure_magnitude() const { return this->value("measure_magnitude"); }
-
-    // Sierra/SD modal objectives
-    std::string num_modes_compute() const { return this->value("num_modes_compute"); }
-    std::vector<std::string> modes_to_exclude() const { return mModesToExclude; }
-    std::string eigen_solver_shift() const { return this->value("eigen_solver_shift"); }
-    std::string camp_solver_tol() const { return this->value("camp_solver_tol"); }
-    std::string camp_max_iter() const { return this->value("camp_max_iter"); }
-
-    // Sierra/TF objectives
-    std::string temperature_field_name() const { return this->value("temperature_field_name"); }
-
-    std::string target() const { return this->value("target"); }
-    std::string target_magnitude() const { return this->value("target_magnitude"); }
-    std::string target_solution() const { return this->value("target_solution"); }
 };
 // struct Criterion
 

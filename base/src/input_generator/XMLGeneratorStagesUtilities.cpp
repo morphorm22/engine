@@ -9,10 +9,8 @@
 #include "XMLGeneratorParserUtilities.hpp"
 #include "XMLGeneratorStagesUtilities.hpp"
 #include "XMLGeneratorServiceUtilities.hpp"
-#include "XMLGeneratorSierraSDUtilities.hpp"
 #include "XMLGeneratorSharedDataUtilities.hpp"
 #include "XMLGeneratorStagesOperationsUtilities.hpp"
-#include "XMLGeneratorSierraSDInputDeckUtilities.hpp"
 #include "XMLGeneratorRandomInterfaceFileUtilities.hpp"
 #include "XMLGeneratorPlatoMainConstraintValueOperationInterface.hpp"
 #include "XMLGeneratorPlatoMainConstraintGradientOperationInterface.hpp"
@@ -58,25 +56,13 @@ void append_initial_guess_stage
 
         XMLGen::append_children({"Name"},{"Initialize Design Parameters"}, tStageNode);
         XMLGen::append_initial_values_operation(aMetaData, tStageNode);
-
-        if (XMLGen::do_tet10_conversion(aMetaData) || XMLGen::have_auxiliary_mesh(aMetaData))
-        {
-            XMLGen::append_update_geometry_on_change_operation(tFirstPlatoMainPerformer, tStageNode);
-        }
-        else
-        {
             XMLGen::append_initialize_geometry_operation(aMetaData, tStageNode);
-        }
+        
 
         if (XMLGen::have_auxiliary_mesh(aMetaData))
         {
             XMLGen::append_join_mesh_operation(tFirstPlatoMainPerformer, tStageNode);
             XMLGen::append_rename_mesh_operation(tFirstPlatoMainPerformer, tStageNode);
-        }
-
-        if (XMLGen::do_tet10_conversion(aMetaData))
-        {
-            XMLGen::append_tet10_conversion_operation(tFirstPlatoMainPerformer, tStageNode);
         }
 
         XMLGen::append_compute_normalization_factor_operation(aMetaData, tStageNode);
@@ -709,9 +695,7 @@ void append_objective_value_stage_for_shape_problem
         XMLGen::append_join_mesh_operation(tFirstPlatoMainPerformer, tStageNode);
         XMLGen::append_rename_mesh_operation(tFirstPlatoMainPerformer, tStageNode);
     }
-    if (XMLGen::do_tet10_conversion(aMetaData)) {
-        XMLGen::append_tet10_conversion_operation(tFirstPlatoMainPerformer, tStageNode);
-    }
+    
     int tNumReinits = XMLGen::count_number_of_reinitializations_needed(aMetaData, tObjective);
     auto tParentNode = tStageNode;
     if(tNumReinits > 0)
@@ -885,10 +869,7 @@ void append_objective_gradient_stage_for_shape_problem
         XMLGen::append_join_mesh_operation(tFirstPlatoMainPerformer, tStageNode);
         XMLGen::append_rename_mesh_operation(tFirstPlatoMainPerformer, tStageNode);
     }
-    if (XMLGen::do_tet10_conversion(aMetaData)) 
-    {
-        XMLGen::append_tet10_conversion_operation(tFirstPlatoMainPerformer, tStageNode);
-    }
+    
     int tNumReinits = XMLGen::count_number_of_reinitializations_needed(aMetaData, tObjective);
     auto tParentNode = tStageNode;
     if(tNumReinits > 0)

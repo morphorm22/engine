@@ -12,20 +12,6 @@
 namespace PlatoTestXMLGenerator
 {
 
-TEST(PlatoTestXMLGenerator, generateSummitLaunchScripts_non_analyze_performer)
-{
-  XMLGen::InputData tInputData;
-
-  XMLGen::Service tService1;
-  tService1.id("1");
-  tService1.code("sierra_sd");
-  tInputData.append(tService1);
-
-  tInputData.objective.serviceIDs.push_back("1");
-
-  EXPECT_THROW(XMLGen::generate_summit_launch_scripts(tInputData), std::runtime_error);
-}
-
 TEST(PlatoTestXMLGenerator, generateAnalyzeBashScript)
 {
   XMLGen::generate_analyze_bash_script();
@@ -117,65 +103,6 @@ TEST(PlatoTestXMLGenerator, appendAnalyzeMPIRunLines_noPerformers)
   fclose(fp);
 }
 
-TEST(PlatoTestXMLGenerator, appendSierraSDMPIRunLines_withPath)
-{
-  XMLGen::InputData tInputData;
-
-  XMLGen::Service tService;
-  tService.numberProcessors("10");
-  tService.code("sierra_sd");
-  tService.path("/path/to/plato_sd_main");
-  tService.id("3");
-  tInputData.append(tService);
-  tInputData.mPerformerServices.push_back(tService);
-
-  tInputData.m_UseLaunch = false;
-  tInputData.mesh.run_name = "dummy_mesh.exo";
-  FILE* fp=fopen("appendSierraSDMPIRunLines.txt", "w");
-  int tPerformerID = 1;
-  XMLGen::append_sierra_sd_mpirun_line(tInputData, tService, tPerformerID, fp);
-  fclose(fp);
-
-  auto tReadData = XMLGen::read_data_from_file("appendSierraSDMPIRunLines.txt");
-  auto tGold = std::string(":-np10-xPLATO_PERFORMER_ID=1\\-xPLATO_INTERFACE_FILE=interface.xml\\-xPLATO_APP_FILE=sierra_sd_3_operations.xml\\/path/to/plato_sd_main--beta-isierra_sd_3_input_deck.i\\");
-
-  EXPECT_STREQ(tReadData.str().c_str(),tGold.c_str());
-  Plato::system("rm -rf appendSierraSDMPIRunLines.txt");
-}
-
-TEST(PlatoTestXMLGenerator, appendSierraTFMPIRunLines_withPath)
-{
-  XMLGen::InputData tInputData;
-
-  XMLGen::Scenario tScenario;
-  tScenario.id("4");
-  tScenario.append("existing_input_deck", "dummy_deck.i");
-  tInputData.append(tScenario);
-  tInputData.objective.serviceIDs.push_back("3");
-  tInputData.objective.scenarioIDs.push_back("4");
-  tInputData.objective.criteriaIDs.push_back("4");
-
-  XMLGen::Service tService;
-  tService.numberProcessors("10");
-  tService.code("sierra_sd");
-  tService.path("/path/to/plato_tf_main");
-  tService.id("3");
-  tInputData.append(tService);
-  tInputData.mPerformerServices.push_back(tService);
-
-  tInputData.m_UseLaunch = false;
-  tInputData.mesh.run_name = "dummy_mesh.exo";
-  FILE* fp=fopen("appendSierraTFMPIRunLines.txt", "w");
-  int tPerformerID = 1;
-  XMLGen::append_sierra_tf_mpirun_line(tInputData, tService, tPerformerID, fp);
-  fclose(fp);
-
-  auto tReadData = XMLGen::read_data_from_file("appendSierraTFMPIRunLines.txt");
-  auto tGold = std::string(":-np10-xPLATO_PERFORMER_ID=1\\-xPLATO_INTERFACE_FILE=interface.xml\\-xPLATO_APP_FILE=sierra_tf_3_operations.xml\\/path/to/plato_tf_main-idummy_deck.i-optinverseInput.xml\\");
-
-  EXPECT_STREQ(tReadData.str().c_str(),tGold.c_str());
-  Plato::system("rm -rf appendSierraTFMPIRunLines.txt");
-}
 
 TEST(PlatoTestXMLGenerator, appendAnalyzeHelmholtzMPIRunLines)
 {

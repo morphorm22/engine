@@ -13,22 +13,16 @@
 #include "XMLGeneratorUtilities.hpp"
 #include "XMLGeneratorDataStruct.hpp"
 #include "XMLGeneratorServiceUtilities.hpp"
-#include "XMLGeneratorSierraSDUtilities.hpp"
 #include "XMLGeneratorPlatoXTKInputFile.hpp"
 #include "XMLGeneratorDefinesFileUtilities.hpp"
 #include "XMLGeneratorPlatoXTKOperationFile.hpp"
 #include "XMLGeneratorLaunchScriptUtilities.hpp"
 #include "XMLGeneratorInterfaceFileUtilities.hpp"
 #include "XMLGeneratorPlatoESPInputFileUtilities.hpp"
-#include "XMLGeneratorSierraSDInputDeckUtilities.hpp"
-#include "XMLGeneratorSierraTFInputDeckUtilities.hpp"
 #include "XMLGeneratorPlatoMainInputFileUtilities.hpp"
 #include "XMLGeneratorPlatoAnalyzeInputFileUtilities.hpp"
 #include "XMLGeneratorPlatoMainOperationFileUtilities.hpp"
 #include "XMLGeneratorPlatoESPOperationsFileUtilities.hpp"
-#include "XMLGeneratorSierraSDOperationsFileUtilities.hpp"
-#include "XMLGeneratorSierraTFOperationsFileUtilities.hpp"
-#include "XMLGeneratorPostOptimizationRunFileUtilities.hpp"
 #include "XMLGeneratorPlatoAnalyzeOperationsFileUtilities.hpp"
 
 namespace XMLGen
@@ -42,24 +36,13 @@ void write_performer_operation_xml_file_gradient_based_problem
 {
     if(aMetaData.services().size() > 0)
     {
-        if(aMetaData.services()[0].code() == "plato_analyze")
+        if(aMetaData.services()[0].id() == "helmholtz")
         {
-            if(aMetaData.services()[0].id() == "helmholtz")
-            {
-                XMLGen::write_plato_analyze_helmholtz_operation_xml_file(aMetaData);
-            }
-            else
-            {
-                XMLGen::write_plato_analyze_operation_xml_file(aMetaData);
-            }
+            XMLGen::write_plato_analyze_helmholtz_operation_xml_file(aMetaData);
         }
-        else if(aMetaData.services()[0].code() == "sierra_sd")
+        else
         {
-            XMLGen::write_sierra_sd_operation_xml_file(aMetaData);
-        }
-        else if(aMetaData.services()[0].code() == "sierra_tf")
-        {
-            XMLGenSierraTF::write_sierra_tf_operation_xml_file(aMetaData);
+            XMLGen::write_plato_analyze_operation_xml_file(aMetaData);
         }
     }
 }
@@ -70,24 +53,13 @@ void write_performer_input_deck_file_gradient_based_problem
 {
     if(aMetaData.services().size() > 0)
     {
-        if(aMetaData.services()[0].code() == "plato_analyze")
+        if(aMetaData.services()[0].id() == "helmholtz")
         {
-            if(aMetaData.services()[0].id() == "helmholtz")
-            {
-                XMLGen::write_plato_analyze_helmholtz_input_deck_file(aMetaData);
-            }
-            else
-            {
-                XMLGen::write_plato_analyze_input_deck_file(aMetaData);
-            }
+            XMLGen::write_plato_analyze_helmholtz_input_deck_file(aMetaData);
         }
-        else if(aMetaData.services()[0].code() == "sierra_sd")
+        else
         {
-            XMLGen::write_sierra_sd_input_deck(aMetaData);
-        }
-        else if(aMetaData.services()[0].code() == "sierra_tf")
-        {
-            XMLGen::write_sierra_tf_inverse_input_file(aMetaData);
+            XMLGen::write_plato_analyze_input_deck_file(aMetaData);
         }
     }
 }
@@ -114,7 +86,6 @@ void write_optimization_problem
         XMLGen::Problem::write_performer_input_deck_file_gradient_based_problem(tCurMetaData);
     }
 
-    XMLGen::write_post_optimization_run_files(aMetaData);
 }
 // write_optimization_problem
 

@@ -70,26 +70,6 @@ public:
                          std::string aEvaluationString = "") override;
 };
 
-class OperationGemmaMPISystemCall : public Operation
-{
-private:
-    std::string mCommand; 
-    std::string mArgument;
-    std::string mNumRanks;
-    std::string mPath;
-    
-public:
-    OperationGemmaMPISystemCall(const std::string& aInputDeck,
-                                            const std::string& aPath,
-                                            const std::string& aNumRanks, 
-                                            std::shared_ptr<Performer> aPerformer,
-                                            int aConcurrentEvaluations);
-    void write_definition(pugi::xml_document& aDocument, 
-                          std::string aEvaluationString = "") override;
-    void write_interface(pugi::xml_node& aNode, 
-                         std::string aEvaluationString = "") override;
-};
-
 class OperationAprepro : public Operation
 {
 private:

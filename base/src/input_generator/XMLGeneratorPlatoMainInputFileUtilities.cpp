@@ -13,18 +13,6 @@
 namespace XMLGen
 {
 
-bool sierra_sd_service_exists(const XMLGen::InputData &aInputData)
-{
-    for(auto &tService : aInputData.services())
-    {
-        if(tService.code() == "sierra_sd")
-        {
-            return true;
-        }
-    }
-    return false;
-}
-
 void append_mesh_metadata_to_plato_main_input_deck
 (const XMLGen::InputData &aInputData,
  pugi::xml_node &aDocument)
@@ -43,8 +31,8 @@ void append_mesh_metadata_to_plato_main_input_deck
 
     auto tMesh = aDocument.append_child("mesh");
     std::vector<std::string> tKeys = { "type", "format", "ignore_node_map", "ignore_element_map", "mesh" };
-    std::string tIgnoreFlag = sierra_sd_service_exists(aInputData) ? "false" : "true";
-    std::vector<std::string> tValues = { "unstructured", "exodus", tIgnoreFlag, tIgnoreFlag, tMeshName };
+    std::string tIgnoreMeshMapsFlag = "true";
+    std::vector<std::string> tValues = { "unstructured", "exodus", tIgnoreMeshMapsFlag, tIgnoreMeshMapsFlag, tMeshName };
     XMLGen::append_children(tKeys, tValues, tMesh);
     XMLGen::append_block_metadata_to_mesh_node(aInputData, tMesh);
 }

@@ -4,7 +4,6 @@
 #include "XMLGeneratorUtilities.hpp"
 #include "XMLGeneratorDataStruct.hpp"
 #include "XMLGeneratorLaunchUtilities.hpp"
-#include "XMLGeneratorPostOptimizationRunFileUtilities.hpp"
 #include <iostream>
 #include <fstream>
 
@@ -391,58 +390,6 @@ namespace XMLGen
     }
   }
 
-  void append_sierra_sd_code_path(const XMLGen::InputData& aInputData, FILE*& aFile, const std::string& aServiceID, const int aEvaluation)
-  {
-    if(aInputData.service(aServiceID).path().length() != 0)
-    {
-        fprintf(aFile, "%s --beta -i ", aInputData.service(aServiceID).path().c_str());
-    }
-    else
-    {
-        fprintf(aFile, "plato_sd_main --beta -i ");
-    }
-    if (aEvaluation == -1)
-    {
-        fprintf(aFile, "sierra_sd_%s_input_deck.i \\\n", aServiceID.c_str());
-    }
-    else
-    {
-        auto tEvaluationString = std::to_string(aEvaluation);
-        fprintf(aFile, "evaluations_%s/sierra_sd_%s_input_deck_%s.i \\\n", tEvaluationString.c_str(), aServiceID.c_str(), tEvaluationString.c_str());
-    }
-  }
-
-  void append_sierra_tf_code_path(const XMLGen::InputData& aInputData, FILE*& aFile, const std::string& aServiceID)
-  {
-    std::string tInputDeckName;
-    XMLGen::Objective tObjective = aInputData.objective;
-    for (size_t i=0; i<tObjective.criteriaIDs.size(); ++i)
-    {
-        std::string tCriterionID = tObjective.criteriaIDs[i];
-        std::string tServiceID = tObjective.serviceIDs[i];
-        std::string tScenarioID = tObjective.scenarioIDs[i];
-        if(tServiceID == aServiceID)
-        {
-            XMLGen::Scenario tScenario = aInputData.scenario(tScenarioID);
-            tInputDeckName = tScenario.existing_input_deck();
-            break;
-        }
-    }
-    if(tInputDeckName == "")
-    {
-        THROWERR("Error: No existing input deck name found for scenario. You must use an existing input deck when running with sierra_tf.\n")
-    }
-    if(aInputData.service(aServiceID).path().length() != 0)
-    {
-        fprintf(aFile, "%s -i ", aInputData.service(aServiceID).path().c_str());
-    }
-    else
-    {
-        fprintf(aFile, "plato_tf_main -i ");
-    }
-    fprintf(aFile, "%s -opt inverseInput.xml \\\n", tInputDeckName.c_str());
-  }
-
   void append_engine_services_mpirun_lines(const XMLGen::InputData& aInputData, int &aNextPerformerID, FILE*& fp)
   {
     std::string envString, separationString, tLaunchString, tNumProcsString, tPlatoServicesPath;
@@ -485,34 +432,7 @@ namespace XMLGen
       fprintf(fp, "\n");
       for(const XMLGen::Run &tCurRun : aInputData.runs())
       {
-          if(tCurRun.command().empty())
-          {
-              std::string tType = tCurRun.type();
-              if(tType == "modal_analysis")
-              {
-                  int tNumProcs = 1;
-                  std::string tServiceID = tCurRun.service();
-                  if(!tServiceID.empty())
-                  {
-                      XMLGen::Service tService = aInputData.service(tServiceID);
-                      std::string tNumProcsString = tService.numberProcessors(); 
-                      tNumProcs = std::atoi(tNumProcsString.c_str());
-                      if(tNumProcs > 1)
-                      {
-                          append_decomp_line(fp, tNumProcs, aInputData.mesh.run_name);
-                      }
-                  }
-                  std::string tInputDeckName = build_post_optimization_run_input_deck_name(tCurRun);
-                  std::string tLaunchString, tTempNumProcsString;
-                  XMLGen::determine_mpi_launch_strings(aInputData,tLaunchString,tTempNumProcsString);
-                  fprintf(fp, "%s %s %d salinas -i %s\n", tLaunchString.c_str(), tTempNumProcsString.c_str(), 
-                                                       tNumProcs, tInputDeckName.c_str());
-              }
-          }
-          else
-          {
-              fprintf(fp, "%s\n", tCurRun.command().c_str());
-          }
+        fprintf(fp, "%s\n", tCurRun.command().c_str());
       } 
   }
 

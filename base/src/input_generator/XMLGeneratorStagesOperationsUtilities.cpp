@@ -16,19 +16,7 @@ namespace XMLGen
 /******************************************************************************/
 std::string get_objective_value_operation_name(XMLGen::Service &aService)
 {
-    if(aService.code() == "sierra_sd")
-    {
-        return "Compute Objective";
-    }
-    else if(aService.code() == "sierra_tf")
-    {
-        return "Compute Criterion";
-    }
-    else
-    {
-        return "Compute Objective Value";
-    }
-    return "";
+    return "Compute Objective Value";
 }
 // function get_objective_value_operation_name
 /******************************************************************************/
@@ -36,19 +24,7 @@ std::string get_objective_value_operation_name(XMLGen::Service &aService)
 /******************************************************************************/
 std::string get_objective_value_operation_output_name(XMLGen::Service &aService)
 {
-    if(aService.code() == "sierra_sd")
-    {
-        return "Internal Energy";
-    }
-    else if(aService.code() == "sierra_tf")
-    {
-        return "Criterion";
-    }
-    else
-    {
-        return "Objective Value";
-    }
-    return "";
+    return "Objective Value";
 }
 // function get_objective_value_operation_output_name
 /******************************************************************************/
@@ -56,19 +32,7 @@ std::string get_objective_value_operation_output_name(XMLGen::Service &aService)
 /******************************************************************************/
 std::string get_objective_gradient_operation_name(XMLGen::Service &aService)
 {
-    if(aService.code() == "sierra_sd")
-    {
-        return "Compute Gradient";
-    }
-    else if(aService.code() == "sierra_tf")
-    {
-        return "Compute Criterion Gradient";
-    }
-    else
-    {
-        return "Compute Objective Gradient";
-    }
-    return "";
+    return "Compute Objective Gradient";
 }
 // function get_objective_gradient_operation_name
 /******************************************************************************/
@@ -76,15 +40,7 @@ std::string get_objective_gradient_operation_name(XMLGen::Service &aService)
 /******************************************************************************/
 std::string get_objective_gradient_operation_output_name(XMLGen::Service &aService)
 {
-    if(aService.code() == "sierra_sd")
-    {
-        return "Internal Energy Gradient";
-    }
-    else
-    {
-        return "Objective Gradient";
-    }
-    return "";
+    return "Objective Gradient";
 }
 // function get_objective_gradient_operation_output_name
 /******************************************************************************/
@@ -676,11 +632,6 @@ void append_reinitialize_on_change_operation
 (const std::string &aPerformer, 
  pugi::xml_node& aParentNode)
 {
-    if (aPerformer.find("sierra_sd") != std::string::npos ||
-        aPerformer.find("sierra_tf") != std::string::npos) 
-    {
-        return;
-    }
     auto tOperationNode = aParentNode.append_child("Operation");
     XMLGen::append_children({"Name", "PerformerName"}, {"Reinitialize on Change", aPerformer}, tOperationNode);
     auto tInputNode = tOperationNode.append_child("Input");
@@ -911,34 +862,14 @@ void append_compute_objective_sensitivity_operation
  pugi::xml_node &aParentNode)
 {
     auto tOperationNode = aParentNode.append_child("Operation");
-    if(aPerformer.find("sierra_sd") != std::string::npos) 
-    {
-        XMLGen::append_children({"Name", "PerformerName"}, {"Compute Objective Gradient wrt CAD Parameters", aPerformer}, tOperationNode);
-    }
-    else if(aPerformer.find("sierra_tf") != std::string::npos) 
-    {
-        XMLGen::append_children({"Name", "PerformerName"}, {"Compute Criterion Gradient wrt CAD Parameters", aPerformer}, tOperationNode);
-    }
-    else {
-        XMLGen::append_children({"Name", "PerformerName"}, {"Compute Objective Sensitivity", aPerformer}, tOperationNode);
-    }
+    XMLGen::append_children({"Name", "PerformerName"}, {"Compute Objective Sensitivity", aPerformer}, tOperationNode);
+    
     auto tForNode = tOperationNode.append_child("For");
     XMLGen::append_attributes({"var", "in"}, {"I", "Parameters"}, tForNode);
     auto tInputNode = tForNode.append_child("Input");
     XMLGen::append_children({"ArgumentName", "SharedDataName"}, {"Parameter Sensitivity {I}", "Parameter Sensitivity {I}"}, tInputNode);
     auto tOutputNode = tOperationNode.append_child("Output");
-    if(aPerformer.find("sierra_sd") != std::string::npos) 
-    {
-        XMLGen::append_children({"ArgumentName", "SharedDataName"}, {"Internal Energy Gradient", aSharedDataName}, tOutputNode);
-    }
-    else if(aPerformer.find("sierra_tf") != std::string::npos) 
-    {
-        XMLGen::append_children({"ArgumentName", "SharedDataName"}, {"Criterion Gradient wrt CAD Parameters", aSharedDataName}, tOutputNode);
-    }
-    else
-    {
-        XMLGen::append_children({"ArgumentName", "SharedDataName"}, {"Criterion Sensitivity", aSharedDataName}, tOutputNode);
-    }
+    XMLGen::append_children({"ArgumentName", "SharedDataName"}, {"Criterion Sensitivity", aSharedDataName}, tOutputNode);
 }
 // function append_compute_objective_sensitivity_operation
 /******************************************************************************/

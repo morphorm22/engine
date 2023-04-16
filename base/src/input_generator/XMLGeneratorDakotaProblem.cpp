@@ -4,25 +4,21 @@
  *  Created on: March 25, 2022
  */
 
+#include "Operation.hpp"
 #include "XMLGeneratorUtilities.hpp"
 #include "XMLGeneratorDataStruct.hpp"
 #include "XMLGeneratorDakotaProblem.hpp"
 #include "XMLGeneratorProblemUtilities.hpp"
 #include "XMLGeneratorServiceUtilities.hpp"
-#include "XMLGeneratorSierraSDUtilities.hpp"
-#include "Operation.hpp"
-#include "GemmaProblem.hpp"
 #include "XMLGeneratorDefinesFileUtilities.hpp"
 #include "XMLGeneratorLaunchScriptUtilities.hpp"
 #include "XMLGeneratorPlatoESPInputFileUtilities.hpp"
-#include "XMLGeneratorSierraSDInputDeckUtilities.hpp"
 #include "XMLGeneratorPlatoMainInputFileUtilities.hpp"
 #include "XMLGeneratorDakotaInterfaceFileUtilities.hpp"
 #include "XMLGeneratorDakotaDriverInputFileUtilities.hpp"
 #include "XMLGeneratorPlatoAnalyzeInputFileUtilities.hpp"
 #include "XMLGeneratorPlatoESPOperationsFileUtilities.hpp"
 #include "XMLGeneratorPlatoMainOperationFileUtilities.hpp"
-#include "XMLGeneratorSierraSDOperationsFileUtilities.hpp"
 #include "XMLGeneratorPlatoAnalyzeOperationsFileUtilities.hpp"
 
 
@@ -46,18 +42,11 @@ void write_performer_input_deck_file
             aMetaData.mesh.run_name = std::string("evaluations_") + std::to_string(iEvaluation) + std::string("/") + tAppendedMeshName;
 
             std::string tInputFileName = "";
-            if(aMetaData.services()[0].code() == "plato_analyze")
-            {
-                auto tServiceID = XMLGen::get_plato_analyze_service_id(aMetaData);
-                tInputFileName = std::string("plato_analyze_") + tServiceID + "_input_deck.xml";
-                XMLGen::write_plato_analyze_input_deck_file(aMetaData);
-            }
-            else if(aMetaData.services()[0].code() == "sierra_sd")
-            {
-                auto tServiceID = XMLGen::get_salinas_service_id(aMetaData);
-                tInputFileName = std::string("sierra_sd_") + tServiceID + "_input_deck.i";
-                XMLGen::write_sierra_sd_input_deck(aMetaData);
-            }
+
+            auto tServiceID = XMLGen::get_plato_analyze_service_id(aMetaData);
+            tInputFileName = std::string("plato_analyze_") + tServiceID + "_input_deck.xml";
+            XMLGen::write_plato_analyze_input_deck_file(aMetaData);
+
             XMLGen::Problem::move_input_deck_to_subdirectory(tInputFileName,iEvaluation);
         }
         aMetaData.mesh.run_name = tMeshName;
@@ -70,14 +59,7 @@ void write_performer_operation_xml_file
 {
     if(aMetaData.services().size() > 0)
     {
-        if(aMetaData.services()[0].code() == "plato_analyze")
-        {
-            XMLGen::write_plato_analyze_operation_xml_file_dakota_problem(aMetaData);
-        }
-        else if(aMetaData.services()[0].code() == "sierra_sd")
-        {
-            XMLGen::write_sierra_sd_operation_xml_file(aMetaData);
-        }
+        XMLGen::write_plato_analyze_operation_xml_file_dakota_problem(aMetaData);
     }
 }
 //function write_performer_operation_xml_file_dakota_problem
@@ -107,46 +89,14 @@ void plato_esp_problem
 }
 // function plato_esp_problem
 
-void plato_gemma_problem
-(XMLGen::InputData& aMetaData,
- const std::vector<XMLGen::InputData>& aPreProcessedMetaData)
-{
-
-    director::GemmaProblem tGemmaProblem(aMetaData);
-
-    tGemmaProblem.create_evaluation_subdirectories_and_gemma_input(aMetaData);
-    
-    pugi::xml_document tDocument;
-    tGemmaProblem.write_plato_main_operations(tDocument);
-    tDocument.save_file("plato_main_operations.xml", "  ");
-
-    pugi::xml_document tInterfaceDocument;
-    tGemmaProblem.write_interface(tInterfaceDocument);
-    tInterfaceDocument.save_file("interface.xml", "  ");
-
-    pugi::xml_document tPlatoMainDocument;
-    tGemmaProblem.write_plato_main_input(tPlatoMainDocument);
-    tPlatoMainDocument.save_file("plato_main_input_deck.xml", "  ");
-
-    tGemmaProblem.write_mpirun("mpirun.source");
-    tGemmaProblem.write_defines();
-
-    XMLGen::write_dakota_driver_input_deck(aMetaData);
-}
-// function plato_gemma_problem
-
 void write_problem
 (XMLGen::InputData& aMetaData,
  const std::vector<XMLGen::InputData>& aPreProcessedMetaData)
 {
-    auto tScenario = aMetaData.scenarios();
-    for(unsigned int iScenario = 0 ; iScenario < tScenario.size(); iScenario++)
-    if(tScenario[iScenario].physics() == "electromagnetics")
-        XMLGen::dakota::plato_gemma_problem(aMetaData, aPreProcessedMetaData);
-    else
-        XMLGen::dakota::plato_esp_problem(aMetaData, aPreProcessedMetaData);
+    XMLGen::dakota::plato_esp_problem(aMetaData, aPreProcessedMetaData);
 }
 // function write_problem
+
 
 }
 // namespace dakota

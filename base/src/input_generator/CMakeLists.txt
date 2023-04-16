@@ -24,7 +24,6 @@ SET(XMLGenerator_SRCS XMLGenerator_Main.cpp
                       XMLGeneratorServiceUtilities.cpp
                       XMLGeneratorScenarioMetadata.cpp
                       XMLGeneratorParseUncertainty.cpp
-                      XMLGeneratorSierraSDUtilities.cpp
                       XMLGeneratorConstraintMetadata.cpp
                       XMLGeneratorSharedDataUtilities.cpp
                       XMLGeneratorPerformersUtilities.cpp
@@ -40,7 +39,6 @@ SET(XMLGenerator_SRCS XMLGenerator_Main.cpp
                       XMLGeneratorOptimizationParametersMetadata.cpp
                       XMLGeneratorParseEssentialBoundaryCondition.cpp
                       XMLGeneratorParseMethodInputOptionsUtilities.cpp
-                      XMLGeneratorPostOptimizationRunFileUtilities.cpp
                       XMLGeneratorAnalyzePhysicsFunctionInterface.cpp
                       XMLGeneratorMaterialFunctionInterface.cpp
                       XMLGeneratorRandomInterfaceFileUtilities.cpp
@@ -50,10 +48,6 @@ SET(XMLGenerator_SRCS XMLGenerator_Main.cpp
                       XMLGeneratorPlatoAnalyzeInputFileUtilities.cpp
                       XMLGeneratorPlatoMainOperationFileUtilities.cpp
                       XMLGeneratorPlatoAnalyzeOperationsFileUtilities.cpp
-                      XMLGeneratorSierraTFOperationsFileUtilities.cpp
-                      XMLGeneratorSierraSDOperationsFileUtilities.cpp
-                      XMLGeneratorSierraSDInputDeckUtilities.cpp
-                      XMLGeneratorSierraTFInputDeckUtilities.cpp
                       XMLGeneratorLaunchUtilities.cpp
                       XMLGeneratorAnalyzeLoadFunctionInterface.cpp
                       XMLGeneratorAnalyzeLoadTagFunctionInterface.cpp
@@ -74,7 +68,6 @@ SET(XMLGenerator_SRCS XMLGenerator_Main.cpp
                       Stage.cpp
 		      Performer.cpp
 		      SharedData.cpp
-		      GemmaProblem.cpp
 		      OptimizationAlgorithm.cpp
 		      OptimizationAlgorithmFactory.cpp
                       )
@@ -96,7 +89,6 @@ SET(XMLGenerator_HDRS XMLGenerator.hpp
                       XMLGeneratorAssemblyMetadata.hpp
                       XMLGeneratorBoundaryMetadata.hpp
                       XMLGeneratorMaterialMetadata.hpp 
-                      XMLGeneratorSierraSDUtilities.hpp
                       XMLGeneratorCriterionMetadata.hpp 
                       XMLGeneratorConstraintMetadata.hpp
                       XMLGeneratorSharedDataUtilities.hpp
@@ -111,7 +103,6 @@ SET(XMLGenerator_HDRS XMLGenerator.hpp
                       XMLGeneratorStagesOperationsUtilities.hpp
                       XMLGeneratorOptimizationParametersMetadata.hpp
                       XMLGeneratorParseMethodInputOptionsUtilities.hpp
-                      XMLGeneratorPostOptimizationRunFileUtilities.hpp
                       XMLGeneratorAnalyzePhysicsFunctionInterface.hpp
                       XMLGeneratorMaterialFunctionInterface.hpp
                       XMLGeneratorPlatoMainInputFileUtilities.hpp
@@ -120,10 +111,6 @@ SET(XMLGenerator_HDRS XMLGenerator.hpp
                       XMLGeneratorPlatoAnalyzeInputFileUtilities.hpp
                       XMLGeneratorPlatoMainOperationFileUtilities.hpp
                       XMLGeneratorPlatoAnalyzeOperationsFileUtilities.hpp
-                      XMLGeneratorSierraTFOperationsFileUtilities.hpp
-                      XMLGeneratorSierraSDOperationsFileUtilities.hpp
-                      XMLGeneratorSierraSDInputDeckUtilities.hpp
-                      XMLGeneratorSierraTFInputDeckUtilities.hpp
                       XMLGeneratorLaunchUtilities.hpp
                       # XMLGeneratorAnalyzeCriterionUtilities.hpp
                       XMLGeneratorAnalyzeLoadFunctionInterface.hpp
@@ -162,7 +149,6 @@ SET(XMLGenerator_HDRS XMLGenerator.hpp
                       Stage.hpp
 		      Performer.hpp
 		      SharedData.hpp
-		      GemmaProblem.hpp
 		      OptimizationAlgorithm.hpp
 		      OptimizationAlgorithmFactory.hpp
                       )

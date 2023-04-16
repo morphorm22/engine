@@ -116,90 +116,11 @@ void ParseCriteria::allocate()
     this->insertTag("ixz");
     this->insertTag("ixy");
 
-    /* These are all related to stress-constrained mass minimization problems with Sierra/SD */
-    this->insertTag("volume_misfit_target");
-    this->insertTag("relative_stress_limit");
-    this->insertTag("relaxed_stress_ramp_factor");
-    this->insertTag("limit_power_min");
-    this->insertTag("limit_power_max");
-    this->insertTag("limit_power_feasible_bias");
-    this->insertTag("limit_power_feasible_slope");
-    this->insertTag("limit_power_infeasible_bias");
-    this->insertTag("limit_power_infeasible_slope");
-    this->insertTag("limit_reset_subfrequency");
-    this->insertTag("limit_reset_count");
-    this->insertTag("inequality_allowable_feasibility_upper");
-    this->insertTag("inequality_feasibility_scale");
-    this->insertTag("inequality_infeasibility_scale");
-    this->insertTag("stress_inequality_power");
-    this->insertTag("stress_favor_final");
-    this->insertTag("stress_favor_updates");
-    this->insertTag("volume_penalty_power");
-    this->insertTag("volume_penalty_divisor");
-    this->insertTag("volume_penalty_bias");
-    this->insertTag("surface_area_sideset_id");
-
-    // Sierra/SD modal objectives
-    this->insertTag("num_modes_compute", "30");
-    this->insertTag("modes_to_exclude");
-    this->insertTag("eigen_solver_shift", "-1e6");
-    this->insertTag("camp_solver_tol", "1e-6");
-    this->insertTag("camp_max_iter", "1000");
-    this->insertTag("shape_sideset");
-    this->insertTag("ref_data_file");
-    this->insertTag("match_nodesets");
-
-    // Sierra/TF objectives
-    this->insertTag("search_nodesets");
-    this->insertTag("temperature_field_name");
-
     // system call criterion
     this->insertTag("data_file");
     this->insertTag("data_group");
     this->insertTag("data_extraction_operation");
 }
-
-void ParseCriteria::setModesToExclude(XMLGen::Criterion &aMetadata)
-{
-    auto tItr = mTags.find("modes_to_exclude");
-    std::string tValues = tItr->second.first.second;
-    if (tItr != mTags.end() && !tValues.empty()) {
-        std::vector<std::string> tModes;
-        char tValuesBuffer[10000];
-        strcpy(tValuesBuffer, tValues.c_str());
-        XMLGen::parse_tokens(tValuesBuffer, tModes);
-        aMetadata.modesToExclude(tModes);
-    }
-}
-
-void ParseCriteria::setSearchNodesetIDs(XMLGen::Criterion &aMetadata)
-{
-    auto tItr = mTags.find("search_nodesets");
-    std::string tValues = tItr->second.first.second;
-    if (tItr != mTags.end() && !tValues.empty())
-    {
-        std::vector<std::string> tNodesetIDs;
-        char tValuesBuffer[10000];
-        strcpy(tValuesBuffer, tValues.c_str());
-        XMLGen::parse_tokens(tValuesBuffer, tNodesetIDs);
-        aMetadata.setSearchNodesetIDs(tNodesetIDs);
-    }
-}
-
-void ParseCriteria::setMatchNodesetIDs(XMLGen::Criterion &aMetadata)
-{
-    auto tItr = mTags.find("match_nodesets");
-    std::string tValues = tItr->second.first.second;
-    if (tItr != mTags.end() && !tValues.empty())
-    {
-        std::vector<std::string> tNodesetIDs;
-        char tValuesBuffer[10000];
-        strcpy(tValuesBuffer, tValues.c_str());
-        XMLGen::parse_tokens(tValuesBuffer, tNodesetIDs);
-        aMetadata.setMatchNodesetIDs(tNodesetIDs);
-    }
-}
-
 
 void ParseCriteria::setCriterionWeights(XMLGen::Criterion &aMetadata)
 {
@@ -346,9 +267,6 @@ void ParseCriteria::setMetadata(XMLGen::Criterion& aMetadata)
     this->setStressPNormOptions(aMetadata);
     this->setDisplacementDirection(aMetadata);
     this->setTargetSolutionVector(aMetadata);
-    setModesToExclude(aMetadata);
-    setMatchNodesetIDs(aMetadata);
-    setSearchNodesetIDs(aMetadata);
     this->setTags(aMetadata);
     this->errorCheckDisplacementCriterion(aMetadata);
 }

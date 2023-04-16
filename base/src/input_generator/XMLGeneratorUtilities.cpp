@@ -566,18 +566,7 @@ int count_number_of_reinitializations_needed
 (const XMLGen::InputData& aMetaData,
  const XMLGen::Objective& aObjective)
 {
-    int tReturn = 0;
-    for (size_t i=0; i<aObjective.serviceIDs.size(); ++i)
-    {
-        std::string tServiceID = aObjective.serviceIDs[i];
-        XMLGen::Service tService = aMetaData.service(tServiceID); 
-        if (tService.performer().find("sierra_sd") == std::string::npos &&
-            tService.performer().find("sierra_tf") == std::string::npos) 
-        {
-            tReturn++;
-        }
-    }
-    return tReturn;
+    return aObjective.serviceIDs.size();
 }
 // function count_number_of_reinitializations_needed
 /******************************************************************************/

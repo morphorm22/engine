@@ -65,32 +65,6 @@ void append_compute_constraint_gradient_operation_platoanalyze
     XMLGen::append_children({"ArgumentName", "SharedDataName"}, {"Constraint Gradient " + aConstraint.id(), tSharedDataName}, tOutputNode);
 }
 
-void append_compute_constraint_gradient_operation_sierra_sd
-(const XMLGen::Constraint& aConstraint,
- const std::string &aPerformer,
- const std::string &aDesignVariableName,
- pugi::xml_node& aParentNode)
-{
-/*
-    auto tOperationNode = aParentNode.append_child("Operation");
-    XMLGen::append_children({"Name", "PerformerName"}, {"Compute Constraint Gradient " + aConstraint.id(), aPerformer}, tOperationNode);
-
-    auto tInputNode = tOperationNode.append_child("Input");
-    XMLGen::append_children({"ArgumentName", "SharedDataName"}, {"Topology", aDesignVariableName}, tInputNode);
-
-    std::string tCriterionID = aConstraint.criterion();
-    std::string tServiceID = aConstraint.service();
-    std::string tScenarioID = aConstraint.scenario();
-    ConcretizedCriterion tConcretizedCriterion(tCriterionID,tServiceID,tScenarioID);
-    auto tIdentifierString = XMLGen::get_concretized_criterion_identifier_string(tConcretizedCriterion);
-
-    auto tSharedDataName = std::string("Criterion Gradient - ") + tIdentifierString;
-
-    auto tOutputNode = tOperationNode.append_child("Output");
-    XMLGen::append_children({"ArgumentName", "SharedDataName"}, {"Constraint Gradient", tSharedDataName}, tOutputNode);
-*/
-}
-
 }
 // namespace Private
 
@@ -105,11 +79,6 @@ void ConstraintGradientOperation::insert()
     tFuncIndex = std::type_index(typeid(XMLGen::Private::append_compute_constraint_gradient_operation_platoanalyze));
     mMap.insert(std::make_pair("plato_analyze",
       std::make_pair((XMLGen::PlatoMain::ConstraintGradientOp)XMLGen::Private::append_compute_constraint_gradient_operation_platoanalyze, tFuncIndex)));
-
-    // code = sierra_sd
-    tFuncIndex = std::type_index(typeid(XMLGen::Private::append_compute_constraint_gradient_operation_sierra_sd));
-    mMap.insert(std::make_pair("sierra_sd",
-      std::make_pair((XMLGen::PlatoMain::ConstraintGradientOp)XMLGen::Private::append_compute_constraint_gradient_operation_sierra_sd, tFuncIndex)));
 }
 
 void ConstraintGradientOperation::call

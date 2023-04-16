@@ -100,38 +100,6 @@ struct ValidCriterionParameterKeys
         "target_magnitude",
         "target_solution",
         "block",
-        /* These are all related to stress-constrained mass minimization problems with Sierra/SD */
-        "volume_misfit_target",
-        "limit_power_min",
-        "limit_power_max",
-        "limit_power_feasible_bias",
-        "limit_power_feasible_slope",
-        "limit_power_infeasible_bias",
-        "limit_power_infeasible_slope",
-        "limit_reset_subfrequency",
-        "limit_reset_count",
-        "inequality_allowable_feasibility_upper",
-        "inequality_feasibility_scale",
-        "inequality_infeasibility_scale",
-        "stress_inequality_power",
-        "stress_favor_final",
-        "stress_favor_updates",
-        "volume_penalty_power",
-        "volume_penalty_divisor",
-        "volume_penalty_bias",
-        "surface_area_sideset_id",
-        // Sierra/SD modal objectives
-        "num_modes_compute",
-        "modes_to_exclude",
-        "eigen_solver_shift",
-        "camp_solver_tol",
-        "camp_max_iter",
-        "shape_sideset",
-        "ref_data_file",
-        "match_nodesets",
-        // Sierra/TF keywords
-        "search_nodesets",
-        "temperature_field_name",
         // mass properties
         "mass",
         "cgx", 
@@ -746,7 +714,7 @@ public:
     {
         return (XMLGen::return_supported_value(aKey, mKeys));
     }
-    std::vector<std::string> mKeys = {"plato_analyze", "sierra_tf", "sierra_sd", "lightmp", "platomain", "plato_esp", "xtk", "gemma"};
+    std::vector<std::string> mKeys = {"plato_analyze", "lightmp", "platomain", "plato_esp", "xtk"};
 };
 // struct ValidCodeKeys
 
@@ -925,14 +893,6 @@ private:
                 {"dispz", "displacement Z"},
                 {"principal_stresses", "principal stresses"}, 
                 {"temperature", "temperature"} 
-            }
-        },
-        { "sierra_sd", 
-            { 
-                {"vonmises", "vonmises"}, 
-                {"dispx", "dispx"}, 
-                {"dispy", "dispy"}, 
-                {"dispz", "dispz"} 
             }
         }
     };

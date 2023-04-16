@@ -2763,21 +2763,6 @@ TEST(PlatoTestXMLGenerator, AppendSpatialModelToPlatoAnalyzeInputDeck_TwoBlocksO
     PlatoTestXMLGenerator::test_attributes({"name", "type", "value"}, {"Fixed Control", "bool", "true"}, tFixedControl);
 }
 
-TEST(PlatoTestXMLGenerator, AppendMaterialModelToPlatoAnalyzeInputDeck_Empty_MaterialIsNotFromAnalyzePerformer)
-{
-    pugi::xml_document tDocument;
-    XMLGen::InputData tXMLMetaData;
-    XMLGen::Material tMaterial;
-    tMaterial.code("sierra");
-    tXMLMetaData.materials.push_back(tMaterial);
-    ASSERT_NO_THROW(XMLGen::append_material_models_to_plato_analyze_input_deck(tXMLMetaData, tDocument));
-    //tDocument.save_file("dummy.xml", "    >     ");
-    auto tParamList = tDocument.child("ParameterList");
-    PlatoTestXMLGenerator::test_attributes({"name"}, {"Material Models"}, tParamList);
-    auto tMaterials = tParamList.child("ParameterList");
-    ASSERT_TRUE(tMaterials.empty());
-}
-
 TEST(PlatoTestXMLGenerator, AppendMaterialModelToPlatoAnalyzeInputDeck_ErrorInvalidMatModel)
 {
     pugi::xml_document tDocument;

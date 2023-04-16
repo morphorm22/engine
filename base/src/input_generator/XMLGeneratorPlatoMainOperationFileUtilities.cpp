@@ -12,10 +12,8 @@
 #include "XMLGeneratorServiceMetadata.hpp"
 #include "XMLGeneratorParserUtilities.hpp"
 #include "XMLGeneratorServiceUtilities.hpp"
-#include "XMLGeneratorSierraSDUtilities.hpp"
 #include "XMLGeneratorFixedBlockUtilities.hpp"
 #include "XMLGeneratorInterfaceFileUtilities.hpp"
-#include "XMLGeneratorSierraSDInputDeckUtilities.hpp"
 #include "XMLGeneratorPlatoMainOperationFileUtilities.hpp"
 
 namespace XMLGen
@@ -64,10 +62,7 @@ void write_plato_main_operations_xml_file
     XMLGen::append_initialize_geometry_operation_to_plato_main_operation(aMetaData, tDocument);
     XMLGen::append_update_geometry_on_change_operation_to_plato_main_operation(aMetaData, tDocument);
     XMLGen::append_enforce_bounds_operation_to_plato_main_operation(aMetaData, tDocument);
-    
-    if (XMLGen::do_tet10_conversion(aMetaData)) 
-        XMLGen::append_tet10_conversion_operation_to_plato_main_operation(aMetaData, tDocument);
-    
+     
     if (XMLGen::have_auxiliary_mesh(aMetaData)) {
         XMLGen::append_mesh_join_operation_to_plato_main_operation(aMetaData, tDocument);
         XMLGen::append_mesh_rename_operation_to_plato_main_operation(aMetaData, tDocument);
@@ -88,8 +83,6 @@ void write_dakota_plato_main_operations_xml_file
     append_decomp_operations_for_physics_performers_to_plato_main_operation(aMetaData, tDocument);
     if (XMLGen::create_subblock(aMetaData)) 
         XMLGen::append_subblock_creation_operation_to_plato_main_operation(aMetaData, tDocument);
-    if (XMLGen::do_tet10_conversion(aMetaData))
-        XMLGen::append_tet10_conversion_operation_to_plato_main_operation(aMetaData, tDocument);
 
     tDocument.save_file("plato_main_operations.xml", "  ");
 }

@@ -156,7 +156,7 @@ bool is_physics_performer
 {
     bool tReturn = false;
     if (aMetaData.services().size() > 0)
-        if (aMetaData.services()[0].code() == "plato_analyze" || aMetaData.services()[0].code() == "sierra_sd")
+        if (aMetaData.services()[0].code() == "plato_analyze")
             tReturn = true;
 
     return tReturn;

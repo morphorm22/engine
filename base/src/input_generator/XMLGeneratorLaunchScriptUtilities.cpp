@@ -5,10 +5,8 @@
 
 #include "XMLGeneratorUtilities.hpp"
 #include "XMLGeneratorDataStruct.hpp"
-#include "XMLGeneratorSierraSDUtilities.hpp"
 #include "XMLGeneratorLaunchUtilities.hpp"
 #include "XMLGeneratorInterfaceFileUtilities.hpp"
-#include "XMLGeneratorSierraSDInputDeckUtilities.hpp"
 #include "XMLGeneratorLaunchScriptUtilities.hpp"
 
 namespace XMLGen
@@ -49,9 +47,6 @@ void generate_mpirun_launch_script(const XMLGen::InputData& aInputData)
         if (XMLGen::have_auxiliary_mesh(aInputData)) {
             XMLGen::append_join_mesh_operation_line(aInputData, fp);
         }
-        if (XMLGen::do_tet10_conversion(aInputData)) {
-            XMLGen::append_tet10_conversion_operation_line(fp);
-        }
     }
     else if(aInputData.optimization_parameters().optimizationType() == XMLGen::OT_DAKOTA)
     {
@@ -59,8 +54,6 @@ void generate_mpirun_launch_script(const XMLGen::InputData& aInputData)
         XMLGen::append_copy_mesh_lines_for_dakota_workflow(fp,aInputData);
         if(XMLGen::create_subblock(aInputData))
             XMLGen::append_subblock_creation_operation_lines_for_dakota_workflow(fp,aInputData.optimization_parameters().concurrent_evaluations());
-        if (XMLGen::do_tet10_conversion(aInputData))
-            XMLGen::append_tet10_conversion_operation_lines_for_dakota_workflow(fp,aInputData.optimization_parameters().concurrent_evaluations());
     }
     XMLGen::append_decomp_lines_for_prune_and_refine(aInputData, fp);
     XMLGen::append_prune_and_refine_lines_to_mpirun_launch_script(aInputData, fp);
@@ -168,14 +161,6 @@ void append_physics_performer_mpirun_commands_gradient_based_problem
         {
             append_analyze_mpirun_line(aInputData, tService, aNextPerformerID, aFile);
         }
-        else if(tService.code() == "sierra_sd")
-        {
-            append_sierra_sd_mpirun_line(aInputData, tService, aNextPerformerID, aFile);
-        }
-        else if(tService.code() == "sierra_tf")
-        {
-            append_sierra_tf_mpirun_line(aInputData, tService, aNextPerformerID, aFile);
-        }
         else if(tService.code() == "plato_esp")
         {
             append_esp_mpirun_line(aInputData, tService, aNextPerformerID, aFile);
@@ -213,67 +198,6 @@ void append_analyze_mpirun_line(const XMLGen::InputData& aInputData,
     XMLGen::append_plato_analyze_code_path(aInputData, aFile, aService.id(), tDeviceID, aEvaluation);
 }
 
-void append_sierra_sd_mpirun_line
-(const XMLGen::InputData& aInputData,
- const XMLGen::Service& aService,
- int &aNextPerformerID,
- FILE*& aFile,
- const int aEvaluation)
-{
-    std::string tEnvString, tSeparationString, tLaunchString, tNumProcsString;
-    XMLGen::determine_mpi_env_and_separation_strings(tEnvString, tSeparationString);
-    XMLGen::determine_mpi_launch_strings(aInputData, tLaunchString, tNumProcsString);
-
-    std::vector<std::string> tDeviceIDs = aService.deviceIDs();
-    std::string tDeviceID = "";
-    if(tDeviceIDs.size() != 0)
-    {
-        tDeviceID = tDeviceIDs[0];
-    }
-
-    fprintf(aFile,
-        ": %s %s %s PLATO_PERFORMER_ID%s%d \\\n",
-        tNumProcsString.c_str(),
-        aService.numberProcessors().c_str(),
-        tEnvString.c_str(),
-        tSeparationString.c_str(),
-        aNextPerformerID);
-
-    fprintf(aFile, "%s PLATO_INTERFACE_FILE%sinterface.xml \\\n", tEnvString.c_str(), tSeparationString.c_str());
-    fprintf(aFile, "%s PLATO_APP_FILE%ssierra_sd_%s_operations.xml \\\n", tEnvString.c_str(), tSeparationString.c_str(), aService.id().c_str());
-    XMLGen::append_sierra_sd_code_path(aInputData, aFile, aService.id(), aEvaluation);
-}
-
-void append_sierra_tf_mpirun_line
-(const XMLGen::InputData& aInputData,
- const XMLGen::Service& aService,
- int &aNextPerformerID,
- FILE*& aFile)
-{
-    std::string tEnvString, tSeparationString, tLaunchString, tNumProcsString;
-    XMLGen::determine_mpi_env_and_separation_strings(tEnvString, tSeparationString);
-    XMLGen::determine_mpi_launch_strings(aInputData, tLaunchString, tNumProcsString);
-
-    std::vector<std::string> tDeviceIDs = aService.deviceIDs();
-    std::string tDeviceID = "";
-    if(tDeviceIDs.size() != 0)
-    {
-        tDeviceID = tDeviceIDs[0];
-    }
-
-    fprintf(aFile,
-        ": %s %s %s PLATO_PERFORMER_ID%s%d \\\n",
-        tNumProcsString.c_str(),
-        aService.numberProcessors().c_str(),
-        tEnvString.c_str(),
-        tSeparationString.c_str(),
-        aNextPerformerID);
-
-    fprintf(aFile, "%s PLATO_INTERFACE_FILE%sinterface.xml \\\n", tEnvString.c_str(), tSeparationString.c_str());
-    fprintf(aFile, "%s PLATO_APP_FILE%ssierra_tf_%s_operations.xml \\\n", tEnvString.c_str(), tSeparationString.c_str(), aService.id().c_str());
-    XMLGen::append_sierra_tf_code_path(aInputData, aFile, aService.id());
-}
-
 void append_esp_mpirun_line(const XMLGen::InputData& aInputData, const XMLGen::Service& aService, int &aNextPerformerID, FILE*& aFile)
 {
     std::string tEnvString, tSeparationString, tLaunchString, tNumProcsString;
@@ -306,11 +230,6 @@ void append_physics_performer_mpirun_commands_dakota_problem
             if(tService.code() == "plato_analyze")
             {
                 append_analyze_mpirun_line(aInputData, tService, aNextPerformerID, aFile, iEvaluation);
-                aNextPerformerID++;
-            }
-            else if(tService.code() == "sierra_sd")
-            {
-                append_sierra_sd_mpirun_line(aInputData, tService, aNextPerformerID, aFile, iEvaluation);
                 aNextPerformerID++;
             }
         }

@@ -345,20 +345,6 @@ public:
     std::string additiveContinuation() const;
 
     /******************************************************************************//**
-     * \fn weightMassScaleFactor
-     * \brief Set string value for Sierra/SD weight/mass scale factor
-     * \param [in] aInput string value
-    **********************************************************************************/
-    void weightMassScaleFactor(const std::string& aInput);
-
-    /******************************************************************************//**
-     * \fn weightMassScaleFactor
-     * \brief Return string value Sierra/SD weight/mass scale factor
-     * \return value
-    **********************************************************************************/
-    std::string weightMassScaleFactor() const;
-
-    /******************************************************************************//**
      * \fn pressureScaling
      * \brief Set string value for keyword 'pressure_scaling'.
      * \param [in] aInput string value
@@ -385,18 +371,8 @@ public:
      * \return value
     **********************************************************************************/
     std::string temperatureScaling() const;
-    
-    std::string frequency_min() const {return this->getValue("frequency_min"); }
-    std::string frequency_max() const {return this->getValue("frequency_max"); }
-    std::string frequency_step() const {return this->getValue("frequency_step"); }
-    std::string cavity_radius() const {return this->getValue("cavity_radius"); }
-    std::string cavity_height() const {return this->getValue("cavity_height"); }
-    std::string raleigh_damping_alpha() const {return this->getValue("raleigh_damping_alpha"); }
-    std::string raleigh_damping_beta() const {return this->getValue("raleigh_damping_beta"); }
-    std::string complex_error_measure() const {return this->getValue("complex_error_measure"); }
-    std::string convert_to_tet10() const {return this->getValue("convert_to_tet10"); }
-    std::string existing_input_deck() const {return this->getValue("existing_input_deck"); }
 
+    std::string existing_input_deck() const {return this->getValue("existing_input_deck"); }
 };
 // struct Scenario
 

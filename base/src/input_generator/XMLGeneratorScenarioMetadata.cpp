@@ -228,16 +228,6 @@ std::string Scenario::additiveContinuation() const
     return (this->getValue("additive_continuation"));
 }
 
-void Scenario::weightMassScaleFactor(const std::string& aInput)
-{
-    mMetaData["weight_mass_scale_factor"] = aInput;
-}
-
-std::string Scenario::weightMassScaleFactor() const
-{
-    return (this->getValue("weight_mass_scale_factor"));
-}
-
 void Scenario::pressureScaling(const std::string& aInput)
 {
     mMetaData["pressure_scaling"] = aInput;

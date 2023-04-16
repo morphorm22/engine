@@ -83,45 +83,6 @@ void OperationWait::write_interface
     addChild(tOperationNode, "PerformerName", mPerformer->name(aEvaluationString));
 }
 
-OperationGemmaMPISystemCall::OperationGemmaMPISystemCall
-(const std::string& aInputDeck, 
- const std::string& aPath,
- const std::string& aNumRanks, 
- std::shared_ptr<Performer> aPerformer,
- int aConcurrentEvaluations) :
- Operation("gemma", "SystemCallMPI",aPerformer, aConcurrentEvaluations),
- mCommand("gemma"),
- mArgument(aInputDeck),
- mNumRanks(aNumRanks),
- mPath(aPath)
-{
-    mOnChange = true;
-}
-
- void OperationGemmaMPISystemCall::write_definition
- (pugi::xml_document& aDocument, 
-  std::string aEvaluationString)
- {
-    auto tOperationNode = aDocument.append_child("Operation");
-    appendCommonChildren(tOperationNode,aEvaluationString);
-    addChild(tOperationNode, "Command", mPath+mCommand);
-    if(mChDir)
-        addChild(tOperationNode, "ChDir", std::string("evaluations_") + tag(aEvaluationString));
-    addChild(tOperationNode, "OnChange", (mOnChange ? "true" : "false"));
-    addChild(tOperationNode, "NumRanks", mNumRanks );
-    addChild(tOperationNode, "Argument", mArgument );
-    addChild(tOperationNode, "AppendInput", "false" );
- }
-
- void OperationGemmaMPISystemCall::write_interface
- (pugi::xml_node& aNode, 
-  std::string aEvaluationString)
-{
-    auto tOperationNode = aNode.append_child("Operation");
-    addChild(tOperationNode, "Name", name(aEvaluationString));
-    addChild(tOperationNode, "PerformerName",  mPerformer->name(aEvaluationString));
-}
-
 OperationAprepro::OperationAprepro
 (const std::string& aInputDeck, 
  const std::vector<std::string>& aOptions, 

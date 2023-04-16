@@ -14,7 +14,6 @@
 #include "XMLGeneratorPerformersUtilities.hpp"
 #include "XMLGeneratorInterfaceFileUtilities.hpp"
 #include "XMLGeneratorGradBasedOptimizerOptions.hpp"
-#include "XMLGeneratorSierraSDInputDeckUtilities.hpp"
 #include "XMLGeneratorRandomInterfaceFileUtilities.hpp"
 #include "XMLGeneratorPlatoMainConstraintValueOperationInterface.hpp"
 #include "XMLGeneratorPlatoMainConstraintGradientOperationInterface.hpp"
