@@ -53,8 +53,8 @@
 #include <vector>
 #include <cassert>
 
-#include "Plato_Vector.hpp"
 #include "Plato_MultiVector.hpp"
+#include "Plato_LinearAlgebra.hpp"
 
 namespace Plato
 {
@@ -121,55 +121,66 @@ public:
     }
 
     /******************************************************************************//**
-     * @brief Returns a reference to the multi-vector at specified location position
-     * @param [in] aInput specified position
+     * @brief Returns a reference to the multi-vector
+     * @param [in] aMultiVecIndex index to multi-vector in list
      * @return reference to a multi-vector
     **********************************************************************************/
-    Plato::MultiVector<ScalarType, OrdinalType> & operator [](const OrdinalType & aInput)
+    Plato::MultiVector<ScalarType, OrdinalType> & operator [](const OrdinalType & aMultiVecIndex)
     {
-        assert(aInput < static_cast<OrdinalType>(mList.size()));
-        assert(mList[aInput].get() != nullptr);
-        return (mList[aInput].operator*());
+        assert(aMultiVecIndex < static_cast<OrdinalType>(mList.size()));
+        assert(mList[aMultiVecIndex].get() != nullptr);
+        return (mList[aMultiVecIndex].operator*());
     }
 
     /******************************************************************************//**
-     * @brief Returns a constant reference to the multi-vector at specified location position
-     * @param [in] aInput specified position
+     * @brief Returns a constant reference to the multi-vector
+     * @param [in] aMultiVecIndex index to multi-vector in list
      * @return constant reference to a multi-vector
     **********************************************************************************/
-    const Plato::MultiVector<ScalarType, OrdinalType> & operator [](const OrdinalType & aInput) const
+    const Plato::MultiVector<ScalarType, OrdinalType> & operator [](const OrdinalType & aMultiVecIndex) const
     {
-        assert(aInput < static_cast<OrdinalType>(mList.size()));
-        assert(mList[aInput].get() != nullptr);
-        return (mList[aInput].operator*());
+        assert(aMultiVecIndex < static_cast<OrdinalType>(mList.size()));
+        assert(mList[aMultiVecIndex].get() != nullptr);
+        return (mList[aMultiVecIndex].operator*());
     }
 
     /******************************************************************************//**
      * @brief Returns a reference to the vector at specified location position
-     * @param [in] aElemIndex index to element (i.e. multi-vector) in list
-     * @param [in] aVectorIndex index to element (i.e. vector) in multi-vector
+     * @param [in] aMultiVecIndex index to multi-vector in list
+     * @param [in] aVectorIndex   index to vector in multi-vector
      * @return reference to a vector
     **********************************************************************************/
-    Plato::Vector<ScalarType, OrdinalType> & operator ()(const OrdinalType & aElemIndex,
+    Plato::Vector<ScalarType, OrdinalType> & operator ()(const OrdinalType & aMultiVecIndex,
                                                          const OrdinalType & aVectorIndex)
     {
-        assert(aElemIndex < static_cast<OrdinalType>(mList.size()));
-        assert(mList[aElemIndex].get() != nullptr);
-        return (mList[aElemIndex]->operator[](aVectorIndex));
+        assert(aMultiVecIndex < static_cast<OrdinalType>(mList.size()));
+        assert(mList[aMultiVecIndex].get() != nullptr);
+        return (mList[aMultiVecIndex]->operator[](aVectorIndex));
     }
 
     /******************************************************************************//**
      * @brief Returns a constant reference to the vector at specified location
-     * @param [in] aElemIndex index to element (i.e. multi-vector) in list
-     * @param [in] aVectorIndex index to element (i.e. vector) in multi-vector
+     * @param [in] aMultiVecIndex index to multi-vector in list
+     * @param [in] aVectorIndex   index to vector in multi-vector
      * @return constant reference to a vector
     **********************************************************************************/
-    const Plato::Vector<ScalarType, OrdinalType> & operator ()(const OrdinalType & aElemIndex,
+    const Plato::Vector<ScalarType, OrdinalType> & operator ()(const OrdinalType & aMultiVecIndex,
                                                                const OrdinalType & aVectorIndex) const
     {
-        assert(aElemIndex < static_cast<OrdinalType>(mList.size()));
-        assert(mList[aElemIndex].get() != nullptr);
-        return (mList[aElemIndex]->operator[](aVectorIndex));
+        assert(aMultiVecIndex < static_cast<OrdinalType>(mList.size()));
+        assert(mList[aMultiVecIndex].get() != nullptr);
+        return (mList[aMultiVecIndex]->operator[](aVectorIndex));
+    }
+
+    void update(const ScalarType & aAlpha,
+                const Plato::MultiVectorList<ScalarType, OrdinalType> & aMVL,
+                const ScalarType & aBeta)
+    {
+        auto tNumMultiVec = mList.size();
+        for(decltype(tNumMultiVec) tIndex = 0; tIndex < tNumMultiVec; tIndex++)
+        {
+            Plato::update(aAlpha, (*aMVL)[tIndex], aBeta, mList[tIndex]);
+        }
     }
 
     /******************************************************************************//**

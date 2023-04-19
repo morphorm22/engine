@@ -322,8 +322,9 @@ public:
     }
 
     /******************************************************************************//**
-     * @brief Update the state data needed to approximate the objective'sfirst- and second-order sensitivities.
-     *   Operation is null if analytical sensitivities are provided or calculations are disabled.
+     * @brief Update the state data needed to approximate the objective's first- and 
+     *  second-order sensitivities. Operation is null if analytical sensitivities are 
+     *  provided or calculations are disabled.
     **********************************************************************************/
     void updateObjFuncStateData()
     {

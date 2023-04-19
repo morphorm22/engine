@@ -21,7 +21,7 @@ SET(PlatoMainUnitTester_SRCS UnitMain.cpp
 							 Plato_Test_KelleySachsBounds.cpp
 							 Plato_Test_ConservativeConvexSeparableApproximation.cpp
 							 Plato_Test_AugmentedLagrangian.cpp
-							 Plato_Test_LocalConstraintsAugmentedLagrangian.cpp
+							 Plato_Test_MultiConstraintsAugmentedLagrangian.cpp
 							 Plato_Test_Bounds.cpp
 							 Plato_Test_SimpleTopOpt.cpp
 							 Plato_Test_Statistics.cpp

@@ -214,6 +214,22 @@ public:
         return (std::make_shared<Plato::CommWrapper>(mComm));
     }
 
+    /******************************************************************************//**
+     * @brief Interface to MPI_Barrier, calls MPI_Barrier when requested.
+    **********************************************************************************/
+    void barrier() const
+    {
+        MPI_Barrier(mComm);
+    }
+
+    /******************************************************************************//**
+     * @brief Interface to MPI_abort, calls MPI_Abort when requested.
+    **********************************************************************************/
+    void abort() const
+    {
+        MPI_Abort(mComm, 1);
+    }
+
 private:
     MPI_Comm mComm; /*!< MPI communicator */
     bool mIsCommSet; /*!< specifies if MPI communicator is set */

@@ -57,6 +57,7 @@
 #include "Plato_Macros.hpp"
 #include "Plato_Vector.hpp"
 #include "Plato_MultiVector.hpp"
+#include "Plato_ReductionOperations.hpp"
 
 namespace Plato
 {
@@ -228,6 +229,51 @@ ScalarType norm(const Plato::MultiVector<ScalarType, OrdinalType> & aInput)
     const ScalarType tDotProduct = Plato::dot(aInput, aInput);
     const ScalarType tNorm = std::sqrt(tDotProduct);
     return(tNorm);
+}
+
+template<typename ScalarType, typename OrdinalType>
+ScalarType sum
+(const Plato::MultiVector<ScalarType, OrdinalType>         & aInput,
+ const Plato::ReductionOperations<ScalarType, OrdinalType> & aReduction)
+{
+    assert(aInput.getNumVectors() > static_cast<OrdinalType>(0));
+
+    ScalarType tSum = 0.0;
+    const OrdinalType tNumVectors = aInput.getNumVectors();
+    for(OrdinalType tVectorIndex = 0; tVectorIndex < tNumVectors; tVectorIndex++)
+    {
+        assert(aInput[tVectorIndex].size() > static_cast<OrdinalType>(0));
+        tSum += aReduction.sum(aInput[tVectorIndex]);
+    }
+    return tSum;
+}
+
+template<typename ScalarType, typename OrdinalType>
+OrdinalType size(const Plato::MultiVector<ScalarType, OrdinalType> & aInput)
+{
+    assert(aInput.getNumVectors() > static_cast<OrdinalType>(0));
+
+    OrdinalType tSize = 0;
+    const OrdinalType tNumVectors = aInput.getNumVectors();
+    for(OrdinalType tVectorIndex = 0; tVectorIndex < tNumVectors; tVectorIndex++)
+    {
+        assert(aInput[tVectorIndex].size() > static_cast<OrdinalType>(0));
+        tSize += aInput[tVectorIndex].size();
+    }
+    return tSize;
+}
+
+template<typename ScalarType, typename OrdinalType>
+void modulus(const Plato::MultiVector<ScalarType, OrdinalType> & aInput)
+{
+    assert(aInput.getNumVectors() > static_cast<OrdinalType>(0));
+
+    const OrdinalType tNumVectors = aInput.getNumVectors();
+    for(OrdinalType tVectorIndex = 0; tVectorIndex < tNumVectors; tVectorIndex++)
+    {
+        assert(aInput[tVectorIndex].size() > static_cast<OrdinalType>(0));
+        aInput[tVectorIndex].modulus();
+    }
 }
 
 //! Update vector values with scaled values of A, this = beta*this + alpha*A.

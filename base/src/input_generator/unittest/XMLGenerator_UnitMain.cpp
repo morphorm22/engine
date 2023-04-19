@@ -43,16 +43,16 @@
 #include <gtest/gtest.h>
 #include <mpi.h>
 
+#include "Plato_FreeFunctions.hpp"
+
 int main(int argc, char **argv)
 {
     MPI_Init(&argc, &argv);
 
     testing::InitGoogleTest(&argc, argv);
     int returnVal = RUN_ALL_TESTS();
-    int return_val = std::system("rm -f append* joined_mesh_*");
-    int temp = return_val;
-    return_val = temp;
-
+    Plato::system("rm -f append* joined_mesh_*");
+    
     MPI_Finalize();
 
     return returnVal;
