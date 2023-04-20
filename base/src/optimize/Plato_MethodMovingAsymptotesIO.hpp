@@ -63,24 +63,21 @@ namespace Plato
 
 /******************************************************************************//**
  * @brief Check inputs for MMA algorithm diagnostics
- * @param [in] aData diagnostic data for MMA algorithm
  * @param [in] aOutputFile output file
  **********************************************************************************/
-template<typename ScalarType, typename OrdinalType, typename OutputType>
-void check_mma_inputs(const Plato::OutputDataMMA<ScalarType, OrdinalType> &aData,
-                      const OutputType &aOutputFile)
+template<typename OutputType>
+void check_mma_output_file(const OutputType &aOutputFile)
 {
     try
     {
         Plato::error::is_file_open(aOutputFile);
-        //Plato::error::is_vector_empty(aData.mConstraints);
     }
     catch(const std::invalid_argument& tError)
     {
         throw tError;
     }
 }
-// function check_mma_inputs
+// function check_mma_output_file
 
 /******************************************************************************//**
  * @brief Output a brief sentence explaining why the CCSA optimizer stopped.
@@ -137,7 +134,7 @@ void print_mma_diagnostics_header(const Plato::OutputDataMMA<ScalarType, Ordinal
 {
     try
     {
-        Plato::check_mma_inputs(aData, aOutputFile);
+        Plato::check_mma_output_file(aOutputFile);
     }
     catch(const std::invalid_argument& tErrorMsg)
     {
@@ -181,7 +178,7 @@ void print_mma_diagnostics(const Plato::OutputDataMMA<ScalarType, OrdinalType> &
 {
     try
     {
-        Plato::check_mma_inputs(aData, aOutputFile);
+        Plato::check_mma_output_file(aOutputFile);
     }
     catch(const std::invalid_argument& tErrorMsg)
     {
