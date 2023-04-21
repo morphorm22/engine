@@ -71,7 +71,7 @@ public:
     **********************************************************************************/
     explicit ParticleSwarmStageMngBCPSO(const std::shared_ptr<Plato::DataFactory<ScalarType, OrdinalType>> & aFactory,
                                          const std::shared_ptr<Plato::GradFreeCriterion<ScalarType, OrdinalType>> & aObjective) :
-            mCurrentObjFuncValues(aFactory->objective().create()),
+            mCurrentObjFuncValues(aFactory->objectiveFunctionVals().create()),
             mObjective(aObjective)
     {
     }

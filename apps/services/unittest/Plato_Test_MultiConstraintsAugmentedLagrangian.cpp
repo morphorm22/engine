@@ -9,6 +9,7 @@
 #include <fstream>
 
 #include "Plato_Types.hpp"
+#include "Plato_Console.hpp"
 #include "Plato_DataFactory.hpp"
 #include "Plato_CommWrapper.hpp"
 #include "Plato_MultiVector.hpp"
@@ -30,7 +31,7 @@ struct OutputDataUMMA
     OrdinalType mObjFuncEvals;   /*!< number of objective function evaluations */
 
     ScalarType mFeasibility;     /*!< change between two subsequent control solutions */
-    ScalarType mObjFuncValue;    /*!< objective function value */
+    ScalarType mCurrentObjFuncValue;    /*!< objective function value */
     ScalarType mControlChange;   /*!< change between two subsequent control solutions */
     ScalarType mObjFuncChange;   /*!< change between two subsequent objective function values */
     ScalarType mNormObjFuncGrad; /*!< norm of the objective function gradient */
@@ -42,7 +43,7 @@ struct OutputDataUMMA
  * @param [in] aOutputStream output file
  **********************************************************************************/
 template<typename OutputType>
-void is_diagnostic_file_close(const OutputType &aOutputStream, const Plato::CommWrapper &aComm)
+void is_diagnostic_file_close(const Plato::CommWrapper &aComm,const OutputType &aOutputStream)
 {
     if(aComm.myProcID() == 0)
     {
@@ -73,17 +74,16 @@ void write_umma_diagnostics_header(
  OutputType &aOutputStream
 )
 {
-    Morphorm::is_diagnostic_file_close(aOutputStream, aComm);
+    Morphorm::is_diagnostic_file_close(aComm,aOutputStream);
     aOutputStream << std::scientific << std::setprecision(6) << std::right << "Iter" << std::setw(10) << "F-count"
             << std::setw(14) << "F(X)" << std::setw(16) << "Norm(F')" << std::setw(15) << "abs(dX)" 
             << std::setw(15) << "abs(dF)" << "\n" << std::flush;
 }
-// function print_umma_diagnostics_header
+// function write_umma_diagnostics_header
 
 /******************************************************************************//**
  * @brief Output a brief sentence describing reason for convergence.
  * @param [in] aStopCriterion stopping criterion flag
- * @param [in,out] aOutput string with brief description
 **********************************************************************************/
 inline std::string get_umma_stop_criterion_description(const Plato::algorithm::stop_t &aStopCriterion)
 {
@@ -117,21 +117,23 @@ inline std::string get_umma_stop_criterion_description(const Plato::algorithm::s
 
 /******************************************************************************//**
  * @brief Print diagnostics for MMA algorithm
- * @param [in] aData diagnostic data for mma algorithm
- * @param [in,out] aOutputFile output file
+ * @param [in]  aComm  interface to MPI communicator
+ * @param [in]  aData  diagnostic data for mma algorithm
+ * @param [out] aOutputFile output file
 **********************************************************************************/
 template<typename ScalarType, typename OrdinalType, typename OutputType>
-void print_umma_diagnostics(
+void write_umma_diagnostics(
+ const Plato::CommWrapper &aComm,
  const Morphorm::OutputDataUMMA<ScalarType, OrdinalType> &aData,
- OutputType &aOutputFile
+ OutputType &aOutputStream
 )
 {
-    Morphorm::is_diagnostic_file_close(aOutputFile);
-    aOutputFile << std::scientific << std::setprecision(6) << std::right << aData.mNumOuterIter << std::setw(10)
-            << aData.mObjFuncEvals << std::setw(20) << aData.mObjFuncValue << std::setw(15) << aData.mNormObjFuncGrad
+    Morphorm::is_diagnostic_file_close(aComm,aOutputStream);
+    aOutputStream << std::scientific << std::setprecision(6) << std::right << aData.mNumOuterIter << std::setw(10)
+            << aData.mObjFuncEvals << std::setw(20) << aData.mCurrentObjFuncValue << std::setw(15) << aData.mNormObjFuncGrad
             << std::setw(15) << aData.mControlChange << std::setw(15) << aData.mObjFuncChange << "\n" << std::flush;
 }
-// function print_umma_diagnostics
+// function write_umma_diagnostics
 
 template<typename ScalarType, typename OrdinalType = size_t>
 struct UnconstrainedMethodMovingAsymptotesDataMng
@@ -146,6 +148,8 @@ public:
     UnconstrainedMethodMovingAsymptotesDataMng
     (const std::shared_ptr<Plato::DataFactory<ScalarType, OrdinalType>> & aDataFactory) : 
         mNumObjFuncs(aDataFactory->getNumObjFuncs()),
+        mCurrentObjFuncVals(aDataFactory->objectiveFunctionVals().create()),
+        mPreviousObjFuncVals(aDataFactory->objectiveFunctionVals().create()),
         mMoveLimits(aDataFactory->control().create()),
         mDeltaControl(aDataFactory->control().create()),
         mLowerAsymptotes(aDataFactory->control().create()),
@@ -172,8 +176,8 @@ public:
 public:
     OrdinalType mNumObjFuncs = 1;
 
-    std::shared_ptr<Vec> mCurrentObjectiveValues;  /*!< current objective values */
-    std::shared_ptr<Vec> mPreviousObjectiveValues; /*!< previous objective values */
+    std::shared_ptr<Vec> mCurrentObjFuncVals;  /*!< current objective values */
+    std::shared_ptr<Vec> mPreviousObjFuncVals; /*!< previous objective values */
 
     std::shared_ptr<MultiVec> mMoveLimits;
     std::shared_ptr<MultiVec> mDeltaControl;
@@ -366,32 +370,51 @@ private:
     void writeDiagnostics()
     {
         if(mWriteDiagnostics == false)
-        {
-            return;
-        }
+        { return; }
 
         if(mDataMng->mComm->myProcID() == 0)
         {
-            /*mOutputData.mNumOuterIter = mCurrentOuterIteration;
-            mOutputData.mObjFuncEvals = mNumObjFuncEvals;
-            mOutputData.mObjFuncValue = mDataMng->getCurrentObjectiveValue();
-            mOutputData.mNormObjFuncGrad = mDataMng->getNormObjectiveGradient();
-            mOutputData.mControlStagnationMeasure = mDataMng->getControlStagnationMeasure();
-            mOutputData.mObjectiveStagnationMeasure = mDataMng->getObjectiveStagnationMeasure();
-
-            const OrdinalType tNumConstraints = mDataMng->getNumConstraints();
-            for(OrdinalType tConstraintIndex = 0; tConstraintIndex < tNumConstraints; tConstraintIndex++)
-            {
-                mOutputData.mConstraints[tConstraintIndex] = mDataMng->getCurrentConstraintValue(tConstraintIndex);
-            }
-
-            Plato::print_mma_diagnostics(mOutputData, mOutputStream);
-
-            std::stringstream tConsoleStream;
-            Plato::print_mma_diagnostics_header(mOutputData, tConsoleStream);
-            Plato::print_mma_diagnostics(mOutputData, tConsoleStream);
-            Plato::Console::Alert(tConsoleStream.str());*/
+            writeDiagnosticsToFile();
+            writeDiagnosticsToConsole();
         }
+    }
+
+    void writeDiagnosticsToFile()
+    {
+        mOutputData.mNumOuterIter = mCurrentOuterIteration;
+        mOutputData.mObjFuncEvals = mNumObjFuncEvals;
+        mOutputData.mControlChange = computeDeltaControl();
+        mOutputData.mObjFuncChange = computeDeltaObjFunc();
+        mOutputData.mNormObjFuncGrad = computeObjFuncGradNorm();
+        mOutputData.mCurrentObjFuncValue = sumObjFuncVals(mDataMng->mCurrentObjFuncVals->operator*());
+        Morphorm::write_umma_diagnostics(mOutputData, mOutputStream);
+    }
+
+    void writeDiagnosticsToConsole() const
+    {
+        std::stringstream tConsoleStream;
+        Morphorm::write_umma_diagnostics_header(mDataMng->mComm,mOutputData,tConsoleStream);
+        Morphorm::write_umma_diagnostics(mDataMng->mComm,mOutputData, tConsoleStream);
+        Plato::Console::Alert(tConsoleStream.str());
+    }
+
+    ScalarType sumObjFuncVals(const Plato::MultiVectorList<ScalarType,OrdinalType> &aInput) const
+    {
+        ScalarType tSum = 0.0;
+        auto tNumObjFuncs = mDataMng->mCurrentObjFuncVals->size();
+        for(decltype(tNumObjFuncs) tIndex = 0; tIndex < tNumObjFuncs; tIndex++ )
+        {
+            tSum += aInput[tIndex];
+        }
+        return tSum;
+    }
+
+    ScalarType computeDeltaObjFunc() const
+    {
+        auto tCurrentObjFuncVal = sumObjFuncVals(mDataMng->mCurrentObjFuncVals->operator*());
+        auto tPreviousObjFuncVal = sumObjFuncVals(mDataMng->mPreviousObjFuncVals->operator*());
+        auto tDelta = std::abs(tCurrentObjFuncVal - tPreviousObjFuncVal);
+        return tDelta;
     }
 
     ScalarType computeDeltaControl() const
@@ -405,6 +428,19 @@ private:
         ScalarType tDeltaControl = tSum / static_cast<ScalarType>(tSize);
         return tDeltaControl;
     }
+
+    ScalarType computeObjFuncGradNorm() const
+    {
+        ScalarType tSum = 0.0;
+        auto tNumObjFuncs = mDataMng->mNumObjFuncs;
+        for(decltype(tNumObjFuncs) tIndex = 0; tIndex < tNumObjFuncs; tIndex++)
+        {
+            ScalarType tSum = tSum + Plato::dot(mDataMng->mCurrentObjectiveGradients->operator()[tIndex],
+                                                mDataMng->mCurrentObjectiveGradients->operator()[tIndex]);
+        }
+        return (std::sqrt(tSum));
+    }
+
     /******************************************************************************//**
      * @brief Compute stopping criteria
     **********************************************************************************/
@@ -656,7 +692,7 @@ private:
 
     void cacheState()
     {
-        mDataMng->mPreviousObjectiveValues->update(1.0, mDataMng->mCurrentObjectiveValues->operator*(), 0.0);
+        mDataMng->mPreviousObjFuncVals->update(1.0, mDataMng->mCurrentObjFuncVals->operator*(), 0.0);
         mDataMng->mPreviousObjectiveGradients->update(1.0, mDataMng->mCurrentObjectiveGradients->operator*(), 0.0);
     }
 
@@ -668,7 +704,7 @@ private:
         const OrdinalType tNumObjectiveFuncs = mObjectives->size();
         for(OrdinalType tIndex = 0; tIndex < tNumObjectiveFuncs; tIndex++)
         {
-            mDataMng->mCurrentObjectiveValues->operator[](tIndex) = 
+            mDataMng->mCurrentObjFuncVals->operator[](tIndex) = 
                 (*mObjectives)[tIndex].value(mDataMng->mCurrentControls.operator*());
             (*mObjectives)[tIndex].cacheData();
 
@@ -714,6 +750,66 @@ private:
 
 namespace MorphormTest
 {
+
+TEST(MorphormTest, UnconstrainedMethodMovingAsymptotesDataMng)
+{
+    // create data factory
+    auto tDataFactory = std::make_shared<Plato::DataFactory<double>>();
+    tDataFactory->allocateObjFuncValues(1/* num objective functions */);
+    tDataFactory->allocateControl(10/* num controls */,1/* num vectors */);
+    
+    Morphorm::UnconstrainedMethodMovingAsymptotesDataMng<double> tDataMng(tDataFactory);
+    
+    // test size of vector containers
+    ASSERT_EQ(1u,tDataMng.mCurrentObjFuncVals->size());
+    ASSERT_EQ(1u,tDataMng.mPreviousObjFuncVals->size());
+    
+    // test size of multi-vector container
+    ASSERT_EQ(1u,tDataMng.mMoveLimits->getNumVectors());
+    ASSERT_EQ(1u,tDataMng.mDeltaControl->getNumVectors());
+    ASSERT_EQ(1u,tDataMng.mLowerAsymptotes->getNumVectors());
+    ASSERT_EQ(1u,tDataMng.mUpperAsymptotes->getNumVectors());
+    ASSERT_EQ(1u,tDataMng.mCurrentControls->getNumVectors());
+    ASSERT_EQ(1u,tDataMng.mPreviousControls->getNumVectors());
+    ASSERT_EQ(1u,tDataMng.mThirdLastControls->getNumVectors());
+    ASSERT_EQ(1u,tDataMng.mSubProbBetaBounds->getNumVectors());
+    ASSERT_EQ(1u,tDataMng.mSubProbAlphaBounds->getNumVectors());
+    ASSERT_EQ(1u,tDataMng.mControlLowerBounds->getNumVectors());
+    ASSERT_EQ(1u,tDataMng.mControlUpperBounds->getNumVectors());
+    ASSERT_EQ(1u,tDataMng.mApproximationFunctionP->getNumVectors());
+    ASSERT_EQ(1u,tDataMng.mApproximationFunctionQ->getNumVectors());
+    ASSERT_EQ(1u,tDataMng.mDeltaDynamicControlBounds->getNumVectors());
+    ASSERT_EQ(1u,tDataMng.mDynamicControlUpperBounds->getNumVectors());
+    ASSERT_EQ(1u,tDataMng.mDynamicControlLowerBounds->getNumVectors());
+
+    // test vector size
+    ASSERT_EQ(10u,tDataMng.mMoveLimits->operator[](0).size());
+    ASSERT_EQ(10u,tDataMng.mDeltaControl->operator[](0).size());
+    ASSERT_EQ(10u,tDataMng.mLowerAsymptotes->operator[](0).size());
+    ASSERT_EQ(10u,tDataMng.mUpperAsymptotes->operator[](0).size());
+    ASSERT_EQ(10u,tDataMng.mCurrentControls->operator[](0).size());
+    ASSERT_EQ(10u,tDataMng.mPreviousControls->operator[](0).size());
+    ASSERT_EQ(10u,tDataMng.mThirdLastControls->operator[](0).size());
+    ASSERT_EQ(10u,tDataMng.mSubProbBetaBounds->operator[](0).size());
+    ASSERT_EQ(10u,tDataMng.mSubProbAlphaBounds->operator[](0).size());
+    ASSERT_EQ(10u,tDataMng.mControlLowerBounds->operator[](0).size());
+    ASSERT_EQ(10u,tDataMng.mControlUpperBounds->operator[](0).size());
+    ASSERT_EQ(10u,tDataMng.mApproximationFunctionP->operator[](0).size());
+    ASSERT_EQ(10u,tDataMng.mApproximationFunctionQ->operator[](0).size());
+    ASSERT_EQ(10u,tDataMng.mDeltaDynamicControlBounds->operator[](0).size());
+    ASSERT_EQ(10u,tDataMng.mDynamicControlUpperBounds->operator[](0).size());
+    ASSERT_EQ(10u,tDataMng.mDynamicControlLowerBounds->operator[](0).size());
+
+    // test size of multi-vector lists
+    ASSERT_EQ(1u,tDataMng.mCurrentObjectiveGradients->size() /* num multi-vectors */);
+    ASSERT_EQ(1u,tDataMng.mPreviousObjectiveGradients->size() /* num multi-vectors */);
+
+    ASSERT_EQ(1u,tDataMng.mCurrentObjectiveGradients->operator[](0).getNumVectors() /* num vectors */);
+    ASSERT_EQ(1u,tDataMng.mPreviousObjectiveGradients->operator[](0).getNumVectors() /* num vectors */);
+
+    ASSERT_EQ(10u,tDataMng.mCurrentObjectiveGradients->operator[](0).operator[](0).size() /* num vectors */);
+    ASSERT_EQ(10u,tDataMng.mPreviousObjectiveGradients->operator[](0).operator[](0).size() /* num vectors */);
+}
 
 TEST(MorphormTest, UnconstrainedMethodMovingAsymptotes)
 {

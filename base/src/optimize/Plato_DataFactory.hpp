@@ -518,7 +518,7 @@ namespace Plato
          * @brief Returns const reference to vector template of objective function values.
          * @return const reference to vector of objective function values
         **********************************************************************************/
-        const Plato::Vector<ScalarType, OrdinalType> & objective() const
+        const Plato::Vector<ScalarType, OrdinalType> & objectiveFunctionVals() const
         {
             if(mObjFuncValues.get() == nullptr)
             {
