@@ -93,9 +93,11 @@ public:
     bool isStateCached() const;
     void solve(const Epetra_SerialDenseVector & aControl);
 
+    double computeVolume(const Epetra_SerialDenseVector & aControl);
     double computeCompliance(const Epetra_SerialDenseVector & aControl);
     double computeVolumeMisfit(const Epetra_SerialDenseVector & aControl);
     void computeVolumeGradient(const Epetra_SerialDenseVector & aControl, Epetra_SerialDenseVector & aOutput);
+    void computeNormalizedVolumeGradient(const Epetra_SerialDenseVector &aControl,Epetra_SerialDenseVector &aOutput);
     void computeComplianceGradient(const Epetra_SerialDenseVector & aControl, Epetra_SerialDenseVector & aOutput);
     void computeComplianceHessianTimesVector(const Epetra_SerialDenseVector & aControl,
                                              const Epetra_SerialDenseVector & aVector,

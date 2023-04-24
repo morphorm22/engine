@@ -264,7 +264,7 @@ OrdinalType size(const Plato::MultiVector<ScalarType, OrdinalType> & aInput)
 }
 
 template<typename ScalarType, typename OrdinalType>
-void modulus(const Plato::MultiVector<ScalarType, OrdinalType> & aInput)
+void modulus(Plato::MultiVector<ScalarType, OrdinalType> & aInput)
 {
     assert(aInput.getNumVectors() > static_cast<OrdinalType>(0));
 

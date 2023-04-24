@@ -21,8 +21,208 @@
 #include "Plato_MultiVectorList.hpp"
 #include "Plato_ReductionOperations.hpp"
 
+#include "Plato_EpetraSerialDenseVector.hpp"
+#include "Plato_StructuralTopologyOptimization.hpp"
+
 namespace Morphorm
 {
+
+template<typename ScalarType, typename OrdinalType = size_t>
+class ProxyAugLagObjective : public Plato::Criterion<ScalarType, OrdinalType>
+{
+private:
+    bool mIsFilterDisabled = false;
+
+    ScalarType mPenaltyMax = 10000.;
+    ScalarType mFirstObjFunc = -1.0;
+    ScalarType mPenaltyValue =  2.0;
+    ScalarType mPenaltyMultiplier = 1.1;
+    ScalarType mLagrangeMultiplier = 0.0;
+
+    Epetra_SerialDenseVector mObjGrad;
+    Epetra_SerialDenseVector mPenaltyGrad;
+    Epetra_SerialDenseVector mConstraintGrad;
+    Epetra_SerialDenseVector mFilteredGradient;
+    Epetra_SerialDenseVector mUnfilteredGradient;
+    
+    std::shared_ptr<Plato::StructuralTopologyOptimization> mSolver;
+
+public:
+    explicit ProxyAugLagObjective(const std::shared_ptr<Plato::StructuralTopologyOptimization> & aSolver) :
+        mObjGrad(Epetra_SerialDenseVector(aSolver->getNumDesignVariables())),
+        mPenaltyGrad(Epetra_SerialDenseVector(aSolver->getNumDesignVariables())),
+        mConstraintGrad(Epetra_SerialDenseVector(aSolver->getNumDesignVariables())),
+        mFilteredGradient(Epetra_SerialDenseVector(aSolver->getNumDesignVariables())),
+        mUnfilteredGradient(Epetra_SerialDenseVector(aSolver->getNumDesignVariables())),
+        mSolver(aSolver)
+    {}
+    virtual ~ProxyAugLagObjective()
+    {}
+
+    /******************************************************************************//**
+     * @brief Disable sensitivity filter
+    **********************************************************************************/
+    void disableFilter()
+    {
+        mIsFilterDisabled = true;
+    }
+
+    /******************************************************************************//**
+     * @brief Set filter radius
+     * @param [in] aInput filter radius
+    **********************************************************************************/
+    void setFilterRadius(const ScalarType& aInput)
+    {
+        mSolver->setFilterRadius(aInput);
+    }
+
+    /******************************************************************************//**
+     * @brief Cache displacement solution
+    **********************************************************************************/
+    void cacheData()
+    {
+        mSolver->cacheState();
+    }
+
+    void updateProblem(const Plato::MultiVector<ScalarType, OrdinalType> & aControl)
+    {
+        // access control variables
+        const OrdinalType tVectorIndex = 0;
+        const Plato::Vector<ScalarType, OrdinalType> & tMyControl = aControl[tVectorIndex];
+        const Plato::EpetraSerialDenseVector<ScalarType, OrdinalType> & tControl =
+                dynamic_cast<const Plato::EpetraSerialDenseVector<ScalarType, OrdinalType>&>(tMyControl);
+        // Update Lagrange Multiplier 
+        ScalarType tConstraint = this->constraintValue(tControl);
+        mLagrangeMultiplier = mLagrangeMultiplier + mPenaltyValue * tConstraint;
+        // Update penalty parameter
+        const ScalarType tGamma = 0.25;
+        ScalarType tGammaTimesConstraint = tGamma * tConstraint;
+        mPenaltyValue = tConstraint > tGammaTimesConstraint ? 
+            mPenaltyMultiplier * mPenaltyValue : mPenaltyValue;
+    }
+
+    ScalarType value(const Plato::MultiVector<ScalarType, OrdinalType> & aControl)
+    {
+        // access control variables
+        const OrdinalType tVectorIndex = 0;
+        const Plato::Vector<ScalarType, OrdinalType> & tMyControl = aControl[tVectorIndex];
+        const Plato::EpetraSerialDenseVector<ScalarType, OrdinalType> & tControl =
+                dynamic_cast<const Plato::EpetraSerialDenseVector<ScalarType, OrdinalType>&>(tMyControl);
+        assert(tControl.size() == static_cast<OrdinalType>(mSolver->getNumDesignVariables()));
+        // Solve linear system of equations
+        mSolver->solve(tControl.vector());
+        // Compute objective function term
+        ScalarType tObjFuncTerm = this->objectiveValue(tControl);
+        // Compute penalty function term
+        ScalarType tPenaltyTerm = this->penaltyFunction(tControl);
+        // Compute augmented Lagrangian objective
+        auto tOutput = tObjFuncTerm + tPenaltyTerm;
+        return (tOutput);
+    }
+    
+    void gradient(const Plato::MultiVector<ScalarType, OrdinalType> & aControl,
+                  Plato::MultiVector<ScalarType, OrdinalType> & aOutput)
+    {
+        // access control variables
+        const OrdinalType tVectorIndex = 0;
+        const Plato::Vector<ScalarType, OrdinalType> & tControl = aControl[tVectorIndex];
+        const Plato::EpetraSerialDenseVector<ScalarType, OrdinalType> & tEpetraControl =
+                dynamic_cast<const Plato::EpetraSerialDenseVector<ScalarType, OrdinalType>&>(tControl);
+        assert(tEpetraControl.size() == tOutput.size());
+        assert(tOutput.size() == static_cast<OrdinalType>(mFilteredGradient.Length()));
+        assert(tOutput.size() == static_cast<OrdinalType>(mUnfilteredGradient.Length()));
+        // Compute unfiltered gradient
+        this->objectiveGradient(tEpetraControl);
+        this->penaltyGradient(tEpetraControl);
+        mUnfilteredGradient.SCAL(mUnfilteredGradient.Length(),0.0,mUnfilteredGradient.A());
+        mUnfilteredGradient.AXPY(mUnfilteredGradient.Length(),1.0,mObjGrad.A(),mUnfilteredGradient.A());
+        mUnfilteredGradient.AXPY(mUnfilteredGradient.Length(),1.0,mPenaltyGrad.A(),mUnfilteredGradient.A());
+        // Apply filter to gradient
+        Plato::Vector<ScalarType, OrdinalType> & tOutput = aOutput[tVectorIndex];
+        const OrdinalType tLength = mFilteredGradient.Length();
+        Plato::EpetraSerialDenseVector<ScalarType, OrdinalType> & tEpetraOutput =
+            dynamic_cast<Plato::EpetraSerialDenseVector<ScalarType, OrdinalType>&>(tOutput);
+        this->applySensitivityFilter(tEpetraControl,tEpetraOutput);
+    }
+
+    void hessian(const Plato::MultiVector<ScalarType, OrdinalType> & aControl,
+                 const Plato::MultiVector<ScalarType, OrdinalType> & aVector,
+                 Plato::MultiVector<ScalarType, OrdinalType> & aOutput)
+    {
+        THROWERR("Hessian is not implemented in class ProxyAugLagObjective")
+    }
+
+private:
+    void applySensitivityFilter
+    (const Plato::EpetraSerialDenseVector<ScalarType, OrdinalType> &aControl,
+     Plato::EpetraSerialDenseVector<ScalarType, OrdinalType> &aOutput)
+    {
+        const OrdinalType tLength = mFilteredGradient.Length();
+        if(mIsFilterDisabled == false)
+        {
+            mSolver->applySensitivityFilter(aControl.vector(), mUnfilteredGradient, mFilteredGradient);
+            mFilteredGradient.COPY(tLength,mUnfilteredGradient.A(),aOutput.vector().A());
+        }
+        else
+        {
+            mUnfilteredGradient.COPY(tLength, mUnfilteredGradient.A(), aOutput.vector().A());
+        }
+    }
+    double objectiveValue(const Plato::EpetraSerialDenseVector<ScalarType, OrdinalType> &aControl)
+    {
+        ScalarType tObjFunc = mSolver->computeCompliance(aControl.vector());
+        if(mFirstObjFunc < 0.)
+        { mFirstObjFunc = tObjFunc; }
+        tObjFunc = tObjFunc / mFirstObjFunc;
+        return tObjFunc;
+    }
+
+    double constraintValue(const Plato::EpetraSerialDenseVector<ScalarType, OrdinalType> &aControl)
+    {
+        ScalarType tCandidateConstraint = mSolver->computeVolume(aControl.vector());
+        ScalarType tLambdaOverPenalty = -1.0 * (mLagrangeMultiplier / mPenaltyValue);
+        ScalarType tConstraint = std::max(tCandidateConstraint,tLambdaOverPenalty);
+        return tConstraint;
+    }
+
+    double penaltyFunction(const Plato::EpetraSerialDenseVector<ScalarType, OrdinalType> &aControl)
+    {
+        // P(z) = \frac{1}{N_g}\sum_{j=1}^{N_g}\left( \lambda_j * h_j(z) + \frac{\mu_j}{2}h_j(z)^2 \right)
+        ScalarType tConstraint = this->constraintValue(aControl);
+        ScalarType tTermOneInPenaltyFunc = mLagrangeMultiplier * tConstraint;
+        ScalarType tTermTwoInPenaltyFunc = (mPenaltyValue / 2.0) * tConstraint * tConstraint;
+        ScalarType tOutput = tTermOneInPenaltyFunc + tTermTwoInPenaltyFunc;
+        return (tOutput);
+    }
+
+    void objectiveGradient(const Plato::EpetraSerialDenseVector<ScalarType, OrdinalType> &aEpetraControl)
+    {
+        ScalarType tValue = 0;
+        mObjGrad.SCAL(mObjGrad.Length(), tValue, mObjGrad.A());
+        mSolver->computeComplianceGradient(aEpetraControl.vector(), mObjGrad);
+        tValue = static_cast<ScalarType>(1) / mFirstObjFunc;
+        mObjGrad.SCAL(mObjGrad.Length(), tValue, mObjGrad.A());
+    }
+
+    void penaltyGradient(const Plato::EpetraSerialDenseVector<ScalarType, OrdinalType> &aEpetraControl)
+    {
+        // volume only depends on control variables, there is no dependence on state variables
+        ScalarType tValue = 0;
+        mConstraintGrad.SCAL(mConstraintGrad.Length(), tValue, mConstraintGrad.A());
+        mSolver->computeNormalizedVolumeGradient(aEpetraControl.vector(), mConstraintGrad);
+        // add \lambda*\frac{\partial{h}}{\partial{z}}
+        mPenaltyGrad.AXPY(mPenaltyGrad.Length(),mLagrangeMultiplier,mConstraintGrad.A(),mPenaltyGrad.A());
+        // add \mu*h*\frac{\partial{h}}{\partial{z}}
+        ScalarType tConstraintValue = this->constraintValue(aEpetraControl);
+        ScalarType tScalar = mPenaltyValue * tConstraintValue;
+        mPenaltyGrad.AXPY(mPenaltyGrad.Length(),tScalar,mConstraintGrad.A(),mPenaltyGrad.A());
+    }
+
+private:
+    ProxyAugLagObjective(const Morphorm::ProxyAugLagObjective<ScalarType, OrdinalType>&);
+    Morphorm::ProxyAugLagObjective<ScalarType, OrdinalType> 
+        &operator=(const Morphorm::ProxyAugLagObjective<ScalarType, OrdinalType>&);
+};
 
 /*****************************************************************************************//**
  * @brief Diagnostic data for the Unconstrained Method of Moving Asymptotes (MMA) algorithm
@@ -46,7 +246,7 @@ struct OutputDataUMMA
  * @param [in] aOutputStream output file
  **********************************************************************************/
 template<typename OutputType>
-void is_diagnostic_file_close(const Plato::CommWrapper &aComm,const OutputType &aOutputStream)
+void is_diagnostic_file_close(const Plato::CommWrapper &aComm,OutputType &aOutputStream)
 {
     if(aComm.myProcID() == 0)
     {
@@ -77,7 +277,6 @@ void write_umma_diagnostics_header(
  OutputType &aOutputStream
 )
 {
-    Morphorm::is_diagnostic_file_close(aComm,aOutputStream);
     aOutputStream << std::scientific << std::setprecision(6) << std::right << "Iter" << std::setw(10) << "F-count"
             << std::setw(12) << "F(X)" << std::setw(16) << "Norm(F')" << std::setw(15) << "abs(dX)" 
             << std::setw(15) << "abs(dF)" << "\n" << std::flush;
@@ -131,7 +330,6 @@ void write_umma_diagnostics(
  OutputType &aOutputStream
 )
 {
-    Morphorm::is_diagnostic_file_close(aComm,aOutputStream);
     aOutputStream << std::scientific << std::setprecision(6) << std::right << aData.mNumOuterIter << std::setw(10)
             << aData.mObjFuncEvals << std::setw(18) << aData.mCurrentObjFuncValue << std::setw(15) << aData.mNormObjFuncGrad
             << std::setw(15) << aData.mControlChange << std::setw(15) << aData.mObjFuncChange << "\n" << std::flush;
@@ -142,7 +340,6 @@ template<typename ScalarType, typename OrdinalType = size_t>
 struct UnconstrainedMethodMovingAsymptotesDataMng
 {
 private:
-    typedef Plato::Vector<ScalarType, OrdinalType> Vec;
     typedef Plato::MultiVector<ScalarType, OrdinalType> MultiVec;
     typedef Plato::MultiVectorList<ScalarType, OrdinalType> MultiVecList;
     typedef Plato::ReductionOperations<ScalarType, OrdinalType> ReductionOps;
@@ -151,8 +348,6 @@ public:
     UnconstrainedMethodMovingAsymptotesDataMng
     (const std::shared_ptr<Plato::DataFactory<ScalarType, OrdinalType>> & aDataFactory) : 
         mNumObjFuncs(aDataFactory->getNumObjFuncs()),
-        mCurrentObjFuncVals(aDataFactory->objectiveFunctionVals().create()),
-        mPreviousObjFuncVals(aDataFactory->objectiveFunctionVals().create()),
         mMoveLimits(aDataFactory->control().create()),
         mDeltaControl(aDataFactory->control().create()),
         mLowerAsymptotes(aDataFactory->control().create()),
@@ -169,8 +364,8 @@ public:
         mDeltaDynamicControlBounds(aDataFactory->control().create()),
         mDynamicControlLowerBounds(aDataFactory->control().create()),
         mDynamicControlUpperBounds(aDataFactory->control().create()),
-        mCurrentObjectiveGradients(std::make_shared<MultiVecList>(mNumObjFuncs, aDataFactory->control())),
-        mPreviousObjectiveGradients(std::make_shared<MultiVecList>(mNumObjFuncs, aDataFactory->control())),
+        mCurrentObjectiveGradient(aDataFactory->control().create()),
+        mPreviousObjectiveGradient(aDataFactory->control().create()),
         mComm(aDataFactory->getCommWrapper().create()),
         mReductionOps(aDataFactory->getControlReductionOperations().create())
     {}
@@ -179,8 +374,8 @@ public:
 public:
     OrdinalType mNumObjFuncs = 1;
 
-    std::shared_ptr<Vec> mCurrentObjFuncVals;  /*!< current objective values */
-    std::shared_ptr<Vec> mPreviousObjFuncVals; /*!< previous objective values */
+    ScalarType mCurrentObjFuncValue  = -1.0; /*!< current objective values */
+    ScalarType mPreviousObjFuncValue = -2.0; /*!< previous objective values */
 
     std::shared_ptr<MultiVec> mMoveLimits;
     std::shared_ptr<MultiVec> mDeltaControl;
@@ -200,8 +395,8 @@ public:
     std::shared_ptr<MultiVec> mDynamicControlLowerBounds;
 
     /*!< current and previous objective gradients with respect to the design variables */
-    std::shared_ptr<MultiVecList> mCurrentObjectiveGradients;    
-    std::shared_ptr<MultiVecList> mPreviousObjectiveGradients;
+    std::shared_ptr<MultiVec> mCurrentObjectiveGradient;    
+    std::shared_ptr<MultiVec> mPreviousObjectiveGradient;
 
     std::shared_ptr<Plato::CommWrapper> mComm;   /*!< interface to MPI communicator */
     std::shared_ptr<ReductionOps> mReductionOps; /*!< interface to math reduction operations */
@@ -214,15 +409,13 @@ private:
     typedef Morphorm::UnconstrainedMethodMovingAsymptotesDataMng<ScalarType, OrdinalType> DataMng;
 
 public:
-    UnconstrainedMethodMovingAsymptotes(){}
     UnconstrainedMethodMovingAsymptotes(
-     const std::shared_ptr<Plato::Criterion<ScalarType, OrdinalType>> &aObjective,
+     const std::shared_ptr<Plato::Criterion<ScalarType, OrdinalType>>   &aCriterion,
      const std::shared_ptr<Plato::DataFactory<ScalarType, OrdinalType>> &aDataFactory
     ) : 
-        mDataMng(std::make_shared<DataMng>(aDataFactory))
-    {
-        mObjectives->add(aObjective);
-    }
+        mDataMng(std::make_shared<DataMng>(aDataFactory)),
+        mObjective(aCriterion)
+    {}
     ~UnconstrainedMethodMovingAsymptotes(){}
 
     void writeDiagnostics(const bool &aInput)
@@ -333,11 +526,7 @@ private:
 
     void updateProblem()
     {
-        const OrdinalType tNumObjectiveFuncs = mObjectives->size();
-        for(decltype(tNumObjectiveFuncs) tIndex = 0; tIndex < tNumObjectiveFuncs; tIndex++)
-        {
-            (*mObjectives)[tIndex].updateProblem(mDataMng->mCurrentControls.operator*());
-        }
+        mObjective->updateProblem(mDataMng->mCurrentControls.operator*());
     }
 
     /******************************************************************************//**
@@ -353,7 +542,8 @@ private:
         if (mDataMng->mComm->myProcID() == 0)
         {
             mOutputStream.open("morphorm_umma_algorithm_diagnostics.txt");
-            Morphorm::write_umma_diagnostics_header(mOutputData, mOutputStream);
+            Morphorm::is_diagnostic_file_close(mDataMng->mComm.operator*(),mOutputStream);
+            Morphorm::write_umma_diagnostics_header(mDataMng->mComm.operator*(),mOutputData, mOutputStream);
         }
     }
 
@@ -408,34 +598,22 @@ private:
         mOutputData.mControlChange = computeDeltaControl();
         mOutputData.mObjFuncChange = computeDeltaObjFunc();
         mOutputData.mNormObjFuncGrad = computeObjFuncGradNorm();
-        mOutputData.mCurrentObjFuncValue = sumObjFuncVals(mDataMng->mCurrentObjFuncVals->operator*());
-        Morphorm::write_umma_diagnostics(mOutputData, mOutputStream);
+        mOutputData.mCurrentObjFuncValue = mDataMng->mCurrentObjFuncValue;
+        Morphorm::is_diagnostic_file_close(mDataMng->mComm.operator*(),mOutputStream);
+        Morphorm::write_umma_diagnostics(mDataMng->mComm.operator*(),mOutputData,mOutputStream);
     }
 
     void writeDiagnosticsToConsole() const
     {
         std::stringstream tConsoleStream;
-        Morphorm::write_umma_diagnostics_header(mDataMng->mComm,mOutputData,tConsoleStream);
-        Morphorm::write_umma_diagnostics(mDataMng->mComm,mOutputData, tConsoleStream);
+        Morphorm::write_umma_diagnostics_header(mDataMng->mComm.operator*(),mOutputData,tConsoleStream);
+        Morphorm::write_umma_diagnostics(mDataMng->mComm.operator*(),mOutputData, tConsoleStream);
         Plato::Console::Alert(tConsoleStream.str());
-    }
-
-    ScalarType sumObjFuncVals(const Plato::MultiVectorList<ScalarType,OrdinalType> &aInput) const
-    {
-        ScalarType tSum = 0.0;
-        auto tNumObjFuncs = mDataMng->mCurrentObjFuncVals->size();
-        for(decltype(tNumObjFuncs) tIndex = 0; tIndex < tNumObjFuncs; tIndex++ )
-        {
-            tSum += aInput[tIndex];
-        }
-        return tSum;
     }
 
     ScalarType computeDeltaObjFunc() const
     {
-        auto tCurrentObjFuncVal = sumObjFuncVals(mDataMng->mCurrentObjFuncVals->operator*());
-        auto tPreviousObjFuncVal = sumObjFuncVals(mDataMng->mPreviousObjFuncVals->operator*());
-        auto tDelta = std::abs(tCurrentObjFuncVal - tPreviousObjFuncVal);
+        auto tDelta = std::abs(mDataMng->mCurrentObjFuncValue - mDataMng->mPreviousObjFuncValue);
         return tDelta;
     }
 
@@ -453,23 +631,16 @@ private:
 
     ScalarType computeObjFuncGradNorm() const
     {
-        ScalarType tSum = 0.0;
-        auto tNumObjFuncs = mDataMng->mNumObjFuncs;
-        for(decltype(tNumObjFuncs) tIndex = 0; tIndex < tNumObjFuncs; tIndex++)
-        {
-            ScalarType tSum = tSum + Plato::dot(mDataMng->mCurrentObjectiveGradients->operator()[tIndex],
-                                                mDataMng->mCurrentObjectiveGradients->operator()[tIndex]);
-        }
-        return (std::sqrt(tSum));
+        ScalarType tNorm = Plato::norm(mDataMng->mCurrentObjectiveGradient.operator*());
+        return (std::sqrt(tNorm));
     }
 
     /******************************************************************************//**
      * @brief Compute stopping criteria
     **********************************************************************************/
-    void computeStoppingCriteria()
+    bool computeStoppingCriteria()
     {
         bool tStop = false;
-
         auto tDeltaControl = computeDeltaControl();
         if( tDeltaControl < mControlTolerance ){
             tStop = true;
@@ -477,6 +648,7 @@ private:
         else if( mCurrentOuterIteration > mMaxNumOuterIterations ){
             tStop = true;
         }
+        return tStop;
     }
 
     void solveUnconstrainedMethodMovingAsymptotesProblem()
@@ -623,7 +795,8 @@ private:
 
     void updateSolution()
     {
-        updateApproximationFunctions();
+        updateApproximationFunctionP();
+        updateApproximationFunctionQ();
         Plato::update(1.0, mDataMng->mPreviousControls.operator*(), 0.0, mDataMng->mThirdLastControls.operator*());
         Plato::update(1.0, mDataMng->mCurrentControls.operator*() , 0.0, mDataMng->mPreviousControls.operator*());
         updateCurrentControls();
@@ -664,58 +837,69 @@ private:
         } 
     }
 
-    void updateApproximationFunctions()
+    void updateApproximationFunctionP()
     {
-        const OrdinalType tNumVectors = mDataMng->mCurrentControls->getNumVectors();
+        const OrdinalType tNumVectors = mDataMng->mCurrentObjectiveGradient->getNumVectors();
         for (OrdinalType tVectorIndex = 0; tVectorIndex < tNumVectors; tVectorIndex++)
         {
-            const OrdinalType tNumControls = (mDataMng->mCurrentControls.operator*())[tVectorIndex].size();
+            auto& tUpperAsymptotes_V = mDataMng->mUpperAsymptotes->operator[](tVectorIndex);
+            auto& tLowerAsymptotes_V = mDataMng->mLowerAsymptotes->operator[](tVectorIndex);
+
+            auto& tCurrentControl_V = mDataMng->mCurrentControls->operator[](tVectorIndex);
+            auto& tCurrentObjGrad_V = mDataMng->mCurrentObjectiveGradient->operator[](tVectorIndex);
+            auto& tApproximationFuncP_V = mDataMng->mApproximationFunctionP->operator[](tVectorIndex);
+            
+            const OrdinalType tNumControls = tCurrentObjGrad_V.size();
             for (OrdinalType tControlIndex = 0; tControlIndex < tNumControls; tControlIndex++)
             {
-                updateApproximationFunctionP(tVectorIndex, tControlIndex);
-                updateApproximationFunctionQ(tVectorIndex, tControlIndex);
+                tApproximationFuncP_V[tControlIndex] = 
+                      std::max( tCurrentObjGrad_V[tControlIndex], 0.0 ) 
+                    + ( mCONSTANT_ONE * std::abs( tCurrentObjGrad_V[tControlIndex] ) )
+                    + ( mCONSTANT_EPS / ( tUpperAsymptotes_V[tControlIndex] 
+                                        - tLowerAsymptotes_V[tControlIndex] 
+                                        + std::numeric_limits<ScalarType>::epsilon() ) );
+                ScalarType tUpperAsymMinusControlSquared = 
+                    tUpperAsymptotes_V[tControlIndex] - tCurrentControl_V[tControlIndex];
+                tUpperAsymMinusControlSquared *= tUpperAsymMinusControlSquared;
+                tApproximationFuncP_V[tControlIndex] *= tUpperAsymMinusControlSquared;
             }
         }
     }
 
-    void updateApproximationFunctionP(const OrdinalType& aVectorIndex, const OrdinalType& aControlIndex)
+    void updateApproximationFunctionQ()
     {
-        (mDataMng->mApproximationFunctionP.operator*())(aVectorIndex,aControlIndex) = 
-              std::max( (mDataMng->mCurrentObjectiveGradients.operator*())(aVectorIndex,aControlIndex), 0.0 ) 
-            + ( mCONSTANT_ONE 
-            *   std::abs( (mDataMng->mCurrentObjectiveGradients.operator*())(aVectorIndex,aControlIndex) ) )
-            + ( mCONSTANT_EPS / ( (mDataMng->mUpperAsymptotes.operator*())(aVectorIndex,aControlIndex) 
-                                - (mDataMng->mLowerAsymptotes.operator*())(aVectorIndex,aControlIndex) 
-                                + std::numeric_limits<ScalarType>::epsilon() ) );
-        ScalarType tUpperAsymMinusControlSquared = 
-              (mDataMng->mUpperAsymptotes.operator*())(aVectorIndex,aControlIndex) 
-            - (mDataMng->mCurrentControls.operator*())(aVectorIndex,aControlIndex);
-        tUpperAsymMinusControlSquared *= tUpperAsymMinusControlSquared;
-        (mDataMng->mApproximationFunctionP.operator*())(aVectorIndex,aControlIndex) *= 
-            tUpperAsymMinusControlSquared;
-    }
+        const OrdinalType tNumVectors = mDataMng->mCurrentObjectiveGradient->getNumVectors();
+        for (OrdinalType tVectorIndex = 0; tVectorIndex < tNumVectors; tVectorIndex++)
+        {
+            auto& tUpperAsymptotes_V = mDataMng->mUpperAsymptotes->operator[](tVectorIndex);
+            auto& tLowerAsymptotes_V = mDataMng->mLowerAsymptotes->operator[](tVectorIndex);
 
-    void updateApproximationFunctionQ(const OrdinalType& aVectorIndex, const OrdinalType& aControlIndex)
-    {
-        (mDataMng->mApproximationFunctionQ.operator*())(aVectorIndex,aControlIndex) = 
-            -1.0*std::min( (mDataMng->mCurrentObjectiveGradients.operator*())(aVectorIndex,aControlIndex), 0.0 )
-            + ( mCONSTANT_ONE 
-            *   std::abs( (mDataMng->mCurrentObjectiveGradients.operator*())(aVectorIndex,aControlIndex) ) )
-            + ( mCONSTANT_EPS / ( (mDataMng->mUpperAsymptotes.operator*())(aVectorIndex,aControlIndex) 
-                                - (mDataMng->mLowerAsymptotes.operator*())(aVectorIndex,aControlIndex) 
-                                + std::numeric_limits<ScalarType>::epsilon() ) );
-        ScalarType tControlMinusLowerAsymSquared = 
-              (mDataMng->mCurrentControls.operator*())(aVectorIndex,aControlIndex) 
-            - (mDataMng->mLowerAsymptotes.operator*())(aVectorIndex,aControlIndex);
-        tControlMinusLowerAsymSquared *= tControlMinusLowerAsymSquared;
-        (mDataMng->mApproximationFunctionQ.operator*())(aVectorIndex,aControlIndex) *= 
-            tControlMinusLowerAsymSquared;
+            auto& tCurrentControl_V = mDataMng->mCurrentControls->operator[](tVectorIndex);
+            auto& tCurrentObjGrad_V = mDataMng->mCurrentObjectiveGradient->operator[](tVectorIndex);
+            auto& tApproximationFuncQ_V = mDataMng->mApproximationFunctionQ->operator[](tVectorIndex);
+            
+            const OrdinalType tNumControls = tCurrentObjGrad_V.size();
+            for (OrdinalType tControlIndex = 0; tControlIndex < tNumControls; tControlIndex++)
+            {
+                tApproximationFuncQ_V[tControlIndex] = 
+                    -1.0*std::min( tCurrentObjGrad_V[tControlIndex], 0.0 )
+                    + ( mCONSTANT_ONE * std::abs( tCurrentObjGrad_V[tControlIndex] ) )
+                    + ( mCONSTANT_EPS / ( tUpperAsymptotes_V[tControlIndex] 
+                                        - tLowerAsymptotes_V[tControlIndex] 
+                                        + std::numeric_limits<ScalarType>::epsilon() ) );
+                ScalarType tControlMinusLowerAsymSquared = 
+                    tCurrentControl_V[tControlIndex] - tLowerAsymptotes_V[tControlIndex];
+                tControlMinusLowerAsymSquared *= tControlMinusLowerAsymSquared;
+                tApproximationFuncQ_V[tControlIndex] *= tControlMinusLowerAsymSquared;
+            }
+        }
     }
 
     void cacheState()
     {
-        mDataMng->mPreviousObjFuncVals->update(1.0, mDataMng->mCurrentObjFuncVals->operator*(), 0.0);
-        mDataMng->mPreviousObjectiveGradients->update(1.0, mDataMng->mCurrentObjectiveGradients->operator*(), 0.0);
+        mDataMng->mPreviousObjFuncValue = mDataMng->mCurrentObjFuncValue;
+        Plato::update(1.0,mDataMng->mCurrentObjectiveGradient.operator*(),
+                      0.0,mDataMng->mPreviousObjectiveGradient.operator*());
     }
 
     /******************************************************************************//**
@@ -723,17 +907,10 @@ private:
     **********************************************************************************/
     void evaluateObjective()
     {       
-        const OrdinalType tNumObjectiveFuncs = mObjectives->size();
-        for(OrdinalType tIndex = 0; tIndex < tNumObjectiveFuncs; tIndex++)
-        {
-            mDataMng->mCurrentObjFuncVals->operator[](tIndex) = 
-                (*mObjectives)[tIndex].value(mDataMng->mCurrentControls.operator*());
-            (*mObjectives)[tIndex].cacheData();
-
-            (*mObjectives)[tIndex].gradient(mDataMng->mCurrentControls.operator*(), 
-                                            mDataMng->mCurrentObjectiveGradients->operator[](tIndex));
-        }
+        mDataMng->mCurrentObjFuncValue = mObjective->value(mDataMng->mCurrentControls.operator*());
         mNumObjFuncEvals++; 
+        mObjective->cacheData();
+        mObjective->gradient(mDataMng->mCurrentControls.operator*(),mDataMng->mCurrentObjectiveGradient.operator*());
         mNumObjGradEvals++;
     }
 
@@ -764,7 +941,7 @@ private:
     Plato::algorithm::stop_t mStoppingCriterion; /*!< stopping criterion */
 
     std::shared_ptr<DataMng> mDataMng; /*!< unconstrained MMA data manager */
-    std::shared_ptr<Plato::CriterionList<ScalarType, OrdinalType>> mObjectives; /*!< objective criteria interface */
+    std::shared_ptr<Plato::Criterion<ScalarType, OrdinalType>> mObjective; /*!< objective criteria interface */
 };
 
 }
@@ -782,8 +959,9 @@ TEST(MorphormTest, UnconstrainedMethodMovingAsymptotesDataMng)
     Morphorm::UnconstrainedMethodMovingAsymptotesDataMng<double> tDataMng(tDataFactory);
     
     // test size of vector containers
-    ASSERT_EQ(1u,tDataMng.mCurrentObjFuncVals->size());
-    ASSERT_EQ(1u,tDataMng.mPreviousObjFuncVals->size());
+    const double tTolerance = 1e-6;
+    ASSERT_NEAR(-1.0,tDataMng.mCurrentObjFuncValue,tTolerance);
+    ASSERT_NEAR(-2.0,tDataMng.mPreviousObjFuncValue,tTolerance);
     
     // test size of multi-vector container
     ASSERT_EQ(1u,tDataMng.mMoveLimits->getNumVectors());
@@ -822,19 +1000,15 @@ TEST(MorphormTest, UnconstrainedMethodMovingAsymptotesDataMng)
     ASSERT_EQ(10u,tDataMng.mDynamicControlLowerBounds->operator[](0).size());
 
     // test size of multi-vector lists
-    ASSERT_EQ(1u,tDataMng.mCurrentObjectiveGradients->size() /* num multi-vectors */);
-    ASSERT_EQ(1u,tDataMng.mPreviousObjectiveGradients->size() /* num multi-vectors */);
+    ASSERT_EQ(1u,tDataMng.mCurrentObjectiveGradient->getNumVectors() /* num vectors */);
+    ASSERT_EQ(1u,tDataMng.mPreviousObjectiveGradient->getNumVectors() /* num vectors */);
 
-    ASSERT_EQ(1u,tDataMng.mCurrentObjectiveGradients->operator[](0).getNumVectors() /* num vectors */);
-    ASSERT_EQ(1u,tDataMng.mPreviousObjectiveGradients->operator[](0).getNumVectors() /* num vectors */);
-
-    ASSERT_EQ(10u,tDataMng.mCurrentObjectiveGradients->operator[](0).operator[](0).size() /* num vectors */);
-    ASSERT_EQ(10u,tDataMng.mPreviousObjectiveGradients->operator[](0).operator[](0).size() /* num vectors */);
+    ASSERT_EQ(10u,tDataMng.mCurrentObjectiveGradient->operator[](0).size() /* num vectors */);
+    ASSERT_EQ(10u,tDataMng.mPreviousObjectiveGradient->operator[](0).size() /* num vectors */);
 
     // test reduction operation
     Plato::fill(1.0,tDataMng.mDeltaControl.operator*());
     auto tSum = tDataMng.mReductionOps->sum(tDataMng.mDeltaControl->operator[](0));
-    const double tTolerance = 1e-6;
     ASSERT_NEAR(10.0,tSum,tTolerance);
 }
 
@@ -904,7 +1078,41 @@ TEST(MorphormTest, get_umma_stop_criterion_description)
 
 TEST(MorphormTest, UnconstrainedMethodMovingAsymptotes)
 {
-    Morphorm::UnconstrainedMethodMovingAsymptotes<double> tAL;
+    /*
+    // create interface to linear elasticity solver
+    const double tPoissonRatio = 0.3;
+    const double tElasticModulus = 1;
+    const int tNumElementsXdirection = 30;
+    const int tNumElementsYdirection = 10;
+    auto tLinearElasticitySolver = std::make_shared<Plato::StructuralTopologyOptimization>(
+        tPoissonRatio, tElasticModulus, tNumElementsXdirection, tNumElementsYdirection
+    ); 
+    // * set force vector
+    const int tGlobalNumDofs = tLinearElasticitySolver->getGlobalNumDofs();
+    Epetra_SerialDenseVector tForce(tGlobalNumDofs);
+    const int tDOFsIndex = 1;
+    tForce[tDOFsIndex] = -1;
+    tLinearElasticitySolver->setForceVector(tForce);
+    // * set fixed degrees of freedom (DOFs) vector
+    std::vector<double> tDofs = {0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 681};
+    Epetra_SerialDenseVector tFixedDOFs(Epetra_DataAccess::Copy, tDofs.data(), tDofs.size());
+    tLinearElasticitySolver->setFixedDOFs(tFixedDOFs);
+    // * create augmented Lagrangian objective function
+    std::shared_ptr<Morphorm::ProxyAugLagObjective<double>> tDesignCriterion = 
+        std::make_shared<Morphorm::ProxyAugLagObjective<double>>(tLinearElasticitySolver);
+    
+    // create data factory
+    const size_t tNumControls = tLinearElasticitySolver->getNumDesignVariables();
+    auto tDataFactory = std::make_shared<Plato::DataFactory<double>>();
+    tDataFactory->allocateObjFuncValues(1/* num objective functions );
+    tDataFactory->allocateControl(tNumControls,1/* num control vectors );
+    
+    // create optimization algorithm
+    Morphorm::UnconstrainedMethodMovingAsymptotes<double> tAlgo(tDesignCriterion,tDataFactory);
+    tAlgo.setMaxNumOuterIterations(30);\
+    tAlgo.writeDiagnostics(true);
+    tAlgo.solve();
+    */
 }
 
 }
