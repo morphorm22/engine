@@ -21,7 +21,7 @@
 #include "Plato_MultiVectorList.hpp"
 #include "Plato_ReductionOperations.hpp"
 
-#include "Plato_EpetraSerialDenseVector.hpp"
+#include "Plato_EpetraSerialDenseMultiVector.hpp"
 #include "Plato_StructuralTopologyOptimization.hpp"
 
 namespace Morphorm
@@ -35,8 +35,8 @@ private:
 
     ScalarType mPenaltyMax = 10000.;
     ScalarType mFirstObjFunc = -1.0;
-    ScalarType mPenaltyValue =  2.0;
-    ScalarType mPenaltyMultiplier = 1.1;
+    ScalarType mPenaltyValue =  1.0;
+    ScalarType mPenaltyMultiplier = 1.05;
     ScalarType mLagrangeMultiplier = 0.0;
 
     Epetra_SerialDenseVector mObjGrad;
@@ -468,6 +468,21 @@ public:
         mAsymptotesDecrementConstant = aInput;
     }
 
+    void setLowerBounds(const Plato::MultiVector<ScalarType,OrdinalType> &aInput)
+    {
+        Plato::update(1.0,aInput,0.0,mDataMng->mControlLowerBounds.operator*());
+    }
+
+    void setUpperBounds(const Plato::MultiVector<ScalarType,OrdinalType> &aInput)
+    {
+        Plato::update(1.0,aInput,0.0,mDataMng->mControlUpperBounds.operator*());
+    }
+
+    void setInitialGuess(const Plato::MultiVector<ScalarType,OrdinalType> &aInput)
+    {
+        Plato::update(1.0,aInput,0.0,mDataMng->mCurrentControls.operator*());
+    }
+
     OrdinalType getNumObjFuncEvals() const
     {
         return mNumObjFuncEvals;
@@ -642,10 +657,20 @@ private:
     {
         bool tStop = false;
         auto tDeltaControl = computeDeltaControl();
-        if( tDeltaControl < mControlTolerance ){
+        auto tDeltaObjFunc = computeDeltaObjFunc();
+        if( tDeltaControl < mControlTolerance )
+        {
+            mStoppingCriterion = Plato::algorithm::CONTROL_STAGNATION;
             tStop = true;
         }
-        else if( mCurrentOuterIteration > mMaxNumOuterIterations ){
+        else if( mCurrentOuterIteration > mMaxNumOuterIterations )
+        {
+            mStoppingCriterion = Plato::algorithm::MAX_NUMBER_ITERATIONS;
+            tStop = true;
+        }
+        else if( tDeltaObjFunc < mObjFuncTolerance )
+        {
+            mStoppingCriterion = Plato::algorithm::OBJECTIVE_STAGNATION;
             tStop = true;
         }
         return tStop;
@@ -929,6 +954,7 @@ private:
 
     ScalarType mMoveLimit            = 0.15;
     ScalarType mControlTolerance     = 2e-3;
+    ScalarType mObjFuncTolerance     = 1e-3;
     ScalarType mAsymptotesConstant   = 0.2;
     ScalarType mFeasibilityTolerance = 5e-3;
     ScalarType mAsymptotesInitialMultiplier = 0.2;
@@ -1078,7 +1104,6 @@ TEST(MorphormTest, get_umma_stop_criterion_description)
 
 TEST(MorphormTest, UnconstrainedMethodMovingAsymptotes)
 {
-    /*
     // create interface to linear elasticity solver
     const double tPoissonRatio = 0.3;
     const double tElasticModulus = 1;
@@ -1102,17 +1127,24 @@ TEST(MorphormTest, UnconstrainedMethodMovingAsymptotes)
         std::make_shared<Morphorm::ProxyAugLagObjective<double>>(tLinearElasticitySolver);
     
     // create data factory
+    const size_t tNumVectors = 1;
     const size_t tNumControls = tLinearElasticitySolver->getNumDesignVariables();
     auto tDataFactory = std::make_shared<Plato::DataFactory<double>>();
-    tDataFactory->allocateObjFuncValues(1/* num objective functions );
-    tDataFactory->allocateControl(tNumControls,1/* num control vectors );
+    tDataFactory->allocateObjFuncValues(1/* num objective functions */);
+    auto tUpperBounds = std::make_shared<Plato::EpetraSerialDenseMultiVector<double>>(tNumVectors, tNumControls, 1.0 /* base value */);
+    auto tLowerBounds = std::make_shared<Plato::EpetraSerialDenseMultiVector<double>>(tNumVectors, tNumControls, 1e-3 /* base value */);
+    const double tValue = tLinearElasticitySolver->getVolumeFraction();
+    auto tInitialControl = std::make_shared<Plato::EpetraSerialDenseMultiVector<double>>(tNumVectors, tNumControls, tValue);
+    tDataFactory->allocateControl(tInitialControl.operator*());
     
-    // create optimization algorithm
+    // create optimization algorithm and solve
     Morphorm::UnconstrainedMethodMovingAsymptotes<double> tAlgo(tDesignCriterion,tDataFactory);
-    tAlgo.setMaxNumOuterIterations(30);\
+    tAlgo.setLowerBounds(tLowerBounds.operator*());
+    tAlgo.setUpperBounds(tUpperBounds.operator*());
+    tAlgo.setInitialGuess(tInitialControl.operator*());
+    tAlgo.setMaxNumOuterIterations(30);
     tAlgo.writeDiagnostics(true);
     tAlgo.solve();
-    */
 }
 
 }
