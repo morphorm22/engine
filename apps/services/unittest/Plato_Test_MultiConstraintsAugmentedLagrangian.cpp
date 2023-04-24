@@ -8,6 +8,9 @@
 
 #include <fstream>
 
+#include "Plato_UnitTestUtils.hpp"
+
+#include "Plato_Utils.hpp"
 #include "Plato_Types.hpp"
 #include "Plato_Console.hpp"
 #include "Plato_DataFactory.hpp"
@@ -76,7 +79,7 @@ void write_umma_diagnostics_header(
 {
     Morphorm::is_diagnostic_file_close(aComm,aOutputStream);
     aOutputStream << std::scientific << std::setprecision(6) << std::right << "Iter" << std::setw(10) << "F-count"
-            << std::setw(14) << "F(X)" << std::setw(16) << "Norm(F')" << std::setw(15) << "abs(dX)" 
+            << std::setw(12) << "F(X)" << std::setw(16) << "Norm(F')" << std::setw(15) << "abs(dX)" 
             << std::setw(15) << "abs(dF)" << "\n" << std::flush;
 }
 // function write_umma_diagnostics_header
@@ -130,7 +133,7 @@ void write_umma_diagnostics(
 {
     Morphorm::is_diagnostic_file_close(aComm,aOutputStream);
     aOutputStream << std::scientific << std::setprecision(6) << std::right << aData.mNumOuterIter << std::setw(10)
-            << aData.mObjFuncEvals << std::setw(20) << aData.mCurrentObjFuncValue << std::setw(15) << aData.mNormObjFuncGrad
+            << aData.mObjFuncEvals << std::setw(18) << aData.mCurrentObjFuncValue << std::setw(15) << aData.mNormObjFuncGrad
             << std::setw(15) << aData.mControlChange << std::setw(15) << aData.mObjFuncChange << "\n" << std::flush;
 }
 // function write_umma_diagnostics
@@ -290,7 +293,6 @@ public:
     void solve()
     {
         openWriteFile();
-
         while (true)
         {
             mCurrentOuterIteration += 1;
@@ -298,26 +300,46 @@ public:
                  tSubProbIter < mMaxNumSubProblemIterations; 
                  tSubProbIter++)
             {
-                cacheState();
-                evaluateObjective();
-                writeDiagnostics();
-                solveUnconstrainedMethodMovingAsymptotesProblem();
+                solveSubProblem();
             }
             auto tConverged = computeStoppingCriteria();
             if( tConverged )
             {
-                cacheState();
-                evaluateObjective();
-                writeDiagnostics();
-                writeStoppingCriterion();
-                closeWriteFile();
+                finalize();
                 break;
             }
+            updateProblem();
         }
     }
 
 // private functions
 private:
+    void solveSubProblem()
+    {
+        cacheState();
+        evaluateObjective();
+        writeDiagnostics();
+        solveUnconstrainedMethodMovingAsymptotesProblem();
+    }
+
+    void finalize()
+    {
+        cacheState();
+        evaluateObjective();
+        writeDiagnostics();
+        writeStoppingCriterion();
+        closeWriteFile();
+    }
+
+    void updateProblem()
+    {
+        const OrdinalType tNumObjectiveFuncs = mObjectives->size();
+        for(decltype(tNumObjectiveFuncs) tIndex = 0; tIndex < tNumObjectiveFuncs; tIndex++)
+        {
+            (*mObjectives)[tIndex].updateProblem(mDataMng->mCurrentControls.operator*());
+        }
+    }
+
     /******************************************************************************//**
      * @brief Open write file; i.e., diagnostics file
     **********************************************************************************/
@@ -463,7 +485,7 @@ private:
         updateDynamicControlBounds();
         updateAsymptotes();
         updateSubProbControlBounds();
-        solveSubProblem();
+        updateSolution();
     }
 
     void updateMoveLimits()
@@ -599,15 +621,15 @@ private:
         }           
     }
 
-    void solveSubProblem()
+    void updateSolution()
     {
         updateApproximationFunctions();
         Plato::update(1.0, mDataMng->mPreviousControls.operator*(), 0.0, mDataMng->mThirdLastControls.operator*());
         Plato::update(1.0, mDataMng->mCurrentControls.operator*() , 0.0, mDataMng->mPreviousControls.operator*());
-        updateControls();
+        updateCurrentControls();
     }
 
-    void updateControls()
+    void updateCurrentControls()
     {
         const OrdinalType tNumVectors = mDataMng->mCurrentControls->getNumVectors();
         for (OrdinalType tVectorIndex = 0; tVectorIndex < tNumVectors; tVectorIndex++)
@@ -711,7 +733,6 @@ private:
             (*mObjectives)[tIndex].gradient(mDataMng->mCurrentControls.operator*(), 
                                             mDataMng->mCurrentObjectiveGradients->operator[](tIndex));
         }
-
         mNumObjFuncEvals++; 
         mNumObjGradEvals++;
     }
@@ -809,6 +830,76 @@ TEST(MorphormTest, UnconstrainedMethodMovingAsymptotesDataMng)
 
     ASSERT_EQ(10u,tDataMng.mCurrentObjectiveGradients->operator[](0).operator[](0).size() /* num vectors */);
     ASSERT_EQ(10u,tDataMng.mPreviousObjectiveGradients->operator[](0).operator[](0).size() /* num vectors */);
+
+    // test reduction operation
+    Plato::fill(1.0,tDataMng.mDeltaControl.operator*());
+    auto tSum = tDataMng.mReductionOps->sum(tDataMng.mDeltaControl->operator[](0));
+    const double tTolerance = 1e-6;
+    ASSERT_NEAR(10.0,tSum,tTolerance);
+}
+
+TEST(MorphormTest, is_diagnostic_file_close)
+{
+    std::ofstream tOutputStream;
+    Plato::CommWrapper tComm;
+    tComm.useDefaultComm();
+    // CAN'T RUN OPTION SINCE IT WILL FORCE CODE TO STOP
+    //ASSERT_THROW(Morphorm::is_diagnostic_file_close(tComm,tOutputStream),std::runtime_error);
+    tOutputStream.open("dummy.txt");
+    ASSERT_NO_THROW(Morphorm::is_diagnostic_file_close(tComm,tOutputStream));
+    tOutputStream.close();
+}
+
+TEST(MorphormTest, write_umma_diagnostics_header_plus_data)
+{
+    Plato::CommWrapper tComm;
+    tComm.useDefaultComm();
+
+    Morphorm::OutputDataUMMA<double> tDiagnosticsData;
+    tDiagnosticsData.mFeasibility = 1.8e-1;
+    tDiagnosticsData.mObjFuncEvals = 33;
+    tDiagnosticsData.mNumOuterIter = 34;
+    tDiagnosticsData.mControlChange = 3.3e-2;
+    tDiagnosticsData.mObjFuncChange = 5.2358e-3;
+    tDiagnosticsData.mNormObjFuncGrad = 1.5983e-4;
+    tDiagnosticsData.mCurrentObjFuncValue = 1.235e-3;
+
+    std::ofstream tOutputStream;
+    tOutputStream.open("dummy.txt");
+    ASSERT_NO_THROW(Morphorm::write_umma_diagnostics_header(tComm,tDiagnosticsData,tOutputStream));
+    ASSERT_NO_THROW(Morphorm::write_umma_diagnostics(tComm,tDiagnosticsData,tOutputStream));
+
+    auto tReadData = PlatoTest::read_data_from_file("dummy.txt");
+    auto tGold = std::string("IterF-countF(X)Norm(F')abs(dX)abs(dF)34331.235000e-031.598300e-043.300000e-025.235800e-03");
+    ASSERT_STREQ(tReadData.str().c_str(),tGold.c_str());
+
+    auto tTrash = std::system("rm dummy.txt");
+    Plato::Utils::ignore_unused(tTrash);
+
+    tOutputStream.close();
+}
+
+TEST(MorphormTest, get_umma_stop_criterion_description)
+{
+    // option 1
+    std::string tMsg = Morphorm::get_umma_stop_criterion_description(Plato::algorithm::stop_t::CONTROL_STAGNATION);
+    auto tGold = std::string("\n\n****** Optimization stopping due to control (i.e. design variable) stagnation. ******\n\n");
+    EXPECT_STREQ(tMsg.c_str(),tGold.c_str());
+
+    // option 2
+    tMsg = Morphorm::get_umma_stop_criterion_description(Plato::algorithm::stop_t::MAX_NUMBER_ITERATIONS);
+    tGold = std::string("\n\n****** Optimization stopping due to exceeding maximum number of iterations. ******\n\n");
+    EXPECT_STREQ(tMsg.c_str(),tGold.c_str());
+
+    // option 3
+    tMsg = Morphorm::get_umma_stop_criterion_description(Plato::algorithm::stop_t::NOT_CONVERGED);
+    tGold = std::string("\n\n****** Optimization algorithm did not converge. ******\n\n");
+    EXPECT_STREQ(tMsg.c_str(),tGold.c_str());
+
+    // option 4
+    tMsg = Morphorm::get_umma_stop_criterion_description(Plato::algorithm::stop_t::STATIONARITY_MEASURE);
+    tGold = std::string("\n\n****** ERROR: Optimization algorithm stopping due to undefined behavior. ******\n\n");
+    EXPECT_STREQ(tMsg.c_str(),tGold.c_str());
 }
 
 TEST(MorphormTest, UnconstrainedMethodMovingAsymptotes)
