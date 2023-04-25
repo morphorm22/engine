@@ -226,10 +226,8 @@ void StructuralTopologyOptimization::solve(const Epetra_SerialDenseVector & aCon
 
 double StructuralTopologyOptimization::computeVolume(const Epetra_SerialDenseVector & aControl)
 {
-    int tNumControls = aControl.Length();
-    double tCurrentVolume = aControl.ASUM(tNumControls, aControl.A());
-    double tNormalizedVolume = tCurrentVolume / static_cast<double>(mNumDesignVariables);
-    double tOutput = tNormalizedVolume * tNormalizedVolume;
+    auto tVolumeMisfit = this->computeVolumeMisfit(aControl);
+    double tOutput = tVolumeMisfit * tVolumeMisfit;
     return (tOutput);
 }
 
@@ -306,12 +304,12 @@ void StructuralTopologyOptimization::computeNormalizedVolumeGradient(
 )
 {
     assert(aOutput.Length() == aControl.Length());
+    auto tVolumeMisfit = this->computeVolumeMisfit(aControl);
+    
     int tNumControls = aControl.Length();
-    double tCurrentVolume = aControl.ASUM(tNumControls, aControl.A());
-    double tNormalizedVolume = tCurrentVolume / static_cast<double>(mNumDesignVariables);
     for(int tIndex = 0; tIndex < tNumControls; tIndex++)
     {
-        aOutput.A()[tIndex] = (2. * tNormalizedVolume) / static_cast<double>(mNumDesignVariables);
+        aOutput.A()[tIndex] = (2. * tVolumeMisfit) / static_cast<double>(mNumDesignVariables);
     }
 }
 
