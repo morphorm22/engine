@@ -114,6 +114,52 @@ std::vector<double> get_topology_optimization_gold()
     return tData;
 }
 
+TEST(PlatoTest, CcsaTestObjective)
+{
+    // ********* Allocate Criterion *********
+    Plato::CcsaTestObjective<double> tCriterion;
+
+    double tScalarValue = 1;
+    const size_t tNumVectors = 1;
+    const size_t tNumControls = 5;
+    Plato::StandardMultiVector<double> tControl(tNumVectors, tNumControls, tScalarValue);
+
+    tScalarValue = 0.312;
+    const double tTolerance = 1e-6;
+    EXPECT_NEAR(tScalarValue, tCriterion.value(tControl), tTolerance);
+
+    Plato::StandardMultiVector<double> tGradient(tNumVectors, tNumControls);
+    tCriterion.gradient(tControl, tGradient);
+    tScalarValue = 0.0624;
+    Plato::StandardMultiVector<double> tGold(tNumVectors, tNumControls, tScalarValue);
+    PlatoTest::checkMultiVectorData(tGradient, tGold);
+}
+
+TEST(PlatoTest, CcsaTestInequality)
+{
+    // ********* Allocate Criterion *********
+    Plato::CcsaTestInequality<double> tCriterion;
+
+    double tScalarValue = 1;
+    const size_t tNumVectors = 1;
+    const size_t tNumControls = 5;
+    Plato::StandardMultiVector<double> tControl(tNumVectors, tNumControls, tScalarValue);
+
+    tScalarValue = 124;
+    const double tTolerance = 1e-6;
+    EXPECT_NEAR(tScalarValue, tCriterion.value(tControl), tTolerance);
+
+    Plato::StandardMultiVector<double> tGradient(tNumVectors, tNumControls);
+    tCriterion.gradient(tControl, tGradient);
+    Plato::StandardMultiVector<double> tGold(tNumVectors, tNumControls);
+    tGold(0,0) = -183;
+    tGold(0,1) = -111;
+    tGold(0,2) = -57;
+    tGold(0,3) = -21;
+    tGold(0,4) = -3;
+    PlatoTest::checkMultiVectorData(tGradient, tGold);
+}
+
 TEST(PlatoTest, MethodMovingAsymptotes_Parser)
 {
     Plato::InputData tInputData;

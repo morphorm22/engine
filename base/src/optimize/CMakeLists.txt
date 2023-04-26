@@ -49,12 +49,6 @@ set(${LIB_NAME}_HEADERS Plato_BoundsBase.hpp
                         Plato_OptimizersIO_Utilities.hpp
                         Plato_AugmentedLagrangian.hpp
                         Plato_TrustRegionUtilities.hpp
-                        Plato_HostDualProbElementWise.hpp
-                        Plato_HostPrimalProbElementWise.hpp
-                        Plato_DeviceDualProbElementWise.hpp
-                        Plato_DevicePrimalProbElementWise.hpp
-                        Plato_DualProbElementWiseFunctions.hpp
-                        Plato_PrimalProbElementWiseFunctions.hpp
                         Plato_CommWrapper.hpp
                         Plato_Types.hpp
                         Plato_Circle.hpp
@@ -72,8 +66,6 @@ set(${LIB_NAME}_HEADERS Plato_BoundsBase.hpp
                         Plato_EngineObjective.hpp
                         Plato_EngineConstraint.hpp
                         Plato_SteihaugTointSolver.hpp
-                        Plato_DualProblemSolver.hpp
-                        Plato_DualProblemStageMng.hpp
                         Plato_GradientOperator.hpp
                         Plato_GradientOperatorList.hpp
                         Plato_IdentityHessian.hpp
@@ -94,24 +86,16 @@ set(${LIB_NAME}_HEADERS Plato_BoundsBase.hpp
                         Plato_LinearOperatorList.hpp
                         Plato_MultiVectorList.hpp
                         Plato_Preconditioner.hpp
-                        Plato_PrimalProblemStageMng.hpp
                         Plato_ProjectedSteihaugTointPcg.hpp
                         Plato_QuadraticLineSearch.hpp
                         Plato_Radius.hpp
                         Plato_Rosenbrock.hpp
-                        Plato_GloballyConvergentMethodMovingAsymptotes.hpp
-                        Plato_GloballyConvergentMethodMovingAsymptotesInterface.hpp
-                        Plato_GloballyConvergentMethodMovingAsymptotesLightInterface.hpp
                         Plato_CcsaTestObjective.hpp
                         Plato_CcsaTestInequality.hpp
                         Plato_AnalyticalHessian.hpp
                         Plato_AnalyticalGradient.hpp
                         Plato_AugmentedLagrangianStageMng.hpp
                         Plato_CubicLineSearch.hpp
-                        Plato_ConservativeConvexSeparableAppxDataMng.hpp
-                        Plato_ConservativeConvexSeparableAppxStageMng.hpp
-                        Plato_ConservativeConvexSeparableApproximation.hpp
-                        Plato_ConservativeConvexSeparableAppxAlgorithm.hpp
                         Plato_Criterion.hpp
                         Plato_CriterionList.hpp
                         Plato_DataFactory.hpp
