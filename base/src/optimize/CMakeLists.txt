@@ -12,6 +12,7 @@ set(${LIB_NAME}_HEADERS Plato_BoundsBase.hpp
                         Plato_GradFreeCriterion.hpp
                         Plato_GradFreeRosenbrock.hpp
                         Plato_GradFreeHimmelblau.hpp
+                        Plato_ProxyAugLagObjective.hpp
                         Plato_GradFreeRocketObjFunc.hpp
                         Plato_GradFreeGoldsteinPrice.hpp
                         Plato_GradFreeShiftedEllipse.hpp
@@ -43,6 +44,10 @@ set(${LIB_NAME}_HEADERS Plato_BoundsBase.hpp
                         Plato_MethodMovingAsymptotesCriterion.hpp
                         Plato_MethodMovingAsymptotesInterface.hpp
                         Plato_MethodMovingAsymptotesOperations.hpp
+                        Plato_UnconstrainedMethodMovingAsymptotes.hpp
+                        Plato_UnconstrainedMethodMovingAsymptotesDataIO.hpp
+                        Plato_UnconstrainedMethodMovingAsymptotesFileIO.hpp
+                        Plato_UnconstrainedMethodMovingAsymptotesDataMng.hpp
                         Plato_NullConstraint.hpp
                         Plato_OptimizerParser.hpp
                         Plato_DriverFactory.hpp
