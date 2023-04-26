@@ -1386,4 +1386,4 @@ TEST(PlatoTest, PERF_UnconstrainedMethodMovingAsymptotes)
 }
 
 }
-// namespace MorphTest
+// namespace PlatoTest
