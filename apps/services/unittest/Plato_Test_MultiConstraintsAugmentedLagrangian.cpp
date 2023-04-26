@@ -24,7 +24,7 @@
 #include "Plato_EpetraSerialDenseMultiVector.hpp"
 #include "Plato_StructuralTopologyOptimization.hpp"
 
-namespace Morphorm
+namespace Plato
 {
 
 template<typename ScalarType, typename OrdinalType = size_t>
@@ -221,9 +221,9 @@ private:
     }
 
 private:
-    ProxyAugLagObjective(const Morphorm::ProxyAugLagObjective<ScalarType, OrdinalType>&);
-    Morphorm::ProxyAugLagObjective<ScalarType, OrdinalType> 
-        &operator=(const Morphorm::ProxyAugLagObjective<ScalarType, OrdinalType>&);
+    ProxyAugLagObjective(const Plato::ProxyAugLagObjective<ScalarType, OrdinalType>&);
+    Plato::ProxyAugLagObjective<ScalarType, OrdinalType> 
+        &operator=(const Plato::ProxyAugLagObjective<ScalarType, OrdinalType>&);
 };
 
 /*****************************************************************************************//**
@@ -276,7 +276,7 @@ void is_diagnostic_file_close(const Plato::CommWrapper &aComm,OutputType &aOutpu
 template<typename ScalarType, typename OrdinalType, typename OutputType>
 void write_umma_diagnostics_header(
  const Plato::CommWrapper &aComm,
- const Morphorm::OutputDataUMMA<ScalarType, OrdinalType> &aData,
+ const Plato::OutputDataUMMA<ScalarType, OrdinalType> &aData,
  OutputType &aOutputStream
 )
 {
@@ -334,7 +334,7 @@ inline std::string get_umma_stop_criterion_description(const Plato::algorithm::s
 template<typename ScalarType, typename OrdinalType, typename OutputType>
 void write_umma_diagnostics(
  const Plato::CommWrapper &aComm,
- const Morphorm::OutputDataUMMA<ScalarType, OrdinalType> &aData,
+ const Plato::OutputDataUMMA<ScalarType, OrdinalType> &aData,
  OutputType &aOutputStream
 )
 {
@@ -415,7 +415,7 @@ template<typename ScalarType, typename OrdinalType = size_t>
 class UnconstrainedMethodMovingAsymptotes
 {
 private:
-    typedef Morphorm::UnconstrainedMethodMovingAsymptotesDataMng<ScalarType, OrdinalType> DataMng;
+    typedef Plato::UnconstrainedMethodMovingAsymptotesDataMng<ScalarType, OrdinalType> DataMng;
 
 public:
     UnconstrainedMethodMovingAsymptotes(
@@ -600,9 +600,9 @@ private:
 
         if (mDataMng->mComm->myProcID() == 0)
         {
-            mOutputStream.open("morphorm_umma_algorithm_diagnostics.txt");
-            Morphorm::is_diagnostic_file_close(mDataMng->mComm.operator*(),mOutputStream);
-            Morphorm::write_umma_diagnostics_header(mDataMng->mComm.operator*(),mOutputData, mOutputStream);
+            mOutputStream.open("Plato_umma_algorithm_diagnostics.txt");
+            Plato::is_diagnostic_file_close(mDataMng->mComm.operator*(),mOutputStream);
+            Plato::write_umma_diagnostics_header(mDataMng->mComm.operator*(),mOutputData, mOutputStream);
         }
     }
 
@@ -631,7 +631,7 @@ private:
         
         if(mDataMng->mComm->myProcID() == 0)
         {
-            mOutputStream << Morphorm::get_umma_stop_criterion_description(mStoppingCriterion);
+            mOutputStream << Plato::get_umma_stop_criterion_description(mStoppingCriterion);
         }
     }
 
@@ -659,15 +659,15 @@ private:
         mOutputData.mObjFuncChange = computeDeltaObjFunc();
         mOutputData.mNormObjFuncGrad = computeObjFuncGradNorm();
         mOutputData.mCurrentObjFuncValue = mDataMng->mCurrentObjFuncValue;
-        Morphorm::is_diagnostic_file_close(mDataMng->mComm.operator*(),mOutputStream);
-        Morphorm::write_umma_diagnostics(mDataMng->mComm.operator*(),mOutputData,mOutputStream);
+        Plato::is_diagnostic_file_close(mDataMng->mComm.operator*(),mOutputStream);
+        Plato::write_umma_diagnostics(mDataMng->mComm.operator*(),mOutputData,mOutputStream);
     }
 
     void writeDiagnosticsToConsole() const
     {
         std::stringstream tConsoleStream;
-        Morphorm::write_umma_diagnostics_header(mDataMng->mComm.operator*(),mOutputData,tConsoleStream);
-        Morphorm::write_umma_diagnostics(mDataMng->mComm.operator*(),mOutputData, tConsoleStream);
+        Plato::write_umma_diagnostics_header(mDataMng->mComm.operator*(),mOutputData,tConsoleStream);
+        Plato::write_umma_diagnostics(mDataMng->mComm.operator*(),mOutputData, tConsoleStream);
         Plato::Console::Alert(tConsoleStream.str());
     }
 
@@ -988,7 +988,7 @@ private:
 private:
     bool mWriteDiagnostics = false;  /*!< output diagnostics to file on disk (default=false) */
     std::ofstream mOutputStream;     /*!< output string stream with diagnostics */
-    Morphorm::OutputDataUMMA<ScalarType,OrdinalType> mOutputData; /*!< output data written to diagnostic file */
+    Plato::OutputDataUMMA<ScalarType,OrdinalType> mOutputData; /*!< output data written to diagnostic file */
 
     OrdinalType mNumObjGradEvals = 0;
     OrdinalType mNumObjFuncEvals = 0;
@@ -1094,8 +1094,8 @@ struct AlgorithmInputsUMMA
 **********************************************************************************/
 template<typename ScalarType, typename OrdinalType = size_t>
 inline void set_uconstrained_mma_algorithm_inputs
-(const Morphorm::AlgorithmInputsUMMA<ScalarType,OrdinalType>                 &aInputs,
-       Morphorm::UnconstrainedMethodMovingAsymptotes<ScalarType,OrdinalType> &aAlgorithm)
+(const Plato::AlgorithmInputsUMMA<ScalarType,OrdinalType>                 &aInputs,
+       Plato::UnconstrainedMethodMovingAsymptotes<ScalarType,OrdinalType> &aAlgorithm)
 {
     aAlgorithm.writeDiagnostics(aInputs.mWriteDiagnostics);
 
@@ -1123,8 +1123,8 @@ inline void set_uconstrained_mma_algorithm_inputs
 **********************************************************************************/
 template<typename ScalarType, typename OrdinalType = size_t>
 inline void set_unconstrained_mma_algorithm_outputs
-(const Morphorm::UnconstrainedMethodMovingAsymptotes<ScalarType,OrdinalType> &aAlgorithm,
-       Morphorm::AlgorithmOutputsUMMA<ScalarType,OrdinalType>                &aOutputs)
+(const Plato::UnconstrainedMethodMovingAsymptotes<ScalarType,OrdinalType> &aAlgorithm,
+       Plato::AlgorithmOutputsUMMA<ScalarType,OrdinalType>                &aOutputs)
 {
     aOutputs.mNumOuterIterations = aAlgorithm.getCurrentOuterIteration();
 
@@ -1152,8 +1152,8 @@ inline void set_unconstrained_mma_algorithm_outputs
 template<typename ScalarType, typename OrdinalType = size_t>
 inline void solve_unconstrained_method_moving_asymptotes
 (const std::shared_ptr<Plato::Criterion<ScalarType,OrdinalType>> &aObjective,
- const Morphorm::AlgorithmInputsUMMA<ScalarType,OrdinalType>     &aInputs,
-       Morphorm::AlgorithmOutputsUMMA<ScalarType,OrdinalType>    &aOutputs)
+ const Plato::AlgorithmInputsUMMA<ScalarType,OrdinalType>     &aInputs,
+       Plato::AlgorithmOutputsUMMA<ScalarType,OrdinalType>    &aOutputs)
 {
     // create data structures 
     auto tDataFactory = std::make_shared<Plato::DataFactory<ScalarType, OrdinalType>>();
@@ -1162,16 +1162,16 @@ inline void solve_unconstrained_method_moving_asymptotes
     tDataFactory->allocateObjFuncValues(1/* num objective functions */);
     tDataFactory->allocateControlReductionOperations(aInputs.mReductionOperations.operator*());
     // create algorithm interface
-    Morphorm::UnconstrainedMethodMovingAsymptotes<ScalarType,OrdinalType> tAlgorithm(aObjective,tDataFactory);
-    Morphorm::set_uconstrained_mma_algorithm_inputs(aInputs,tAlgorithm);
+    Plato::UnconstrainedMethodMovingAsymptotes<ScalarType,OrdinalType> tAlgorithm(aObjective,tDataFactory);
+    Plato::set_uconstrained_mma_algorithm_inputs(aInputs,tAlgorithm);
     tAlgorithm.solve();
-    Morphorm::set_unconstrained_mma_algorithm_outputs(tAlgorithm,aOutputs);
+    Plato::set_unconstrained_mma_algorithm_outputs(tAlgorithm,aOutputs);
 }
 // function solve_unconstrained_method_moving_asymptotes
 
 }
 
-namespace MorphormTest
+namespace PlatoTest
 {
 
 inline 
@@ -1203,14 +1203,14 @@ std::vector<double> get_gold_control_umma_test()
     return tGold;
 }
 
-TEST(MorphormTest, UnconstrainedMethodMovingAsymptotesDataMng)
+TEST(PlatoTest, UnconstrainedMethodMovingAsymptotesDataMng)
 {
     // create data factory
     auto tDataFactory = std::make_shared<Plato::DataFactory<double>>();
     tDataFactory->allocateObjFuncValues(1/* num objective functions */);
     tDataFactory->allocateControl(10/* num controls */,1/* num vectors */);
     
-    Morphorm::UnconstrainedMethodMovingAsymptotesDataMng<double> tDataMng(tDataFactory);
+    Plato::UnconstrainedMethodMovingAsymptotesDataMng<double> tDataMng(tDataFactory);
     
     // test size of vector containers
     const double tTolerance = 1e-6;
@@ -1266,24 +1266,24 @@ TEST(MorphormTest, UnconstrainedMethodMovingAsymptotesDataMng)
     ASSERT_NEAR(10.0,tSum,tTolerance);
 }
 
-TEST(MorphormTest, is_diagnostic_file_close)
+TEST(PlatoTest, is_diagnostic_file_close)
 {
     std::ofstream tOutputStream;
     Plato::CommWrapper tComm;
     tComm.useDefaultComm();
     // CAN'T RUN OPTION SINCE IT WILL FORCE CODE TO STOP
-    //ASSERT_THROW(Morphorm::is_diagnostic_file_close(tComm,tOutputStream),std::runtime_error);
+    //ASSERT_THROW(Plato::is_diagnostic_file_close(tComm,tOutputStream),std::runtime_error);
     tOutputStream.open("dummy.txt");
-    ASSERT_NO_THROW(Morphorm::is_diagnostic_file_close(tComm,tOutputStream));
+    ASSERT_NO_THROW(Plato::is_diagnostic_file_close(tComm,tOutputStream));
     tOutputStream.close();
 }
 
-TEST(MorphormTest, write_umma_diagnostics_header_plus_data)
+TEST(PlatoTest, write_umma_diagnostics_header_plus_data)
 {
     Plato::CommWrapper tComm;
     tComm.useDefaultComm();
 
-    Morphorm::OutputDataUMMA<double> tDiagnosticsData;
+    Plato::OutputDataUMMA<double> tDiagnosticsData;
     tDiagnosticsData.mFeasibility = 1.8e-1;
     tDiagnosticsData.mObjFuncEvals = 33;
     tDiagnosticsData.mObjGradEvals = 33;
@@ -1295,8 +1295,8 @@ TEST(MorphormTest, write_umma_diagnostics_header_plus_data)
 
     std::ofstream tOutputStream;
     tOutputStream.open("dummy.txt");
-    ASSERT_NO_THROW(Morphorm::write_umma_diagnostics_header(tComm,tDiagnosticsData,tOutputStream));
-    ASSERT_NO_THROW(Morphorm::write_umma_diagnostics(tComm,tDiagnosticsData,tOutputStream));
+    ASSERT_NO_THROW(Plato::write_umma_diagnostics_header(tComm,tDiagnosticsData,tOutputStream));
+    ASSERT_NO_THROW(Plato::write_umma_diagnostics(tComm,tDiagnosticsData,tOutputStream));
 
     auto tReadData = PlatoTest::read_data_from_file("dummy.txt");
     auto tGold = std::string("IterF-countG-countF(X)Norm(F')abs(dX)abs(dF)") 
@@ -1309,30 +1309,30 @@ TEST(MorphormTest, write_umma_diagnostics_header_plus_data)
     tOutputStream.close();
 }
 
-TEST(MorphormTest, get_umma_stop_criterion_description)
+TEST(PlatoTest, get_umma_stop_criterion_description)
 {
     // option 1
-    std::string tMsg = Morphorm::get_umma_stop_criterion_description(Plato::algorithm::stop_t::CONTROL_STAGNATION);
+    std::string tMsg = Plato::get_umma_stop_criterion_description(Plato::algorithm::stop_t::CONTROL_STAGNATION);
     auto tGold = std::string("\n\n****** Optimization stopping due to control (i.e. design variable) stagnation. ******\n\n");
     EXPECT_STREQ(tMsg.c_str(),tGold.c_str());
 
     // option 2
-    tMsg = Morphorm::get_umma_stop_criterion_description(Plato::algorithm::stop_t::MAX_NUMBER_ITERATIONS);
+    tMsg = Plato::get_umma_stop_criterion_description(Plato::algorithm::stop_t::MAX_NUMBER_ITERATIONS);
     tGold = std::string("\n\n****** Optimization stopping due to exceeding maximum number of iterations. ******\n\n");
     EXPECT_STREQ(tMsg.c_str(),tGold.c_str());
 
     // option 3
-    tMsg = Morphorm::get_umma_stop_criterion_description(Plato::algorithm::stop_t::NOT_CONVERGED);
+    tMsg = Plato::get_umma_stop_criterion_description(Plato::algorithm::stop_t::NOT_CONVERGED);
     tGold = std::string("\n\n****** Optimization algorithm did not converge. ******\n\n");
     EXPECT_STREQ(tMsg.c_str(),tGold.c_str());
 
     // option 4
-    tMsg = Morphorm::get_umma_stop_criterion_description(Plato::algorithm::stop_t::STATIONARITY_MEASURE);
+    tMsg = Plato::get_umma_stop_criterion_description(Plato::algorithm::stop_t::STATIONARITY_MEASURE);
     tGold = std::string("\n\n****** ERROR: Optimization algorithm stopping due to undefined behavior. ******\n\n");
     EXPECT_STREQ(tMsg.c_str(),tGold.c_str());
 }
 
-TEST(MorphormTest, PERF_UnconstrainedMethodMovingAsymptotes)
+TEST(PlatoTest, PERF_UnconstrainedMethodMovingAsymptotes)
 {
     // create interface to linear elasticity solver
     const double tPoissonRatio = 0.3;
@@ -1355,12 +1355,12 @@ TEST(MorphormTest, PERF_UnconstrainedMethodMovingAsymptotes)
     tLinearElasticitySolver->setFilterRadius(1.75);
     // * create augmented Lagrangian objective function
     std::shared_ptr<Plato::Criterion<double>> tDesignCriterion = 
-        std::make_shared<Morphorm::ProxyAugLagObjective<double>>(tLinearElasticitySolver);
+        std::make_shared<Plato::ProxyAugLagObjective<double>>(tLinearElasticitySolver);
     
     // create data factory
     const size_t tNumVectors = 1;
     const size_t tNumControls = tLinearElasticitySolver->getNumDesignVariables();
-    Morphorm::AlgorithmInputsUMMA<double> tInputs;
+    Plato::AlgorithmInputsUMMA<double> tInputs;
     tInputs.mControlChangeTolerance = 1e-4;
     const double tValue = tLinearElasticitySolver->getVolumeFraction();
     tInputs.mUpperBounds  = std::make_shared<Plato::EpetraSerialDenseMultiVector<double>>(tNumVectors, tNumControls, 1.0 /* base value */);
@@ -1368,8 +1368,8 @@ TEST(MorphormTest, PERF_UnconstrainedMethodMovingAsymptotes)
     tInputs.mInitialGuess = std::make_shared<Plato::EpetraSerialDenseMultiVector<double>>(tNumVectors, tNumControls, tValue);
     
     // create optimization algorithm and solve
-    Morphorm::AlgorithmOutputsUMMA<double> tOutputs;
-    Morphorm::solve_unconstrained_method_moving_asymptotes(tDesignCriterion,tInputs,tOutputs);
+    Plato::AlgorithmOutputsUMMA<double> tOutputs;
+    Plato::solve_unconstrained_method_moving_asymptotes(tDesignCriterion,tInputs,tOutputs);
 
     // test diagnostics
     ASSERT_EQ(25u, tOutputs.mNumOuterIterations);
@@ -1378,7 +1378,7 @@ TEST(MorphormTest, PERF_UnconstrainedMethodMovingAsymptotes)
 
     // test solution
     const double tTolerance = 1e-6;
-    auto tGold = MorphormTest::get_gold_control_umma_test();
+    auto tGold = PlatoTest::get_gold_control_umma_test();
     for(size_t tIndex = 0; tIndex < tOutputs.mSolution->operator[](0).size(); tIndex++)
     {
         ASSERT_NEAR(tGold[tIndex],tOutputs.mSolution->operator()(0/* vector index */,tIndex), tTolerance);
