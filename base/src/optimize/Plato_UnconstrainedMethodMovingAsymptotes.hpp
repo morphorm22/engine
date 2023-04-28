@@ -11,6 +11,15 @@
 namespace Plato
 {
 
+/******************************************************************************//**
+ * @tparam ScalarType  type for non-integer values
+ * @tparam OrdinalType type for integer values
+ * @class UnconstrainedMethodMovingAsymptotes
+ * 
+ * @brief Solve optimization problem using the unconstrained Method of Moving 
+ * Asymptotes (MMA) algorihtm. This algorithm is suitable for optimization problems
+ * involving a small or large number of constraints. 
+**********************************************************************************/
 template<typename ScalarType, typename OrdinalType = size_t>
 class UnconstrainedMethodMovingAsymptotes
 {
@@ -18,6 +27,11 @@ private:
     typedef Plato::UnconstrainedMethodMovingAsymptotesDataMng<ScalarType, OrdinalType> DataMng;
 
 public:
+    /******************************************************************************//**
+     * @brief Constructor
+     * @param [in] aCriterion interface to objective function 
+     * @param [in] aDataFactory interface to factory used to build data structure 
+    **********************************************************************************/
     UnconstrainedMethodMovingAsymptotes(
      const std::shared_ptr<Plato::Criterion<ScalarType, OrdinalType>>   &aCriterion,
      const std::shared_ptr<Plato::DataFactory<ScalarType, OrdinalType>> &aDataFactory
@@ -25,123 +39,222 @@ public:
         mDataMng(std::make_shared<DataMng>(aDataFactory)),
         mObjective(aCriterion)
     {}
+
+    /******************************************************************************//**
+     * @brief Destructor
+    **********************************************************************************/
     ~UnconstrainedMethodMovingAsymptotes(){}
 
+    /******************************************************************************//**
+     * @brief Enables/Disables output diagnostics
+     * @param [in] aInput boolean value
+    **********************************************************************************/
     void writeDiagnostics(const bool &aInput)
     {
         mWriteDiagnostics = aInput;
     }
 
+    /******************************************************************************//**
+     * @brief Set maximum number of outer optimization iterations
+     * @param [in] aInput integer value
+    **********************************************************************************/
     void setMaxNumOuterIterations(const OrdinalType &aInput)
     {
         mMaxNumOuterIterations = aInput;
     }
 
+    /******************************************************************************//**
+     * @brief Set maximum number of subproblem iterations
+     * @param [in] aInput integer value
+    **********************************************************************************/
     void setMaxNumSubProbIterations(const OrdinalType &aInput)
     {
         mMaxNumSubProblemIterations = aInput;
     }
 
+    /******************************************************************************//**
+     * @brief Set move limit for control variables
+     * @param [in] aInput scalar value
+    **********************************************************************************/
     void setMoveLimit(const ScalarType &aInput)
     {
         mMoveLimit = aInput;
     }
 
+    /******************************************************************************//**
+     * @brief Set tolerance for objective change stopping criterion
+     * @param [in] aInput scalar value
+    **********************************************************************************/
     void setObjectiveChangeTolerance(const ScalarType &aInput)
     {
         mObjectiveChangeTolerance = aInput;
     }
 
+    /******************************************************************************//**
+     * @brief Set tolerance for control change stopping criterion
+     * @param [in] aInput scalar value
+    **********************************************************************************/
     void setControlChangeTolerance(const ScalarType &aInput)
     {
         mControlChangeTolerance = aInput;
     }
 
+    /******************************************************************************//**
+     * @brief Set constant used to compute upper and lower asymptotes
+     * @param [in] aInput scalar value
+    **********************************************************************************/
     void setAsymptotesConstant(const ScalarType &aInput)
     {
         mAsymptotesConstant = aInput;
     }
 
+    /******************************************************************************//**
+     * @brief Set asymptotes initial decrement/increment multiplier
+     * @param [in] aInput scalar value
+    **********************************************************************************/
     void setAsymptotesInitialMultiplier(const ScalarType &aInput)
     {
         mAsymptotesInitialMultiplier = aInput;
     }
 
+    /******************************************************************************//**
+     * @brief Set asymptotes increment multiplier/constant
+     * @param [in] aInput scalar value
+    **********************************************************************************/
     void setAsymptotesIncrementConstant(const ScalarType &aInput)
     {
         mAsymptotesIncrementConstant = aInput; 
     }
-    
+
+    /******************************************************************************//**
+     * @brief Set asymptotes decrement multiplier/constant
+     * @param [in] aInput scalar value
+    **********************************************************************************/
     void setAsymptotesDecrementConstant(const ScalarType &aInput)
     {
         mAsymptotesDecrementConstant = aInput;
     }
 
+    /******************************************************************************//**
+     * @brief Set lower bounds for control variables.
+     * @param [in] aInput const reference to multivector container
+    **********************************************************************************/
     void setLowerBounds(const Plato::MultiVector<ScalarType,OrdinalType> &aInput)
     {
         Plato::update(1.0,aInput,0.0,mDataMng->mControlLowerBounds.operator*());
     }
 
+    /******************************************************************************//**
+     * @brief Set upper bounds for control variables.
+     * @param [in] aInput const reference to multivector container
+    **********************************************************************************/
     void setUpperBounds(const Plato::MultiVector<ScalarType,OrdinalType> &aInput)
     {
         Plato::update(1.0,aInput,0.0,mDataMng->mControlUpperBounds.operator*());
     }
 
+    /******************************************************************************//**
+     * @brief Set initial guess for control variables.
+     * @param [in] aInput const reference to multivector container
+    **********************************************************************************/
     void setInitialGuess(const Plato::MultiVector<ScalarType,OrdinalType> &aInput)
     {
         Plato::update(1.0,aInput,0.0,mDataMng->mCurrentControls.operator*());
     }
 
+    /******************************************************************************//**
+     * @brief Get number of objective function evaluations
+     * \return integer value
+    **********************************************************************************/
     OrdinalType getNumObjFuncEvals() const
     {
         return mNumObjFuncEvals;
     }
 
+    /******************************************************************************//**
+     * @brief Get number of objective gradient evaluations performed
+     * \return integer value
+    **********************************************************************************/
     OrdinalType getNumObjGradEvals() const
     {
         return mNumObjGradEvals;
     }
 
+    /******************************************************************************//**
+     * @brief Get number of outer iterations performed
+     * \return integer value
+    **********************************************************************************/
     OrdinalType getCurrentOuterIteration() const
     {
         return mCurrentOuterIteration;
     }
 
+    /******************************************************************************//**
+     * @brief Get current objective function value
+     * \return scalar value
+    **********************************************************************************/
     ScalarType getCurrentObjFuncValue() const
     {
         return mDataMng->mCurrentObjFuncValue;
     }
 
+    /******************************************************************************//**
+     * @brief Get change between two subsequent control solutions 
+     * \return scalar value
+    **********************************************************************************/
     ScalarType getControlChange() const
     {
         return mOutputData.mControlChange;
     }
 
+    /******************************************************************************//**
+     * @brief Get change in objective function
+     * \return scalar value
+    **********************************************************************************/
     ScalarType getObjectiveChange() const
     {
         return mOutputData.mObjFuncChange;
     }
 
+    /******************************************************************************//**
+     * @brief Get norm of objective function gradient 
+     * \return scalar value
+    **********************************************************************************/
     ScalarType getNormObjFuncGrad() const
     {
         return mOutputData.mNormObjFuncGrad;
     }
 
+    /******************************************************************************//**
+     * @brief Get stopping criterion
+     * \return stopping criterion
+    **********************************************************************************/
     Plato::algorithm::stop_t getStoppingCriterion() const
     {
         return mStoppingCriterion;
     }
 
+    /******************************************************************************//**
+     * @brief Get solution to optimization problem, i.e.; optimal control variables
+     * \param [out] aInput reference to multivector container 
+    **********************************************************************************/
     void getSolution(Plato::MultiVector<ScalarType,OrdinalType> &aInput) const
     {
         Plato::update(1.0,mDataMng->mCurrentControls.operator*(),0.0,aInput);
     }
 
+    /******************************************************************************//**
+     * @brief Get solution to optimization problem, i.e.; optimal control variables
+     * \return const reference to multivector container
+    **********************************************************************************/
     const Plato::MultiVector<ScalarType,OrdinalType>& getSolution() const
     {
         return mDataMng->mCurrentControls.operator*();
     }
     
+    /******************************************************************************//**
+     * @brief Main routine: Solve optimization problem
+    **********************************************************************************/
     void solve()
     {
         openWriteFile();
@@ -166,6 +279,9 @@ public:
 
 // private functions
 private:
+    /******************************************************************************//**
+     * @brief Solve unconstrained MMA subproblem and update control variables
+    **********************************************************************************/
     void solveSubProblem()
     {
         cacheState();
@@ -174,6 +290,9 @@ private:
         solveUnconstrainedMethodMovingAsymptotesProblem();
     }
 
+    /******************************************************************************//**
+     * @brief Perform final operations before exiting the optimization algorithm
+    **********************************************************************************/
     void finalize()
     {
         cacheState();
@@ -183,6 +302,10 @@ private:
         closeWriteFile();
     }
 
+    /******************************************************************************//**
+     * @brief Call update problem, enables parameter updates of external application
+     * within the optimization problem, i.e.; physics-related parameters.  
+    **********************************************************************************/
     void updateProblem()
     {
         mObjective->updateProblem(mDataMng->mCurrentControls.operator*());
@@ -222,6 +345,9 @@ private:
         }
     }
 
+    /******************************************************************************//**
+     * @brief Write stopping criterion to file, why did algorithm stop
+    **********************************************************************************/
     void writeStoppingCriterion()
     {
         if(mWriteDiagnostics == false)
@@ -236,7 +362,7 @@ private:
     }
 
     /******************************************************************************//**
-     * @brief Write diagnostics for U-MMA algorithm to file
+     * @brief Write diagnostics for unconstrained MMA algorithm to file
     **********************************************************************************/
     void writeDiagnostics()
     {
@@ -250,6 +376,9 @@ private:
         }
     }
 
+    /******************************************************************************//**
+     * @brief Write algorithm's diagnostics to file 
+    **********************************************************************************/
     void writeDiagnosticsToFile()
     {
         mOutputData.mObjFuncEvals = mNumObjFuncEvals;
@@ -263,6 +392,9 @@ private:
         Plato::write_umma_diagnostics(mDataMng->mComm.operator*(),mOutputData,mOutputStream);
     }
 
+    /******************************************************************************//**
+     * @brief Write algorithm's diagnostics to console. 
+    **********************************************************************************/
     void writeDiagnosticsToConsole() const
     {
         std::stringstream tConsoleStream;
@@ -271,12 +403,19 @@ private:
         Plato::Console::Alert(tConsoleStream.str());
     }
 
+    /******************************************************************************//**
+     * @brief Compute change in objective function, difference between two subsequent 
+     * objective function evaluations. 
+    **********************************************************************************/
     ScalarType computeDeltaObjFunc() const
     {
         auto tDelta = std::abs(mDataMng->mCurrentObjFuncValue - mDataMng->mPreviousObjFuncValue);
         return tDelta;
     }
 
+    /******************************************************************************//**
+     * @brief Compute average change in control variables
+    **********************************************************************************/
     ScalarType computeDeltaControl() const
     {
         Plato::update( 1.0, mDataMng->mCurrentControls.operator*() , 0.0, mDataMng->mDeltaControl.operator*());
@@ -289,6 +428,9 @@ private:
         return tDeltaControl;
     }
 
+    /******************************************************************************//**
+     * @brief Compute norm of objective function gradient
+    **********************************************************************************/
     ScalarType computeObjFuncGradNorm() const
     {
         ScalarType tNorm = Plato::norm(mDataMng->mCurrentObjectiveGradient.operator*());
@@ -321,6 +463,9 @@ private:
         return tStop;
     }
 
+    /******************************************************************************//**
+     * @brief Solve uncontrained MMA subproblem
+    **********************************************************************************/
     void solveUnconstrainedMethodMovingAsymptotesProblem()
     {
         updateMoveLimits();
@@ -330,6 +475,9 @@ private:
         updateSolution();
     }
 
+    /******************************************************************************//**
+     * @brief Compute move limits for optimization problem
+    **********************************************************************************/
     void updateMoveLimits()
     {
         Plato::update( 1.0, mDataMng->mControlUpperBounds.operator*(), 0.0, mDataMng->mMoveLimits.operator*());
@@ -337,9 +485,8 @@ private:
         Plato::scale(mMoveLimit, mDataMng->mMoveLimits.operator*());
     }
 
-    /***********************Plato*******************************************************//**
-     * @brief Update subproblem upper and lower bounds
-     * @param [in] aDataMng MMA data manager interface
+    /***********************Plato**************************************************//**
+     * @brief Update dynamic upper and lower bounds needed to compute subproblem bounds 
     **********************************************************************************/
     void updateDynamicControlBounds()
     {
@@ -374,6 +521,9 @@ private:
         }
     }
 
+    /******************************************************************************//**
+     * @brief Update asymptotes required to compute control variables
+    **********************************************************************************/
     void updateAsymptotes()
     {      
         if(mCurrentOuterIteration <= 2)
@@ -386,6 +536,9 @@ private:
         }
     }
 
+    /******************************************************************************//**
+     * @brief Compute initial asymptotes 
+    **********************************************************************************/
     void computeInitialAsymptotes()
     {
         Plato::update( 1.0, mDataMng->mDynamicControlUpperBounds.operator*(), 
@@ -404,6 +557,9 @@ private:
                       1.0, mDataMng->mUpperAsymptotes.operator*());
     }
 
+    /******************************************************************************//**
+     * @brief Update lower and upper asymptotes
+    **********************************************************************************/
     void computeCurrentAsymptotes()
     {
         auto tAsymptotesIncrement = 
@@ -438,6 +594,9 @@ private:
         }        
     }
 
+    /******************************************************************************//**
+     * @brief Update bounds for unconstrained MMA subproblem
+    **********************************************************************************/
     void updateSubProbControlBounds()
     {
         Plato::update(0.9, mDataMng->mLowerAsymptotes.operator*(), 0.0, mDataMng->mSubProbAlphaBounds.operator*());
@@ -463,6 +622,9 @@ private:
         }           
     }
 
+    /******************************************************************************//**
+     * @brief Update control variables and data structures required to update control variables. 
+    **********************************************************************************/
     void updateSolution()
     {
         updateApproximationFunctionP();
@@ -472,6 +634,9 @@ private:
         updateCurrentControls();
     }
 
+    /******************************************************************************//**
+     * @brief Update current control variables
+    **********************************************************************************/
     void updateCurrentControls()
     {
         const OrdinalType tNumVectors = mDataMng->mCurrentControls->getNumVectors();
@@ -507,6 +672,9 @@ private:
         } 
     }
 
+    /******************************************************************************//**
+     * @brief Update approximation function used in asymptotes calculation
+    **********************************************************************************/
     void updateApproximationFunctionP()
     {
         const OrdinalType tNumVectors = mDataMng->mCurrentObjectiveGradient->getNumVectors();
@@ -536,6 +704,9 @@ private:
         }
     }
 
+    /******************************************************************************//**
+     * @brief Update approximation function used in asymptotes calculation
+    **********************************************************************************/
     void updateApproximationFunctionQ()
     {
         const OrdinalType tNumVectors = mDataMng->mCurrentObjectiveGradient->getNumVectors();
@@ -565,6 +736,9 @@ private:
         }
     }
 
+    /******************************************************************************//**
+     * @brief Cache optimization problem state
+    **********************************************************************************/
     void cacheState()
     {
         mDataMng->mPreviousObjFuncValue = mDataMng->mCurrentObjFuncValue;
@@ -590,23 +764,23 @@ private:
     std::ofstream mOutputStream;     /*!< output string stream with diagnostics */
     Plato::OutputDataUMMA<ScalarType,OrdinalType> mOutputData; /*!< output data written to diagnostic file */
 
-    OrdinalType mNumObjGradEvals = 0;
-    OrdinalType mNumObjFuncEvals = 0;
-    OrdinalType mCurrentOuterIteration = 0;
-    OrdinalType mMaxNumOuterIterations = 150;
-    OrdinalType mCurrentSubProblemIteration = 0;
-    OrdinalType mMaxNumSubProblemIterations = 5;
+    OrdinalType mNumObjGradEvals = 0; /*!< number of objective function gradient evaluations */
+    OrdinalType mNumObjFuncEvals = 0; /*!< number of objective function evaluations */
+    OrdinalType mCurrentOuterIteration = 0; /*!< current number of outer iterations */
+    OrdinalType mMaxNumOuterIterations = 150; /*!< maximum number of outer iterations */
+    OrdinalType mCurrentSubProblemIteration = 0; /*!< current number of subproblem iterations */
+    OrdinalType mMaxNumSubProblemIterations = 5; /*!< maximum number of subproblem iterations */
 
-    ScalarType mMoveLimit                   = 0.15;
-    ScalarType mAsymptotesConstant          = 0.2;
-    ScalarType mControlChangeTolerance      = 1e-3;
-    ScalarType mObjectiveChangeTolerance    = 1e-10;
-    ScalarType mAsymptotesInitialMultiplier = 0.2;
-    ScalarType mAsymptotesIncrementConstant = 1.2; 
-    ScalarType mAsymptotesDecrementConstant = 0.7; 
+    ScalarType mMoveLimit                   = 0.15; /*!< control variable move limit */
+    ScalarType mAsymptotesConstant          = 0.2;  /*!< constant used to compute asymptote increment/decrement */
+    ScalarType mControlChangeTolerance      = 1e-3; /*!< tolerance on max change between current & pevious control */
+    ScalarType mObjectiveChangeTolerance    = 1e-10; /*!< tolerance on max change between current & pevious objective*/
+    ScalarType mAsymptotesInitialMultiplier = 0.2; /*!< increment multiplier on initial asymptote*/
+    ScalarType mAsymptotesIncrementConstant = 1.2; /*!< increment multiplier on aymptotes */
+    ScalarType mAsymptotesDecrementConstant = 0.7; /*!< decrement multiplier on aymptotes */
     
-    const ScalarType mCONSTANT_ONE = 1e-3;
-    const ScalarType mCONSTANT_EPS = 1e-6;
+    const ScalarType mCONSTANT_ONE = 1e-3; /*!< constant use in asymptotes calculation */
+    const ScalarType mCONSTANT_EPS = 1e-6; /*!< constant use in asymptotes calculation */
 
     Plato::algorithm::stop_t mStoppingCriterion = Plato::algorithm::NOT_CONVERGED; /*!< stopping criterion */
 
