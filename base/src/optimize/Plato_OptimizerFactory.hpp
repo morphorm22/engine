@@ -18,6 +18,7 @@
 #include "Plato_MethodMovingAsymptotesEngine.hpp"
 #include "Plato_KelleySachsBoundConstrainedInterface.hpp"
 #include "Plato_KelleySachsAugmentedLagrangianInterface.hpp"
+#include "Plato_UnconstrainedMethodMovingAsymptotesEngine.hpp"
 
 namespace Plato
 {
@@ -142,14 +143,22 @@ public:
         else if( tLowerOptPackage == "mma" )
         {
           try {
-            tOptimizer = new Plato::MethodMovingAsymptotesEngine<ScalarType, OrdinalType>(aInterface, aLocalComm);
+            tOptimizer = new Plato::MethodMovingAsymptotesEngine<ScalarType,OrdinalType>(aInterface,aLocalComm);
+          } catch(...){aInterface->Catch();}
+        }
+        else if( tLowerOptPackage == "umma" )
+        {
+          try {
+            tOptimizer = 
+                new Plato::UnconstrainedMethodMovingAsymptotesEngine<ScalarType,OrdinalType>(aInterface,aLocalComm);
           } catch(...){aInterface->Catch();}
         }
         else if( tLowerOptPackage == "ksuc" )
         {
           try {
             Plato::optimizer::algorithm_t tType = Plato::optimizer::algorithm_t::KELLEY_SACHS_BOUND_CONSTRAINED;
-            tOptimizer = new Plato::KelleySachsBoundConstrainedInterface<ScalarType, OrdinalType>(aInterface, aLocalComm, tType);
+            tOptimizer = 
+                new Plato::KelleySachsBoundConstrainedInterface<ScalarType,OrdinalType>(aInterface,aLocalComm,tType);
           } catch(...){aInterface->Catch();}
         }
         else if( tLowerOptPackage == "ksbc" )

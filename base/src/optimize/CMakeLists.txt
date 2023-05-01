@@ -45,6 +45,8 @@ set(${LIB_NAME}_HEADERS Plato_BoundsBase.hpp
                         Plato_MethodMovingAsymptotesInterface.hpp
                         Plato_MethodMovingAsymptotesOperations.hpp
                         Plato_UnconstrainedMethodMovingAsymptotes.hpp
+                        Plato_UnconstrainedMethodMovingAsymptotesParser.hpp
+                        Plato_UnconstrainedMethodMovingAsymptotesEngine.hpp
                         Plato_UnconstrainedMethodMovingAsymptotesDataIO.hpp
                         Plato_UnconstrainedMethodMovingAsymptotesFileIO.hpp
                         Plato_UnconstrainedMethodMovingAsymptotesDataMng.hpp

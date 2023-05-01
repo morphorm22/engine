@@ -74,10 +74,10 @@ public:
      * @param [in] aInputData PLATO Engine input data
      * @param [in] aInterface PLATO Engine interface
     **********************************************************************************/
-    explicit EngineObjective(const Plato::DataFactory<ScalarType, OrdinalType> & aDataFactory,
-                             const Plato::OptimizerEngineStageData & aInputData,
-                             Plato::Interface* aInterface,
-                             Plato::OptimizerInterface< ScalarType, OrdinalType > * aOptInterface) :
+    explicit EngineObjective(const Plato::DataFactory<ScalarType, OrdinalType>       & aDataFactory,
+                             const Plato::OptimizerEngineStageData                   & aInputData,
+                                   Plato::Interface                                  * aInterface,
+                                   Plato::OptimizerInterface<ScalarType,OrdinalType> * aOptInterface) :
             mVector(std::vector<ScalarType>(aDataFactory.getNumControls())),
             mControl(std::vector<ScalarType>(aDataFactory.getNumControls())),
             mGradient(std::vector<ScalarType>(aDataFactory.getNumControls())),

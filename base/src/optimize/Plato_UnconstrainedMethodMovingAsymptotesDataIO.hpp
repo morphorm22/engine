@@ -54,16 +54,17 @@ struct AlgorithmInputsUMMA
 
     bool mWriteDiagnostics = false; /*!< write diagnostics to file */
 
-    OrdinalType mMaxNumOuterIterations = 150; /*!< maximum number of outer iterations */
+    OrdinalType mNumControlVectors = 1;          /*!< number of control vectors */
+    OrdinalType mMaxNumOuterIterations = 150;    /*!< maximum number of outer iterations */
     OrdinalType mMaxNumSubProblemIterations = 5; /*!< maximum number of subproblem iterations */
 
-    ScalarType mMoveLimit                   = 0.15; /*!< move limit */
-    ScalarType mAsymptotesConstant          = 0.2;  /*!< constant asymptotes multiplier */
-    ScalarType mControlChangeTolerance      = 1e-3; /*!< control change tolerance, stopping criterion */ 
+    ScalarType mMoveLimit                   = 0.15;  /*!< move limit */
+    ScalarType mAsymptotesConstant          = 0.2;   /*!< constant asymptotes multiplier */
+    ScalarType mControlChangeTolerance      = 1e-3;  /*!< control change tolerance, stopping criterion */ 
     ScalarType mObjectiveChangeTolerance    = 1e-10; /*!< objective change tolerance, stopping criterion */
-    ScalarType mAsymptotesInitialMultiplier = 0.2; /*!< initial asymptotes increment/decrement multiplier */
-    ScalarType mAsymptotesIncrementConstant = 1.2; /*!< asymptotes increment multiplier */
-    ScalarType mAsymptotesDecrementConstant = 0.7; /*!< asymptotes decrement multiplier */
+    ScalarType mAsymptotesInitialMultiplier = 0.2;   /*!< initial asymptotes increment/decrement multiplier */
+    ScalarType mAsymptotesIncrementConstant = 1.2;   /*!< asymptotes increment multiplier */
+    ScalarType mAsymptotesDecrementConstant = 0.7;   /*!< asymptotes decrement multiplier */
 
     Plato::CommWrapper mComm; /*!< interface to MPI communicator */
     Plato::MemorySpace::type_t mMemorySpace = Plato::MemorySpace::HOST; /*!< memory space: HOST OR DEVICE */
@@ -139,11 +140,12 @@ inline void set_unconstrained_mma_algorithm_outputs
  * @param [in]  aInputs   UMMA inputs
  * @param [out] aOutputs  UMMA outputs
 **********************************************************************************/
-template<typename ScalarType, typename OrdinalType = size_t>
-inline void solve_unconstrained_method_moving_asymptotes
-(const std::shared_ptr<Plato::Criterion<ScalarType,OrdinalType>> &aObjective,
+template<typename ScalarType, typename OrdinalType>
+inline void solve_unconstrained_method_moving_asymptotes(
+ const std::shared_ptr<Plato::Criterion<ScalarType,OrdinalType>> &aObjective,
  const Plato::AlgorithmInputsUMMA<ScalarType,OrdinalType>        &aInputs,
-       Plato::AlgorithmOutputsUMMA<ScalarType,OrdinalType>       &aOutputs)
+       Plato::AlgorithmOutputsUMMA<ScalarType,OrdinalType>       &aOutputs
+)
 {
     // create data structures 
     auto tDataFactory = std::make_shared<Plato::DataFactory<ScalarType, OrdinalType>>();

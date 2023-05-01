@@ -86,7 +86,7 @@ public:
     virtual ~MethodMovingAsymptotesEngine() = default;
 
     /******************************************************************************//**
-     * \brief Return the algorithm type
+     * \brief Return algorithm type
      * \return algorithm type
     **********************************************************************************/
     Plato::optimizer::algorithm_t algorithm() const
