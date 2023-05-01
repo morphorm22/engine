@@ -19,11 +19,6 @@ SET(PlatoXMLGenerator_UnitTester_SRCS XMLGenerator_UnitMain.cpp
                                       XMLGeneratorPlatoAnalyzeOperationsFile_UnitTester.cpp
                                       XMLGeneratorXTKInputDeck_UnitTester.cpp
                                       XMLGeneratorXTKOperationFile_UnitTester.cpp
-                                      FileObject_UnitTester.cpp
-                                      Performer_UnitTester.cpp
-                                      SharedData_UnitTester.cpp
-                                      Stage_UnitTester.cpp
-                                      Operation_UnitTester.cpp
                                       ../XMLGenerator.cpp
                                       ../XMLGeneratorProblem.cpp
                                       ../XMLGeneratorParseRun.cpp
@@ -85,15 +80,6 @@ SET(PlatoXMLGenerator_UnitTester_SRCS XMLGenerator_UnitMain.cpp
                                       ../XMLGeneratorLaunchScriptUtilities.cpp
                                       ../XMLGeneratorPlatoMainConstraintValueOperationInterface.cpp
                                       ../XMLGeneratorPlatoMainConstraintGradientOperationInterface.cpp
-                                      # ../PlatoAnalyzeInputDeckWriter.cpp
-                                      # ../SalinasInputDeckWriter.cpp)
-			              ../FileObject.cpp
-			              ../Operation.cpp
-                                      ../Stage.cpp
-			              ../Performer.cpp
-			              ../SharedData.cpp
-                                      ../OptimizationAlgorithmFactory.cpp
-                                      ../OptimizationAlgorithm.cpp
                                       )
 
 SET(PlatoXMLGenerator_UnitTester_HDRS XMLGenerator_UnitTester.hpp

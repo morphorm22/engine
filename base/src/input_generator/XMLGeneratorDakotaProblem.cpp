@@ -4,7 +4,6 @@
  *  Created on: March 25, 2022
  */
 
-#include "Operation.hpp"
 #include "XMLGeneratorUtilities.hpp"
 #include "XMLGeneratorDataStruct.hpp"
 #include "XMLGeneratorDakotaProblem.hpp"

@@ -63,13 +63,6 @@ SET(XMLGenerator_SRCS XMLGenerator_Main.cpp
                       XMLGeneratorParseRun.cpp
                       XMLGeneratorPlatoXTKInputFile.cpp
                       XMLGeneratorPlatoXTKOperationFile.cpp
-		      FileObject.cpp
-		      Operation.cpp
-                      Stage.cpp
-		      Performer.cpp
-		      SharedData.cpp
-		      OptimizationAlgorithm.cpp
-		      OptimizationAlgorithmFactory.cpp
                       )
                       
 SET(XMLGenerator_HDRS XMLGenerator.hpp 
@@ -112,20 +105,14 @@ SET(XMLGenerator_HDRS XMLGenerator.hpp
                       XMLGeneratorPlatoMainOperationFileUtilities.hpp
                       XMLGeneratorPlatoAnalyzeOperationsFileUtilities.hpp
                       XMLGeneratorLaunchUtilities.hpp
-                      # XMLGeneratorAnalyzeCriterionUtilities.hpp
                       XMLGeneratorAnalyzeLoadFunctionInterface.hpp
                       XMLGeneratorAnalyzeLoadTagFunctionInterface.hpp
                       XMLGeneratorAnalyzeEssentialBCFunctionInterface.hpp
                       XMLGeneratorAnalyzeEssentiallBCTagFunctionInterface.hpp
                       XMLGeneratorAnalyzeAssemblyFunctionInterface.hpp
-                      # XMLGeneratorAnalyzeMaterialModelFunctionInterface.hpp
-                      # XMLGeneratorAnalyzeAppendCriterionFunctionInterface.hpp
                       XMLGeneratorPlatoMainConstraintValueOperationInterface.hpp
                       XMLGeneratorPlatoMainConstraintGradientOperationInterface.hpp
                       XMLGeneratorLaunchScriptUtilities.hpp
-                      # XMLGeneratorRandomInterfaceFileUtilities.hpp 
-                      # XMLGeneratorPlatoMainFunctionMapTypes.hpp
-                      # XMLGeneratorDataStruct.hpp
                       XMLGeneratorUtilities.hpp
                       XMLGeneratorParseOutput.hpp 
                       XMLGeneratorParseMaterial.hpp 
@@ -134,7 +121,6 @@ SET(XMLGenerator_HDRS XMLGenerator.hpp
                       XMLGeneratorParseCriteria.hpp 
                       XMLGeneratorParseObjective.hpp 
                       XMLGeneratorParseBlock.hpp
-                      # XMLGeneratorParseMetadata.hpp 
                       XMLGeneratorParseScenario.hpp 
                       XMLGeneratorParseOptimizationParameters.hpp 
                       XMLGeneratorParseServices.hpp 
@@ -144,13 +130,6 @@ SET(XMLGenerator_HDRS XMLGenerator.hpp
                       XMLGeneratorPlatoXTKOperationFile.hpp
                       XMLGeneratorRunMetadata.hpp
                       XMLGeneratorParseRun.hpp
-		      FileObject.hpp
-		      Operation.hpp
-                      Stage.hpp
-		      Performer.hpp
-		      SharedData.hpp
-		      OptimizationAlgorithm.hpp
-		      OptimizationAlgorithmFactory.hpp
                       )
 
 find_package(MPI)
