@@ -56,10 +56,21 @@ void append_optimality_criteria_options
 /******************************************************************************//**
  * \fn append_method_moving_asymptotes_options
  * \brief Append Method of Moving Asymptotes (MMA) options to interface xml file.
- * \param [in]  aMetaData Plato problem input data
- * \param [out] aParentNode  parent node to append data to
+ * \param [in]  aMetaData   Plato problem input data
+ * \param [out] aParentNode parent node storage
 **********************************************************************************/
 void append_method_moving_asymptotes_options
+(const XMLGen::InputData& aMetaData,
+ pugi::xml_node& aParentNode);
+
+/******************************************************************************//**
+ * \fn append_unconstrained_method_moving_asymptotes_options
+ * \brief Append Unconstrained Method of Moving Asymptotes (UMMA) options to 
+ *        interface xml file.
+ * \param [in]  aMetaData   Plato problem input data
+ * \param [out] aParentNode parent node storage
+**********************************************************************************/
+void append_unconstrained_method_moving_asymptotes_options
 (const XMLGen::InputData& aMetaData,
  pugi::xml_node& aParentNode);
 
