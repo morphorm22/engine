@@ -73,6 +73,8 @@ void ParseCriteria::allocate()
     this->insertTag("type");
     this->insertTag("normalize", "false");
     this->insertTag("normalization_value", "1.0");
+
+    // to be deprecated
     this->insertTag("stress_limit");
     this->insertTag("scmm_initial_penalty");
     this->insertTag("scmm_penalty_expansion_multiplier");
@@ -80,13 +82,23 @@ void ParseCriteria::allocate()
     this->insertTag("scmm_penalty_upper_bound");
     this->insertTag("scmm_stress_weight", "1.0");
     this->insertTag("scmm_mass_weight", "1.0");
+    this->insertTag("local_measure","vonmises");
+
+    // new local constraint parameters
+    this->insertTag("limits");
+    this->insertTag("max_penalty","10000.");
+    this->insertTag("initial_penalty","1.0");
+    this->insertTag("penalty_increment","1.1");
+    this->insertTag("local_measures","vonmises");
+    this->insertTag("penalty_update_constant","0.25");
+    this->insertTag("initial_lagrange_multiplier", "0.0");
+
 
     this->insertTag("stress_p_norm_exponent", "6.0");
     this->insertTag("stress_p_norm_measure");
     this->insertTag("stress_p_norm_volume_scaling");
     this->insertTag("mechanical_weighting_factor", "1.0");
     this->insertTag("thermal_weighting_factor", "1.0");
-    this->insertTag("local_measure", "vonmises");
     this->insertTag("spatial_weighting_function", "1.0"); // function of x, y, and z
     this->insertTag("material_penalty_model", "simp");
     this->insertTag("material_penalty_exponent", "3.0");

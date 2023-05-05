@@ -290,6 +290,8 @@ public:
         return (this->value("thermal_weighting_factor"));
     }
 
+    // **** TO BE DEPRECATED ****
+
     /******************************************************************************//**
      * \fn scmmPenaltyExpansionMultiplier
      * \brief Set string value for keyword 'scmm_penalty_expansion_multiplier'.
@@ -409,6 +411,8 @@ public:
     {
         return (this->value("stress_limit"));
     }
+
+    // **** TO BE DEPRECATED ****
 
     /******************************************************************************//**
      * \fn spatial_weighting_function

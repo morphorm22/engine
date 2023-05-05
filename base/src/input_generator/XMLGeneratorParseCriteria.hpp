@@ -16,7 +16,8 @@ namespace XMLGen
 class ParseCriteria : public XMLGen::ParseMetadata<std::vector<XMLGen::Criterion>>
 {
 private:
-    XMLGen::MetaDataTags mTags; /*!< map from plato input file tags to valid tokens-value pairs, i.e. map<tag, pair<tokens,value> > */
+    /*!< map from plato input file tags to valid tokens-value pairs, i.e. map<tag, pair<tokens,value> > */
+    XMLGen::MetaDataTags mTags;
     std::vector<XMLGen::Criterion> mData; /*!< criteria metadata */
 
 private:

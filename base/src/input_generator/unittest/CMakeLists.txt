@@ -9,9 +9,10 @@ SET(PlatoXMLGenerator_UnitTester_SRCS XMLGenerator_UnitMain.cpp
                                       XMLGeneratorLaunch_UnitTester.cpp
                                       XMLGeneratorDefineFile_UnitTester.cpp
                                       XMLGeneratorDakotaDriver_UnitTester.cpp
+                                      XMLGeneratorLaunchScript_UnitTester.cpp
                                       XMLGeneratorParseMetaData_UnitTester.cpp
                                       XMLGeneratorInterfaceFile_UnitTester.cpp
-                                      XMLGeneratorLaunchScript_UnitTester.cpp
+                                      XMLGeneratorAugLagCriterion_UnitTester.cpp
                                       XMLGeneratorRandomInterfaceFile_UnitTester.cpp
                                       XMLGeneratorPlatoMainInputDeckFile_UnitTester.cpp
                                       XMLGeneratorPlatoMainOperationFile_UnitTester.cpp

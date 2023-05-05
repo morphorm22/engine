@@ -76,6 +76,17 @@ struct ValidCriterionParameterKeys
         "material_penalty_model", 
         "material_penalty_exponent", 
         "minimum_ersatz_material_value",
+
+        /*new local constraint parameters*/
+        "limits",
+        "max_penalty",
+        "local_measures",
+        "initial_penalty",
+        "penalty_increment",
+        "penalty_update_constant",
+        "initial_lagrange_multiplier",
+
+        /* to be deprecated*/
         "stress_limit",
         "scmm_initial_penalty",
         "scmm_penalty_expansion_multiplier",
@@ -83,6 +94,9 @@ struct ValidCriterionParameterKeys
         "scmm_stress_weight",
         "scmm_mass_weight",
         "scmm_constraint_exponent",
+
+
+
         "criterion_ids",
         "criterion_weights",
         "relative_stress_limit",
@@ -194,13 +208,12 @@ private:
         "flux_p-norm", 
         "stress", 
         "stress_p-norm", 
-        "stress_constraint",  
+        "strength_constraint",  
         "stress_constraint_general",  
         "stress_constraint_quadratic",  
         "stress_and_mass",
         "flux", 
         "frf_mismatch", 
-        "limit_stress",
         "compliance_and_volume_min",
         "mean_temperature", 
         "mean_surface_pressure",
