@@ -71,8 +71,13 @@ private:
      **********************************************************************************/
     void insert()
     {
+        // mass
+        auto tFuncIndex = std::type_index(typeid(XMLGen::Private::append_mass_criterion));
+        mMap.insert(std::make_pair("mass",
+          std::make_pair((XMLGen::Analyze::CriterionFunc)XMLGen::Private::append_mass_criterion, tFuncIndex)));
+
         // volume
-        auto tFuncIndex = std::type_index(typeid(XMLGen::Private::append_scalar_function_criterion<CriterionType>));
+        tFuncIndex = std::type_index(typeid(XMLGen::Private::append_scalar_function_criterion<CriterionType>));
         mMap.insert(std::make_pair("volume",
           std::make_pair((XMLGen::Analyze::CriterionFunc)XMLGen::Private::append_scalar_function_criterion<CriterionType>, tFuncIndex)));
 
@@ -95,6 +100,12 @@ private:
         tFuncIndex = std::type_index(typeid(XMLGen::Private::append_stress_constrained_mass_minimization_criterion));
         mMap.insert(std::make_pair("stress_constraint_quadratic",
           std::make_pair((XMLGen::Analyze::CriterionFunc)XMLGen::Private::append_stress_constraint_quadratic_criterion, tFuncIndex)));
+
+        // strength_constraint
+        tFuncIndex = std::type_index(typeid(XMLGen::Private::append_strength_constraint));
+        mMap.insert(std::make_pair("strength_constraint",
+          std::make_pair(
+          (XMLGen::Analyze::CriterionFunc)XMLGen::Private::append_strength_constraint, tFuncIndex)));
 
         // stress p-norm
         tFuncIndex = std::type_index(typeid(XMLGen::Private::append_pnorm_criterion<CriterionType>));
@@ -184,15 +195,6 @@ public:
     **********************************************************************************/
     pugi::xml_node call(const CriterionType& aCriterion, pugi::xml_node &aParentNode) const
     {
-/* Code is not a member of Criterion and we should never get in here except for plato_analyze if
- * things are being called correctly
-        auto tLowerPerformer = Plato::tolower(aCriterion.code());
-        if(tLowerPerformer.compare("plato_analyze") != 0)
-        {
-            return;
-        }
-*/
-
         auto tLowerCategory = Plato::tolower(aCriterion.type());
         auto tMapItr = mMap.find(tLowerCategory);
         if(tMapItr == mMap.end())

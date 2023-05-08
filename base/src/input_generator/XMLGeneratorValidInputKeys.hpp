@@ -1341,8 +1341,9 @@ struct ValidAnalyzeCriteriaKeys
      **/
     std::unordered_map<std::string, std::pair<std::string, bool>> mKeys =
     {
-        { "composite", { "Composite", false } },
+        { "mass", { "Mass", false } },
         { "volume", { "Volume", false } },
+        { "composite", { "Composite", false } },
         { "volume_average", { "Volume Average Criterion", false } },
         { "elastic_work", { "Elastic Work", false } },
         { "plastic_work", { "Plastic Work", false } },
@@ -1352,7 +1353,7 @@ struct ValidAnalyzeCriteriaKeys
         { "local_stress", { "Stress Constraint Quadratic", false } },
         { "stress_p-norm", { "Stress P-Norm", false } },
         { "effective_energy", { "Effective Energy", true } },
-        { "stress_constraint", { "Stress Constraint", false } },
+        { "strength_constraint", { "Strength Constraint", false } },
         { "stress_constraint_general", { "Stress Constraint General", false } },
         { "stress_constraint_quadratic", { "Stress Constraint Quadratic", false } },
         { "stress_and_mass", { "Stress Constraint General", false } },

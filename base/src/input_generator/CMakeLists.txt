@@ -31,11 +31,11 @@ SET(XMLGenerator_SRCS XMLGenerator_Main.cpp
                       XMLGeneratorDefinesFileUtilities.cpp
                       XMLGeneratorPlatoAnalyzeUtilities.cpp
                       XMLGeneratorInterfaceFileUtilities.cpp
-                      XMLGeneratorDakotaInterfaceFileUtilities.cpp
-                      XMLGeneratorDakotaDriverInputFileUtilities.cpp 
                       XMLGeneratorGradBasedOptimizerOptions.cpp
                       XMLGeneratorStagesOperationsUtilities.cpp
                       XMLGeneratorParseOptimizationParameters.cpp
+                      XMLGeneratorDakotaInterfaceFileUtilities.cpp
+                      XMLGeneratorDakotaDriverInputFileUtilities.cpp 
                       XMLGeneratorOptimizationParametersMetadata.cpp
                       XMLGeneratorParseEssentialBoundaryCondition.cpp
                       XMLGeneratorParseMethodInputOptionsUtilities.cpp

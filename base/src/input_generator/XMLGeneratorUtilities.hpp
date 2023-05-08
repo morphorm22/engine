@@ -362,5 +362,28 @@ bool subdirectory_exists
  int get_number_of_shape_parameters
  (const XMLGen::InputData& aMetaData);
 
+ /******************************************************************************//**
+ * \fn return_formatted_teuchos_array_values
+ * \brief Takes a list of string values and returns a string formatted to conform
+ *   to the Teuchos parameter list format used for array inputs.  
+ * \param  [in]  Values list of inputs
+ * \return string
+ **********************************************************************************/
+std::string return_formatted_teuchos_array_values
+(const std::vector<std::string> &aValues);
+
+/******************************************************************************//**
+ * \fn append_key_value_pairs_to_node
+ * \brief Append key-value pairs to xml node.   
+ * \param [in]  aKeys       parameter keys
+ * \param [in]  aValues     parameter values
+ * \param [out] aParentNode pugi::xml_node
+ **********************************************************************************/
+void append_key_value_pairs_to_node(
+  const std::vector<std::string> &aKeys,
+  const std::vector<std::string> &aValues,
+        pugi::xml_node           &aParentNode
+);
+
 }
 // namespace XMLGen

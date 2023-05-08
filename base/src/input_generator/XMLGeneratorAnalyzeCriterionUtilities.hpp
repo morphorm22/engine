@@ -9,6 +9,7 @@
 #include <sstream>
 #include "XMLGeneratorUtilities.hpp"
 #include "XMLGeneratorValidInputKeys.hpp"
+#include "XMLGeneratorPlatoAnalyzeInputFileUtilities.hpp"
 
 namespace XMLGen
 {
@@ -651,6 +652,109 @@ std::string is_criterion_supported_in_plato_analyze(const CriterionT& aCriterion
             + tLowerCriterion + "' is not supported.")
     }
     return tItr->second.first;
+}
+
+/******************************************************************************//**
+ * \fn append_scalar_function
+ * \brief Append scalar function to xml node. Data will be written to the input 
+ *        deck for the analysis code.   
+ * \param [in]  aCriterionName criterion name
+ * \param [out] aObjective     pugi::xml_node
+ **********************************************************************************/
+inline void append_scalar_function(
+    const std::string    & aCriterionName,
+          pugi::xml_node & aObjective
+)
+{
+    std::vector<std::string> tKeys = {"name", "type", "value"};
+    std::vector<std::string> tValues = {"Type", "string", "Scalar Function"};
+    XMLGen::append_parameter_plus_attributes(tKeys, tValues, aObjective);
+    tValues = {"Scalar Function Type", "string", aCriterionName};
+    XMLGen::append_parameter_plus_attributes(tKeys, tValues, aObjective);
+}
+
+/******************************************************************************//**
+ * \fn append_strength_constraint_parameters
+ * \brief Append input parameters for strength constraint. Parameters will be written 
+ *        to the xml input deck for the analysis code.   
+ * \param [in]  aCriterion  criterion metadata
+ * \param [out] aParentNode pugi::xml_node
+ **********************************************************************************/
+inline void append_strength_constraint_parameters
+(const XMLGen::Criterion &aCriterion,
+       pugi::xml_node    &aParentNode)
+{
+    // append stress constrained mass minimization scalar function parameters
+    auto tLimits = aCriterion.values("limits");
+    auto tFormattedLimits = XMLGen::return_formatted_teuchos_array_values(tLimits);
+    std::vector<std::string> tKeys = {"name", "type", "value"};
+    XMLGen::append_key_value_pairs_to_node
+    (tKeys,{"Limits", "Array(double)", tFormattedLimits},aParentNode);
+
+    auto tLocalMeasures = aCriterion.values("local_measures");
+    auto tFormattedLocalMeasures = XMLGen::return_formatted_teuchos_array_values(tLocalMeasures);
+    XMLGen::append_key_value_pairs_to_node
+    (tKeys,{"Local Measures", "Array(string)", tFormattedLocalMeasures},aParentNode);
+
+    XMLGen::append_key_value_pairs_to_node
+    (tKeys,{"Exponent", "double", aCriterion.value("material_penalty_exponent")},aParentNode);
+
+    XMLGen::append_key_value_pairs_to_node
+    (tKeys,{"Minimum Value", "double", aCriterion.value("minimum_ersatz_material_value")},aParentNode);
+    
+    XMLGen::append_key_value_pairs_to_node
+    (tKeys,{"Maximum Penalty", "double", aCriterion.value("max_penalty")},aParentNode);
+        
+    XMLGen::append_key_value_pairs_to_node
+    (tKeys,{"Initial Penalty", "double", aCriterion.value("initial_penalty")},aParentNode);
+
+    XMLGen::append_key_value_pairs_to_node
+    (tKeys,{"Penalty Increment", "double", aCriterion.value("penalty_increment")},aParentNode);
+
+    XMLGen::append_key_value_pairs_to_node
+    (tKeys,{"Penalty Update Constant", "double", aCriterion.value("penalty_update_constant")},aParentNode);
+
+    XMLGen::append_key_value_pairs_to_node
+    (tKeys,{"Initial Lagrange Multiplier", "double", aCriterion.value("initial_lagrange_multiplier")},aParentNode);
+}
+
+/******************************************************************************//**
+ * \fn append_strength_constraint
+ * \brief Append strenght constraint criterion. The augmented Lagrangian formulation 
+ *   is applied to enforce the local strength constraints. 
+ * \param [in]  aCriterion   criterion metadata
+ * \param [out] aParentNode  pugi::xml_node
+**********************************************************************************/
+inline pugi::xml_node append_strength_constraint
+(const XMLGen::Criterion& aCriterion,
+ pugi::xml_node& aParentNode)
+{
+    auto tDesignCriterionName = XMLGen::Private::is_criterion_supported_in_plato_analyze(aCriterion);
+    auto tObjective = XMLGen::Private::append_criterion_node(aCriterion, aParentNode);
+    // append strength constraint scalar function
+    XMLGen::Private::append_scalar_function(tDesignCriterionName,tObjective);
+    XMLGen::Private::append_strength_constraint_parameters(aCriterion, tObjective);
+    return tObjective;
+}
+
+/******************************************************************************//**
+ * \fn append_mass_criterion
+ * \brief Append mass criterion inputs 
+ * \param [in]  aCriterion   criterion metadata
+ * \param [out] aParentNode  pugi::xml_node
+**********************************************************************************/
+inline pugi::xml_node append_mass_criterion
+(const XMLGen::Criterion & aCriterion,
+       pugi::xml_node    & aParentNode)
+{
+    auto tDesignCriterionName = XMLGen::Private::is_criterion_supported_in_plato_analyze(aCriterion);
+    auto tObjective = XMLGen::Private::append_criterion_node(aCriterion, aParentNode);
+    // append mass constraint scalar function
+    XMLGen::Private::append_scalar_function(tDesignCriterionName,tObjective);
+    std::vector<std::string> tKeys = {"name", "type", "value"};
+    auto tPropValue = aCriterion.value("normalize").empty() ? "true" : aCriterion.value("normalize");
+    XMLGen::append_key_value_pairs_to_node(tKeys,{"Normalize Criterion","bool",tPropValue},tObjective);
+    return tObjective;
 }
 
 }

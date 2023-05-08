@@ -171,7 +171,6 @@ std::string transform_tokens_for_plato_analyze_input_deck
     {
         THROWERR("Transform Tokens for Plato Analyze Input Deck: Input list of tokens is empty.")
     }
-
     std::string tOutput("{");
     auto tEndIndex = aTokens.size() - 1u;
     auto tEndIterator = std::next(aTokens.begin(), tEndIndex);
@@ -181,9 +180,8 @@ std::string transform_tokens_for_plato_analyze_input_deck
         tOutput += aTokens[tIndex] + ",";
     }
     tOutput += aTokens[tEndIndex] + "}";
-
-    std::replace(tOutput.begin(), tOutput.end(), ' ', ','); // guard against the possibility of white spaces between two consecutive number characters
-
+    // guard against the possibility of white spaces between two consecutive number characters
+    std::replace(tOutput.begin(), tOutput.end(), ' ', ','); 
     return tOutput;
 }
 // function transform_tokens_for_plato_analyze_input_deck

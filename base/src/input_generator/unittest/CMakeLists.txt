@@ -55,8 +55,6 @@ SET(PlatoXMLGenerator_UnitTester_SRCS XMLGenerator_UnitMain.cpp
                                       ../XMLGeneratorPlatoAnalyzeUtilities.cpp
                                       ../XMLGeneratorLaunchUtilities.cpp
                                       ../XMLGeneratorInterfaceFileUtilities.cpp
-                                      ../XMLGeneratorDakotaInterfaceFileUtilities.cpp
-                                      ../XMLGeneratorDakotaDriverInputFileUtilities.cpp
                                       ../XMLGeneratorGradBasedOptimizerOptions.cpp
                                       ../XMLGeneratorStagesOperationsUtilities.cpp
                                       ../XMLGeneratorMaterialFunctionInterface.cpp
@@ -65,6 +63,8 @@ SET(PlatoXMLGenerator_UnitTester_SRCS XMLGenerator_UnitMain.cpp
                                       ../XMLGeneratorParseOptimizationParameters.cpp
                                       ../XMLGeneratorAnalyzeLoadFunctionInterface.cpp
                                       ../XMLGeneratorRandomInterfaceFileUtilities.cpp
+                                      ../XMLGeneratorDakotaInterfaceFileUtilities.cpp
+                                      ../XMLGeneratorDakotaDriverInputFileUtilities.cpp
                                       ../XMLGeneratorPlatoAnalyzeInputFileUtilities.cpp
                                       ../XMLGeneratorOptimizationParametersMetadata.cpp
                                       ../XMLGeneratorPlatoESPOperationsFileUtilities.cpp
