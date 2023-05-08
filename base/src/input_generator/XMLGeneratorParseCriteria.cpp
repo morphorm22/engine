@@ -71,7 +71,7 @@ void ParseCriteria::allocate()
 
     // core properties
     this->insertTag("type");
-    this->insertTag("normalize", "false");
+    this->insertTag("normalize", "");
     this->insertTag("normalization_value", "1.0");
 
     // to be deprecated

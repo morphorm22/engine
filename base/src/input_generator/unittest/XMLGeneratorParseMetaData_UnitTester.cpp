@@ -441,6 +441,7 @@ TEST(PlatoTestXMLGenerator, ParseCriteria_Volume)
     std::string tStringInput =
         "begin criterion 1\n"
         "type volume\n"
+        "normalize false\n"
         "end criterion\n";
     std::istringstream tInputSS;
     tInputSS.str(tStringInput);

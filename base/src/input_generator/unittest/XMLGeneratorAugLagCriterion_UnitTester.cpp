@@ -121,7 +121,7 @@ TEST(PlatoTestXMLGenerator, AppendObjectiveCriteriaToPlatoProblem_StrengthConstr
           {"Type", "string", "Scalar Function"},
           {"Scalar Function Type", "string", "Strength Constraint"},
           {"Limits", "Array(double)", "{2.0}"},
-          {"Local Measures", "Array(string)", "{vonmises}"},
+          {"Local Measures", "Array(string)", "vonmises"},
           {"Maximum Penalty", "double", "100"},
           {"Initial Penalty", "double", "1.0"},
           {"Penalty Increment", "double", "1.1"},
@@ -163,6 +163,63 @@ TEST(PlatoTestXMLGenerator, AppendObjectiveCriteriaToPlatoProblem_StrengthConstr
         tParam = tParam.next_sibling();
         std::advance(tValuesItr, 1);
     }
+}
+
+TEST(PlatoTestXMLGenerator, WeighthedSum_StrengthConstraintMassMinimization)
+{
+    XMLGen::InputData tXMLMetaData;
+
+    XMLGen::Criterion tWeightedSum;
+    tWeightedSum.id("1");
+    tWeightedSum.type("composite");
+    tWeightedSum.criterionIDs({"2","3"});
+    tWeightedSum.criterionWeights({"1.0","1.0"});
+    tXMLMetaData.append(tWeightedSum);
+
+    XMLGen::Criterion tCriterion1;
+    tCriterion1.id("2");
+    tCriterion1.type("strength_constraint");
+    tCriterion1.append("limits", "2.0");
+    tCriterion1.append("local_measures","vonmises");
+    tXMLMetaData.append(tCriterion1);
+
+    XMLGen::Criterion tCriterion2;
+    tCriterion2.type("mass");
+    tCriterion2.id("3");
+    tXMLMetaData.append(tCriterion2);
+
+    XMLGen::Service tService;
+    tService.code("plato_analyze");
+    tService.id("1");
+    tXMLMetaData.append(tService);
+
+    XMLGen::Scenario tScenario;
+    tScenario.physics("steady_state_mechanical");
+    tScenario.id("1");
+    tXMLMetaData.append(tScenario);
+
+    tXMLMetaData.objective.scenarioIDs.push_back("1");
+    tXMLMetaData.objective.criteriaIDs.push_back("1");
+    tXMLMetaData.objective.serviceIDs.push_back("1");
+
+    pugi::xml_document tDocument;
+    XMLGen::append_criteria_list_to_plato_analyze_input_deck(tXMLMetaData, tDocument);
+    tDocument.save_file("dummy.xml");
+
+    auto tData = XMLGen::read_data_from_file("dummy.xml");
+    auto tGold = std::string("<?xmlversion=\"1.0\"?><ParameterListname=\"Criteria\"><ParameterListname=") + 
+      "\"MyObjective\"><Parametername=\"Type\"type=\"string\"value=\"WeightedSum\"/><Parametername=" + 
+      "\"Functions\"type=\"Array(string)\"value=\"{my_strength_constraint_criterion_id_2,my_mass_criterion_id_3}\"" +
+      "/><Parametername=\"Weights\"type=\"Array(double)\"value=\"{1.0,1.0}\"/></ParameterList><ParameterListname=" + 
+      "\"my_strength_constraint_criterion_id_2\"><Parametername=\"Type\"type=\"string\"value=\"ScalarFunction\"/>" +
+      "<Parametername=\"ScalarFunctionType\"type=\"string\"value=\"StrengthConstraint\"/><Parametername=" + 
+      "\"Limits\"type=\"Array(double)\"value=\"{2.0}\"/><Parametername=\"LocalMeasures\"type=" + 
+      "\"Array(string)\"value=\"vonmises\"/></ParameterList><ParameterListname=\"my_mass_criterion_id_3\">" + 
+      "<Parametername=\"Type\"type=\"string\"value=\"ScalarFunction\"/><Parametername=" + 
+      "\"ScalarFunctionType\"type=\"string\"value=\"Mass\"/><Parametername=\"NormalizeCriterion\"" + 
+      "type=\"bool\"value=\"true\"/></ParameterList></ParameterList>";
+    ASSERT_STREQ(tGold.c_str(), tData.str().c_str());
+    Plato::system("rm -f dummy.xml");
 }
 
 }
