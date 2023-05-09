@@ -692,7 +692,7 @@ inline void append_strength_constraint_parameters
     (tKeys,{"Limits", "Array(double)", tFormattedLimits},aParentNode);
 
     XMLGen::append_key_value_pairs_to_node
-    (tKeys,{"Local Measures", "Array(string)",aCriterion.value("local_measures")},aParentNode);
+    (tKeys,{"Local Measures", "string",aCriterion.value("local_measures")},aParentNode);
 
     XMLGen::append_key_value_pairs_to_node
     (tKeys,{"Exponent", "double", aCriterion.value("material_penalty_exponent")},aParentNode);

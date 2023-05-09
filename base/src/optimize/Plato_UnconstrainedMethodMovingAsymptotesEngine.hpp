@@ -73,6 +73,8 @@ public:
         Plato::AlgebraFactory<ScalarType,OrdinalType> tLinearAlgebraFactory;
         this->allocateContainers(tLinearAlgebraFactory,tInputs);
         this->allocateReductionOperations(tLinearAlgebraFactory,tInputs);
+        // set initial guess
+        this->setInitialGuess(tInputs);
         // set upper and lower bounds 
         this->setUpperBounds(tInputs);
         this->setLowerBounds(tInputs);
@@ -202,6 +204,23 @@ private:
         for(OrdinalType tVecIndex = 0; tVecIndex < aData.mNumControlVectors; tVecIndex++)
         {
             Plato::copy(tValues,aData.mUpperBounds->operator[](tVecIndex));
+        }
+    }
+
+    /******************************************************************************//**
+     * \brief Set initial initial guess for control variables
+     * \param [out] aData reference to data structure holding UMMA inputs
+    **********************************************************************************/
+    void setInitialGuess(Plato::AlgorithmInputsUMMA<ScalarType, OrdinalType> &aData)
+    {
+        const OrdinalType tNumControls = (*aData.mInitialGuess)[0 /* vector index */].size();
+        std::vector<ScalarType> tData(tNumControls);
+        for(OrdinalType tVecIndex = 0; tVecIndex < aData.mNumControlVectors; tVecIndex++)
+        {
+            const std::string & tMySharedDataName = mObjFuncStageDataMng.getInput(mObjFuncStageName, tVecIndex);
+            Plato::getInitialGuessInputData(tMySharedDataName, this->mInputData, this->mInterface, tData);
+            Plato::copy(tData, (*aData.mInitialGuess)[tVecIndex]);
+            std::fill(tData.begin(), tData.end(), static_cast<ScalarType>(0));
         }
     }
 };

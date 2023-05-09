@@ -261,10 +261,12 @@ public:
         while (true)
         {
             mCurrentOuterIteration += 1;
+            std::cout << "mCurrentOuterIteration: " << mCurrentOuterIteration << "\n";
             for (decltype(mMaxNumSubProblemIterations) tSubProbIter = 0; 
                  tSubProbIter < mMaxNumSubProblemIterations; 
                  tSubProbIter++)
             {
+                std::cout << "tSubProbIter: " << tSubProbIter << "\n";
                 solveSubProblem();
             }
             auto tConverged = computeStoppingCriteria();
@@ -274,6 +276,7 @@ public:
                 break;
             }
             updateProblem();
+            std::cout << "updateProblem called\n";
         }
     }
 
