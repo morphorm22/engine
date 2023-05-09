@@ -387,7 +387,7 @@ TEST(PlatoTestXMLGenerator, AppendPhysicsMechanical)
     ASSERT_FALSE(tParameter.empty());
     ASSERT_STREQ("Parameter", tParameter.name());
     std::vector<std::string> tKeys = {"name", "type", "value"};
-    std::vector<std::string> tValues = {"Plottable", "Array(string)", "{stress, Vonmises}"};
+    std::vector<std::string> tValues = {"Plottable", "Array(string)", "{stress, vonmises}"};
     PlatoTestXMLGenerator::test_attributes(tKeys, tValues, tParameter);
     tParameter = tParameter.next_sibling("Parameter");
     ASSERT_TRUE(tParameter.empty());
@@ -438,7 +438,7 @@ TEST(PlatoTestXMLGenerator, AppendPhysicsThermal)
     ASSERT_FALSE(tParameter.empty());
     ASSERT_STREQ("Parameter", tParameter.name());
     std::vector<std::string> tKeys = {"name", "type", "value"};
-    std::vector<std::string> tValues = {"Plottable", "Array(string)", "{Vonmises}"};
+    std::vector<std::string> tValues = {"Plottable", "Array(string)", "{vonmises}"};
     PlatoTestXMLGenerator::test_attributes(tKeys, tValues, tParameter);
     tParameter = tParameter.next_sibling("Parameter");
     ASSERT_TRUE(tParameter.empty());

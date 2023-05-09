@@ -129,7 +129,7 @@ TEST(PlatoTestXMLGenerator, AppendWriteOuputOperation_Deterministic)
     ASSERT_FALSE(tOutput.empty());
     ASSERT_STREQ("Output", tOutput.name());
     tGoldKeys = {"ArgumentName", "SharedDataName"};
-    tGoldValues = {"Vonmises", "vonmises_plato_analyze_1"};
+    tGoldValues = {"vonmises", "vonmises_plato_analyze_1"};
     PlatoTestXMLGenerator::test_children(tGoldKeys, tGoldValues, tOutput);
 }
 
@@ -213,7 +213,7 @@ TEST(PlatoTestXMLGenerator, AppendPlatoMainOutputStageDeterministic)
     ASSERT_FALSE(tOutput.empty());
     ASSERT_STREQ("Output", tOutput.name());
     tGoldKeys = {"ArgumentName", "SharedDataName"};
-    tGoldValues = {"Vonmises", "vonmises_plato_analyze_2"};
+    tGoldValues = {"vonmises", "vonmises_plato_analyze_2"};
     PlatoTestXMLGenerator::test_children(tGoldKeys, tGoldValues, tOutput);
     tOutput = tOutput.next_sibling("Output");
     ASSERT_TRUE(tOutput.empty());
@@ -316,7 +316,7 @@ TEST(PlatoTestXMLGenerator, AppendPlatoMainOutputStageRandom)
     ASSERT_FALSE(tOutput.empty());
     ASSERT_STREQ("Output", tOutput.name());
     tGoldKeys = {"ArgumentName", "SharedDataName"};
-    tGoldValues = {"Vonmises", "vonmises {PerformerIndex*NumSamplesPerPerformer+PerformerSampleIndex}"};
+    tGoldValues = {"vonmises", "vonmises {PerformerIndex*NumSamplesPerPerformer+PerformerSampleIndex}"};
     PlatoTestXMLGenerator::test_children(tGoldKeys, tGoldValues, tOutput);
     tOutput = tOutput.next_sibling("Output");
     ASSERT_TRUE(tOutput.empty());

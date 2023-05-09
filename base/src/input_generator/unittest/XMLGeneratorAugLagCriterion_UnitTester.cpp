@@ -121,7 +121,7 @@ TEST(PlatoTestXMLGenerator, AppendObjectiveCriteriaToPlatoProblem_StrengthConstr
           {"Type", "string", "Scalar Function"},
           {"Scalar Function Type", "string", "Strength Constraint"},
           {"Limits", "Array(double)", "{2.0}"},
-          {"Local Measures", "Array(string)", "vonmises"},
+          {"Local Measures", "string", "vonmises"},
           {"Maximum Penalty", "double", "100"},
           {"Initial Penalty", "double", "1.0"},
           {"Penalty Increment", "double", "1.1"},
@@ -214,7 +214,7 @@ TEST(PlatoTestXMLGenerator, WeighthedSum_StrengthConstraintMassMinimization)
       "\"my_strength_constraint_criterion_id_2\"><Parametername=\"Type\"type=\"string\"value=\"ScalarFunction\"/>" +
       "<Parametername=\"ScalarFunctionType\"type=\"string\"value=\"StrengthConstraint\"/><Parametername=" + 
       "\"Limits\"type=\"Array(double)\"value=\"{2.0}\"/><Parametername=\"LocalMeasures\"type=" + 
-      "\"Array(string)\"value=\"vonmises\"/></ParameterList><ParameterListname=\"my_mass_criterion_id_3\">" + 
+      "\"string\"value=\"vonmises\"/></ParameterList><ParameterListname=\"my_mass_criterion_id_3\">" + 
       "<Parametername=\"Type\"type=\"string\"value=\"ScalarFunction\"/><Parametername=" + 
       "\"ScalarFunctionType\"type=\"string\"value=\"Mass\"/><Parametername=\"NormalizeCriterion\"" + 
       "type=\"bool\"value=\"true\"/></ParameterList></ParameterList>";

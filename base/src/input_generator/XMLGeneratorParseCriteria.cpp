@@ -87,7 +87,7 @@ void ParseCriteria::allocate()
     // new local constraint parameters
     this->insertTag("limits");
     this->insertTag("max_penalty","10000.");
-    this->insertTag("initial_penalty","1.0");
+    this->insertTag("initial_penalty","10.0");
     this->insertTag("penalty_increment","1.1");
     this->insertTag("local_measures","vonmises");
     this->insertTag("penalty_update_constant","0.25");

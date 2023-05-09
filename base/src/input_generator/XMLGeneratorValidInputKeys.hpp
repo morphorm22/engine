@@ -496,6 +496,7 @@ private:
     std::unordered_map<std::string, std::string> mKeys =
     {
         {"vonmises","element field"}, 
+        {"p-vonmises","element field"}, 
         {"dispx","nodal field"}, 
         {"dispy","nodal field"}, 
         {"dispz","nodal field"},
@@ -851,7 +852,8 @@ private:
      **/
     std::unordered_map<std::string, std::string> mKeys =
     {
-        {"vonmises", "Vonmises"}, 
+        {"vonmises", "vonmises"},
+        {"p-vonmises", "p-vonmises"}, 
         {"plastic_multiplier_increment", "plastic multiplier increment"}, 
         {"accumulated_plastic_strain", "accumulated plastic strain"},
         {"deviatoric_stress", "deviatoric stress"}, 
@@ -893,7 +895,8 @@ private:
     {
         { "plato_analyze", 
             { 
-                {"vonmises", "Vonmises"}, 
+                {"vonmises", "vonmises"}, 
+                {"p-vonmises", "p-vonmises"}, 
                 {"plastic_multiplier_increment", "plastic multiplier increment"},
                 {"accumulated_plastic_strain", "accumulated plastic strain"},       
                 {"deviatoric_stress", "deviatoric stress"},

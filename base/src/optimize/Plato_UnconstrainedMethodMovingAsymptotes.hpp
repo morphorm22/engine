@@ -261,12 +261,10 @@ public:
         while (true)
         {
             mCurrentOuterIteration += 1;
-            std::cout << "mCurrentOuterIteration: " << mCurrentOuterIteration << "\n";
             for (decltype(mMaxNumSubProblemIterations) tSubProbIter = 0; 
                  tSubProbIter < mMaxNumSubProblemIterations; 
                  tSubProbIter++)
             {
-                std::cout << "tSubProbIter: " << tSubProbIter << "\n";
                 solveSubProblem();
             }
             auto tConverged = computeStoppingCriteria();
@@ -276,7 +274,6 @@ public:
                 break;
             }
             updateProblem();
-            std::cout << "updateProblem called\n";
         }
     }
 
@@ -326,7 +323,7 @@ private:
 
         if (mDataMng->mComm->myProcID() == 0)
         {
-            mOutputStream.open("Plato_umma_algorithm_diagnostics.txt");
+            mOutputStream.open("plato_umma_algorithm_diagnostics.txt");
             Plato::is_diagnostic_file_close(mDataMng->mComm.operator*(),mOutputStream);
             Plato::write_umma_diagnostics_header(mDataMng->mComm.operator*(),mOutputData, mOutputStream);
         }
